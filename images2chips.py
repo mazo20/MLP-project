@@ -48,21 +48,26 @@ def image2tile(prefix, scene, dataset, orthofile, elevafile, labelfile, windowx=
 
             orthochip = ortho[yi:yi+windowy, xi:xi+windowx, :]
             labelchip = label[yi:yi+windowy, xi:xi+windowx, :]
+            # elevationchip = eleva[yi:yi+windowy, xi:xi+windowx]
 
             orthochip, classchip = color2class(orthochip, labelchip)
 
             if classchip is None:
                 continue
+            
 
             orthochip_filename = os.path.join(prefix, 'image-chips', scene + '-' + str(counter).zfill(6) + '.png')
             labelchip_filename = os.path.join(prefix, 'label-chips', scene + '-' + str(counter).zfill(6) + '.png')
+            # elevationchip_filename = os.path.join(prefix, 'elevation-chips', scene + '-' + str(counter).zfill(6) + '.png')
 
             with open(f"{prefix}/{dataset}", mode='a') as fd:
                 fd.write(scene + '-' + str(counter).zfill(6) + '.png\n')
 
             cv2.imwrite(orthochip_filename, orthochip)
             cv2.imwrite(labelchip_filename, classchip)
+            # cv2.imwrite(elevationchip_filename, elevationchip)
             counter += 1
+        
 
 
 def get_split(scene):
@@ -84,6 +89,9 @@ def run(prefix):
 
     if not os.path.exists( os.path.join(prefix, 'label-chips') ):
         os.mkdir(os.path.join(prefix, 'label-chips'))
+        
+    if not os.path.exists( os.path.join(prefix, 'elevation-chips') ):
+        os.mkdir(os.path.join(prefix, 'elevation-chips'))
 
 
     lines = [ line for line in open(f'{prefix}/index.csv') ]

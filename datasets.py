@@ -38,7 +38,8 @@ def download_dataset(dataset):
         
     image_chips = f'{dataset}/image-chips'
     label_chips = f'{dataset}/label-chips'
-    if not os.path.exists(image_chips) and not os.path.exists(label_chips):
+    elevation_chips = f'{dataset}/elevation-chips'
+    if not os.path.exists(image_chips) and not os.path.exists(label_chips) and not os.path.exists(elevation_chips):
         print("creating chips")
         images2chips.run(dataset)
     else:
@@ -55,15 +56,15 @@ def get_dataset(args):
         et.ExtRandomCrop(size=(args.crop_size, args.crop_size), pad_if_needed=True),
         et.ExtRandomHorizontalFlip(),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.485, 0.456, 0.406],
-                        std=[0.229, 0.224, 0.225]),
+        et.ExtNormalize(mean=[0.5920, 0.5707, 0.5082],
+                        std=[0.2663, 0.2328, 0.2338]),
     ])
     val_transform = et.ExtCompose([
         et.ExtResize(args.crop_size),
         et.ExtCenterCrop(args.crop_size),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.485, 0.456, 0.406],
-                        std=[0.229, 0.224, 0.225]),
+        et.ExtNormalize(mean=[0.6045, 0.6181, 0.5966],
+                        std=[0.1589, 0.1439, 0.1654]),
     ])
     
     train_dst = DroneDeploy(root=args.data_root, image_set='train', transform=train_transform)
@@ -79,7 +80,7 @@ class DroneDeploy(data.Dataset):
         self.transform = transform
         
         image_dir = os.path.join(self.root, 'image-chips')
-        mask_dir = os.path.join(self.root, 'label_chips')
+        mask_dir = os.path.join(self.root, 'label-chips')
 
         if not os.path.isdir(image_dir):
             raise RuntimeError('Dataset not found or corrupted.' +
@@ -100,8 +101,8 @@ class DroneDeploy(data.Dataset):
         with open(os.path.join(split_f), "r") as f:
             file_names = [x.strip() for x in f.readlines()]
         
-        self.images = [image_dir for x in file_names]
-        self.masks = [mask_dir for x in file_names]
+        self.images = [os.path.join(image_dir, x) for x in file_names]
+        self.masks = [os.path.join(mask_dir, x) for x in file_names]
         assert (len(self.images) == len(self.masks))
 
     def __getitem__(self, index):
@@ -111,12 +112,12 @@ class DroneDeploy(data.Dataset):
         Returns:
             tuple: (image, target) where target is the image segmentation.
         """
-        img = Image.open(self.images[index]).convert('RGB')
+        img = Image.open(self.images[index])
         target = Image.open(self.masks[index])
         if self.transform is not None:
             img, target = self.transform(img, target)
 
-        return img, target
+        return img, target.transpose(0,2)
 
 
     def __len__(self):
