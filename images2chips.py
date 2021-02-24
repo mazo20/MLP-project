@@ -9,7 +9,7 @@ stride = 300
 
 def color2class(orthochip, img):
     ret = np.zeros((img.shape[0], img.shape[1]), dtype='uint8')
-    ret = np.dstack([ret, ret, ret])
+    # ret = np.dstack([ret, ret, ret])
     colors = np.unique(img.reshape(-1, img.shape[2]), axis=0)
 
     # Skip any chips that would contain magenta (IGNORE) pixels
@@ -20,7 +20,7 @@ def color2class(orthochip, img):
 
     for color in colors:
         locs = np.where( (img[:, :, 0] == color[0]) & (img[:, :, 1] == color[1]) & (img[:, :, 2] == color[2]) )
-        ret[ locs[0], locs[1], : ] = INV_LABELMAP[ tuple(color) ] - 1
+        ret[ locs[0], locs[1]] = INV_LABELMAP[ tuple(color) ] - 1
 
     return orthochip, ret
 

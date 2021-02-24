@@ -18,7 +18,7 @@ model_map = {
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--data_root", type=str, default='dataset-sample', help="path to Dataset")
+    parser.add_argument("--data_root", type=str, default='datasets', help="path to Dataset")
     parser.add_argument("--dataset", type=str, default='dataset-sample', choices=['dataset-sample', 'dataset-medium'])
     parser.add_argument('--model', type=str, default='v3plus_resnet50', choices=['v3plus_resnet50', 'v3plus_resnet101'], help="model name")
     parser.add_argument("--gpu_id", type=str, default='0', help="GPU ID")
@@ -77,7 +77,7 @@ if __name__ == '__main__':
         pbar = tqdm(train_loader)
         for images, labels in pbar:
             images = images.to(device, dtype=torch.float32)
-            labels = labels.to(device, dtype=torch.long)[:,0,:,:]
+            labels = labels.to(device, dtype=torch.long)[:,:,:]
             
             
             outputs, _ = model(images)
@@ -85,6 +85,8 @@ if __name__ == '__main__':
             
             preds = outputs.detach().max(dim=1)[1].cpu().numpy()
             targets = labels.cpu().numpy()
+            # print(preds[0,:20,:20])
+            # print(targets[0,:20,:20])
             
             metrics.update(targets, preds)
             score = metrics.get_results()
