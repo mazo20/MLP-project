@@ -32,13 +32,13 @@ def download_dataset(root, dataset):
     if not os.path.exists(dataset_dir):
         
         print(f'downloading dataset "{dataset}"')
-        os.system(f'curl "{url}" -o {root}/{filename}')
+        os.system(f'curl "{url}" -o {filename}')
     else:
         print(f'zipfile "{filename}" already exists, remove it if you want to re-download.')
 
     if not os.path.exists(dataset_dir):
         print(f'extracting "{filename}"')
-        os.system(f'tar -xvf {root}/{filename}')
+        os.system(f'tar -xvf {filename} -C {root}')
     else:
         print(f'folder "{dataset_dir}" already exists, remove it if you want to re-create.')
         
