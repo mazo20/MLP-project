@@ -26,7 +26,7 @@ def download_dataset(root, dataset):
         print(f"unknown dataset {dataset}")
         sys.exit(0)
 
-    filename = f'{dataset_dir}.tar.gz'
+    filename = f'{dataset}.tar.gz'
     url = URLS[dataset]
 
     if not os.path.exists(dataset_dir):
@@ -38,7 +38,7 @@ def download_dataset(root, dataset):
 
     if not os.path.exists(dataset_dir):
         print(f'extracting "{filename}"')
-        os.system(f'tar -xvf {filename}')
+        os.system(f'tar -xvf {filename} {root}')
     else:
         print(f'folder "{dataset_dir}" already exists, remove it if you want to re-create.')
         
