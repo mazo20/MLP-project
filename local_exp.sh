@@ -4,4 +4,4 @@ mkdir -p results/$1
 zip -r code.zip code
 mv -f code.zip results/$1
 
-python3 code/main.py --results_root results/$1 --save_val_results --mode validate
+python3 code/main.py --results_root results/$1 --ckpt results/test/v3plus_resnet50_dataset-sample_os16_0.pth

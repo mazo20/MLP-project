@@ -14,10 +14,31 @@ model_map = {
     'v3plus_resnet101': network.deeplabv3plus_resnet101,
 }
 
+def get_argparser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data_root", type=str, default='./datasets', help="path to Dataset")
+    parser.add_argument("--results_root", type=str, default='./results')
+    parser.add_argument("--dataset", type=str, default='dataset-sample', choices=['dataset-sample', 'dataset-medium'])
+    parser.add_argument('--model', type=str, default='v3plus_resnet50', choices=['v3plus_resnet50', 'v3plus_resnet101'], help="model name")
+    parser.add_argument("--gpu_id", type=str, default='0', help="GPU ID")
+    parser.add_argument("--save_val_results", action='store_true', default=False, help="save segmentation results to \"./results\"")
+    parser.add_argument("--mode", default='train', choices=['train', 'validate'])
+    parser.add_argument("--random_seed", default=0)
+    
+    parser.add_argument("--ckpt", default=None, type=str,help="restore from checkpoint")
+    parser.add_argument("--batch_size", type=int, default=2, help='batch size (default: 16)')
+    parser.add_argument("--val_batch_size", type=int, default=2, help='batch size for validation (default: 4)')
+    parser.add_argument('--crop_size', type=int, default=100, help="size of the crop size  during transform")
+    parser.add_argument('--num_classes', type=int, default=7, help="number of the classes")
+    parser.add_argument('--output_stride', type=int, default=16, help="output stride of the image, default: 16")
+    parser.add_argument("--weight_decay", type=float, default=1e-4, help='weight decay (default: 1e-4)')
+    parser.add_argument("--total_epochs", type=int, default=30, help="Number of epochs per training")
+    parser.add_argument("--lr", type=float, default=0.01, help="learning rate (default: 0.01)")
+    
+    args = parser.parse_args()
+    return args
+
 def validate(model):
-    
-    print('validating')
-    
     model.eval()
     metrics.reset()
     
@@ -49,6 +70,9 @@ def validate(model):
     return score
 
 def main():
+    best_score = 0.0
+    epoch = 0
+    
     model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride)
     
     optimizer = torch.optim.SGD(params=[
@@ -58,8 +82,22 @@ def main():
     scheduler = PolyLR(optimizer, args.total_epochs * len(val_loader), power=0.9)
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, reduction='mean')
     
-    model = torch.nn.DataParallel(model)
-    model.to(device)
+    print(args.ckpt)
+    
+    if args.ckpt is not None and os.path.isfile(args.ckpt):
+        checkpoint = torch.load(args.ckpt, map_location=torch.device('cpu'))
+        model.load_state_dict(checkpoint["model_state"])
+        model = torch.nn.DataParallel(model)
+        model.to(device)
+        optimizer.load_state_dict(checkpoint["optimizer_state"])
+        scheduler.load_state_dict(checkpoint["scheduler_state"])
+        epoch = checkpoint.get("epoch", 0)
+        best_score = checkpoint.get('best_score', 0.0)
+        print("Model restored from %s" % args.ckpt)
+        del checkpoint  # free memory 
+    else:
+        model = torch.nn.DataParallel(model)
+        model.to(device)
     
     #Create results csv
     utils.create_result(args)
@@ -71,7 +109,9 @@ def main():
         return
     
     
-    for epoch in tqdm(range(args.total_epochs)):
+    print(epoch)
+    
+    for epoch in tqdm(range(epoch, args.total_epochs)):
         
         model.train()
         metrics.reset()
@@ -99,30 +139,13 @@ def main():
         score = validate(model)
         print(metrics.to_str(score))
         utils.save_result(score, args)
+        
+        if score['Mean IoU'] > best_score:  # save best model
+            best_score = score['Mean IoU']
+            utils.save_ckpt(args.results_root, args, model, optimizer, scheduler, best_score, epoch+1)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument("--data_root", type=str, default='./datasets', help="path to Dataset")
-    parser.add_argument("--results_root", type=str, default='./results')
-    parser.add_argument("--dataset", type=str, default='dataset-sample', choices=['dataset-sample', 'dataset-medium'])
-    parser.add_argument('--model', type=str, default='v3plus_resnet50', choices=['v3plus_resnet50', 'v3plus_resnet101'], help="model name")
-    parser.add_argument("--gpu_id", type=str, default='0', help="GPU ID")
-    parser.add_argument("--save_val_results", action='store_true', default=False, help="save segmentation results to \"./results\"")
-    parser.add_argument("--mode", default='train', choices=['train', 'validate'])
-    parser.add_argument("--random_seed", default=0)
-    
-    parser.add_argument("--batch_size", type=int, default=2, help='batch size (default: 16)')
-    parser.add_argument("--val_batch_size", type=int, default=2, help='batch size for validation (default: 4)')
-    parser.add_argument('--crop_size', type=int, default=300, help="size of the crop size  during transform")
-    parser.add_argument('--num_classes', type=int, default=7, help="number of the classes")
-    parser.add_argument('--output_stride', type=int, default=16, help="output stride of the image, default: 16")
-    parser.add_argument("--weight_decay", type=float, default=1e-4, help='weight decay (default: 1e-4)')
-    parser.add_argument("--total_epochs", type=int, default=30, help="Number of epochs per training")
-    parser.add_argument("--lr", type=float, default=0.01, help="learning rate (default: 0.01)")
-    
-    
-    args = parser.parse_args()
+    args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
     train_loader = data.DataLoader(train_dst, batch_size=args.batch_size, shuffle=True, num_workers=8)

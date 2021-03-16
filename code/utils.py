@@ -69,3 +69,18 @@ class Denormalize(object):
         if isinstance(tensor, np.ndarray):
             return (tensor - self._mean.reshape(-1,1,1)) / self._std.reshape(-1,1,1)
         return normalize(tensor, self._mean, self._std)
+    
+def save_ckpt(path, opts, model, optimizer, scheduler, best_score, epoch):
+        """ save current model
+        """
+        
+        path = path + '/%s_%s_os%d_%d.pth' % (opts.model, opts.dataset, opts.output_stride, opts.random_seed)
+        
+        torch.save({
+            "epoch": epoch,
+            "best_score": best_score,
+            "model_state": model.module.state_dict(),
+            "optimizer_state": optimizer.state_dict(),
+            "scheduler_state": scheduler.state_dict(),
+        }, path)
+        print("Model saved as %s" % path)
