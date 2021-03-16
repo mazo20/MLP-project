@@ -160,12 +160,6 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print("Device: %s" % device)
     
-    
-    for image, target in train_loader:
-        img = (image[0].numpy() * 255).transpose(1, 2, 0).astype(np.uint8)
-        Image.fromarray(img).save('img.png')
-        break
-    
     print("Train set: %d, Val set: %d" % (len(train_dst), len(val_dst)))
     
     metrics = StreamSegMetrics(args.num_classes)
