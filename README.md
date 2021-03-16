@@ -14,6 +14,8 @@ echo 'export PATH=/home/$USER/git/cluster-scripts:$PATH' >> ~/.bashrc
 echo 'export PATH=/home/$USER/git/cluster-scripts/experiments:$PATH' >> ~/.bashrc
 source ~/.bashrc
 ```
-7. On each login run `bash setup.sh`
-8. *segmentation_arrayjob.sh* will be run on each node and copy the data *if neccessary* using rsync
-9. 
+7. On the head node run `python main.py --dataset dataset-sample` to download the dataset-sample
+8. *segmentation_arrayjob.sh* will be run on each node and copy the data *if neccessary* using rsync to the scratch disk of each node
+9. Use gen_exp.py to generate experiments.txt
+10. Use run_exp.sh to run the experiments.txt on 2080Ti with 4 CPUs
+11. `run_exp.sh` puts all experiments from the txt in the queue
