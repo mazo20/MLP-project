@@ -6,9 +6,11 @@ import numpy               as np
 import matplotlib.pyplot   as plt
 import torch.nn.functional as F
 
-from PIL        import Image
-from datasets   import *
-from matplotlib import cm
+from PIL               import Image
+from config            import LABELMAP
+from datasets          import *
+from matplotlib        import cm
+from matplotlib.colors import ListedColormap
 
 # Constant encoding of elevation of IGNORE class pixels in all photos.
 ELEVATION_IGNORE = -32767.0
@@ -20,12 +22,12 @@ def save_images(loader, image, target, pred, denorm, img_id, root):
         
     image  = image.detach().cpu().numpy()
     image  = (denorm(image) * 255).transpose(1, 2, 0).astype(np.uint8)
-    target = loader.dataset.decode_target(target).astype(np.uint8)
-    pred   = loader.dataset.decode_target(pred).astype(np.uint8)
+    target = label_to_cmap(target)
+    pred   = label_to_cmap(pred)
 
-    Image.fromarray(image).save('%s/%d_image.png'   % (root, img_id))
+    Image.fromarray(image).save( '%s/%d_image.png'  % (root, img_id))
     Image.fromarray(target).save('%s/%d_target.png' % (root, img_id))
-    Image.fromarray(pred).save('%s/%d_pred.png'     % (root, img_id))
+    Image.fromarray(pred).save(  '%s/%d_pred.png'   % (root, img_id))
 
     fig = plt.figure()
     plt.imshow(image)
@@ -56,6 +58,29 @@ def elevation_to_cmap(in_file, out_file, cmap_name='magma'):
     image = Image.fromarray(image)
     
     image.save(out_file)
+
+# Converts raw label map into pretty color map. Returns 3D tensor of RGB values.
+def label_to_cmap(label_map):
+    cmap      = get_custom_cmap()
+    label_map = label_map / 6
+    label_map = cmap(label_map)[:,:,:3]
+    label_map = label_map * 255
+    label_map = np.uint8(label_map)
+    
+    return label_map
+
+# Creates instance of matplotlib color map with label colors from our dataset.
+def get_custom_cmap():
+    cmap        = cm.get_cmap('viridis', 7)
+    custom_cmap = cmap(np.linspace(0, 1, 7))
+
+    for i in range(6):
+        custom_cmap[i] = np.array(LABELMAP[i+1] + (255,)) / 255
+
+    custom_cmap[6] = np.array(LABELMAP[0] + (255,)) / 255
+    custom_cmap    = ListedColormap(custom_cmap)
+
+    return custom_cmap
     
 def create_result(opts):
     path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.random_seed}.csv'
