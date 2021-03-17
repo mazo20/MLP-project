@@ -48,10 +48,11 @@ echo "Running provided command: ${COMMAND}"
 eval "${COMMAND}"
 echo "Command ran successfully!"
 
-echo "Moving output data back to DFS"
+echo "Moving output data back to DFS from: ${src_path}"
 
 src_path=${dest_path}/output/${exp_name}
 dest_path=${repo_home}/${exp_name}
+echo "Moving output data back from: ${src_path} to :${dest_path}"
 rsync --archive --update --compress --progress ${src_path}/ ${dest_path}
 
 
