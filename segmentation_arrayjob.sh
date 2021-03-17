@@ -42,6 +42,7 @@ rsync --archive --update --compress --progress ${src_path}/ ${dest_path}
 
 experiment_text_file=$1
 exp_name=${experiment_text_file::-14}
+mkdir -p ${dest_path}/output/${exp_name}
 COMMAND="`sed \"${SLURM_ARRAY_TASK_ID}q;d\" ${experiment_text_file}`"
 echo "Running provided command: ${COMMAND}"
 eval "${COMMAND}"
