@@ -1,5 +1,6 @@
 """Script for generating experiments.txt"""
 import os
+import sys
 import itertools
 
 # The home dir on the node's scratch disk
@@ -12,9 +13,11 @@ DATA_HOME = f'{SCRATCH_HOME}/dronedeploy/datasets/'
 base_call = (f"python code/main.py  --data_root {DATA_HOME}")
 
 config = {
-    '--output_stride': ['16', '21'],
-    '--batch_size': ['8'], 
-    '--crop_size': ['300']
+    '--output_stride': ['16'],
+    '--dataset': ['dataset-sample', 'dataset-medium'],
+    '--batch_size': ['8'],
+    '--crop_size': ['300'],
+    '--results_root': ['results/' + sys.argv[1]],
 }
 
 keys, values = zip(*config.items())

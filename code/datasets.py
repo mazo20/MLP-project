@@ -58,19 +58,19 @@ def get_dataset(args):
     download_dataset(args.data_root, args.dataset)
     
     train_transform = et.ExtCompose([
-        et.ExtRandomScale((0.5, 2.0)),
+        et.ExtRandomScale((0.8, 1.2)),
         et.ExtRandomCrop(size=(args.crop_size, args.crop_size), pad_if_needed=True),
         et.ExtRandomHorizontalFlip(),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.5920, 0.5707, 0.5082],
-                        std=[0.2663, 0.2328, 0.2338]),
+        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516],
+                        std=[0.1983, 0.1882, 0.1934]),
     ])
     val_transform = et.ExtCompose([
         et.ExtResize(args.crop_size),
         et.ExtCenterCrop(args.crop_size),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.6045, 0.6181, 0.5966],
-                        std=[0.1589, 0.1439, 0.1654]),
+        et.ExtNormalize(mean=[0.5121, 0.5149, 0.4525],
+                        std=[0.1683, 0.1635, 0.1856]),
     ])
     
     train_dst = DroneDeploy(root=args.data_root, dataset=args.dataset, image_set='train', transform=train_transform)

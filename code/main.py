@@ -23,11 +23,11 @@ def get_argparser():
     parser.add_argument("--gpu_id", type=str, default='0', help="GPU ID")
     parser.add_argument("--save_val_results", action='store_true', default=False, help="save segmentation results to \"./results\"")
     parser.add_argument("--mode", default='train', choices=['train', 'validate'])
-    parser.add_argument("--random_seed", default=0)
+    parser.add_argument("--random_seed", type=int, default=0)
     
     parser.add_argument("--ckpt", default=None, type=str,help="restore from checkpoint")
-    parser.add_argument("--batch_size", type=int, default=2, help='batch size (default: 16)')
-    parser.add_argument("--val_batch_size", type=int, default=2, help='batch size for validation (default: 4)')
+    parser.add_argument("--batch_size", type=int, default=8, help='batch size (default: 16)')
+    parser.add_argument("--val_batch_size", type=int, default=8, help='batch size for validation (default: 4)')
     parser.add_argument('--crop_size', type=int, default=100, help="size of the crop size  during transform")
     parser.add_argument('--num_classes', type=int, default=7, help="number of the classes")
     parser.add_argument('--output_stride', type=int, default=16, help="output stride of the image, default: 16")
@@ -142,7 +142,7 @@ def main():
         
         if score['Mean IoU'] > best_score:  # save best model
             best_score = score['Mean IoU']
-            utils.save_ckpt(args.results_root, args, model, optimizer, scheduler, best_score, epoch+1)
+            utils.save_ckpt(args.data_root, args, model, optimizer, scheduler, best_score, epoch+1)
 
 if __name__ == '__main__':
     args = get_argparser()
@@ -154,6 +154,7 @@ if __name__ == '__main__':
     '''
     Use to print normalisation values (mean, std) for the given dataset
     '''
+     
     #utils.normalisatonValues(train_dst)
     
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_id

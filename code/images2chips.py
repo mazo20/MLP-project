@@ -28,18 +28,20 @@ def image2tile(prefix, scene, dataset, orthofile, elevafile, labelfile, windowx=
 
     ortho = cv2.imread(orthofile)
     label = cv2.imread(labelfile)
-
-    # Not using elevation in the sample - but useful to incorporate it ;)
-    eleva = cv2.imread(elevafile, -1)
+    eleva = cv2.imdecode(np.fromfile(elevafile, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
 
     assert(ortho.shape[0] == label.shape[0])
     assert(ortho.shape[1] == label.shape[1])
+    assert(eleva.shape[0] == label.shape[0])
+    assert(eleva.shape[1] == label.shape[1])
 
     shape = ortho.shape
 
     xsize = shape[1]
     ysize = shape[0]
+
     print(f"converting {dataset} image {orthofile} {xsize}x{ysize} to chips ...")
+    print(f"converting {dataset} image {elevafile} {xsize}x{ysize} to chips ...")
 
     counter = 0
 
@@ -48,27 +50,25 @@ def image2tile(prefix, scene, dataset, orthofile, elevafile, labelfile, windowx=
 
             orthochip = ortho[yi:yi+windowy, xi:xi+windowx, :]
             labelchip = label[yi:yi+windowy, xi:xi+windowx, :]
-            # elevationchip = eleva[yi:yi+windowy, xi:xi+windowx]
+            elevachip = eleva[yi:yi+windowy, xi:xi+windowx]
 
             orthochip, classchip = color2class(orthochip, labelchip)
 
             if classchip is None:
                 continue
-            
 
-            orthochip_filename = os.path.join(prefix, 'image-chips', scene + '-' + str(counter).zfill(6) + '.png')
-            labelchip_filename = os.path.join(prefix, 'label-chips', scene + '-' + str(counter).zfill(6) + '.png')
-            # elevationchip_filename = os.path.join(prefix, 'elevation-chips', scene + '-' + str(counter).zfill(6) + '.png')
+            orthochip_filename = os.path.join(prefix, 'image-chips',     scene + '-' + str(counter).zfill(6) + '.png')
+            labelchip_filename = os.path.join(prefix, 'label-chips',     scene + '-' + str(counter).zfill(6) + '.png')
+            elevachip_filename = os.path.join(prefix, 'elevation-chips', scene + '-' + str(counter).zfill(6) + '.png')
 
             with open(f"{prefix}/{dataset}", mode='a') as fd:
                 fd.write(scene + '-' + str(counter).zfill(6) + '.png\n')
 
             cv2.imwrite(orthochip_filename, orthochip)
             cv2.imwrite(labelchip_filename, classchip)
-            # cv2.imwrite(elevationchip_filename, elevationchip)
-            counter += 1
-        
+            cv2.imwrite(elevachip_filename, elevachip)
 
+            counter += 1
 
 def get_split(scene):
     if scene in train_ids:
@@ -79,10 +79,9 @@ def get_split(scene):
         return 'test.txt'
 
 def run(prefix):
-
     open(prefix + '/train.txt', mode='w').close()
     open(prefix + '/valid.txt', mode='w').close()
-    open(prefix + '/test.txt', mode='w').close()
+    open(prefix + '/test.txt',  mode='w').close()
 
     if not os.path.exists( os.path.join(prefix, 'image-chips') ):
         os.mkdir(os.path.join(prefix, 'image-chips'))
@@ -93,15 +92,15 @@ def run(prefix):
     if not os.path.exists( os.path.join(prefix, 'elevation-chips') ):
         os.mkdir(os.path.join(prefix, 'elevation-chips'))
 
-
-    lines = [ line for line in open(f'{prefix}/index.csv') ]
+    lines      = [ line for line in open(f'{prefix}/index.csv') ]
     num_images = len(lines) - 1
+
     print(f"converting {num_images} images to chips - this may take a few minutes but only needs to be done once.")
 
     for lineno, line in enumerate(lines):
 
-        line = line.strip().split(' ')
-        scene = line[1]
+        line    = line.strip().split(' ')
+        scene   = line[1]
         dataset = get_split(scene)
 
         if dataset == 'test.txt':
@@ -112,5 +111,5 @@ def run(prefix):
         elevafile = os.path.join(prefix, 'elevations', scene + '-elev.tif')
         labelfile = os.path.join(prefix, 'labels',     scene + '-label.png')
 
-        if os.path.exists(orthofile) and os.path.exists(labelfile):
+        if os.path.exists(orthofile) and os.path.exists(labelfile) and os.path.exists(elevafile):
             image2tile(prefix, scene, dataset, orthofile, elevafile, labelfile)

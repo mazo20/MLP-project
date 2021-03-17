@@ -46,4 +46,11 @@ echo "Running provided command: ${COMMAND}"
 eval "${COMMAND}"
 echo "Command ran successfully!"
 
+echo "Moving output data back to DFS"
+
+src_path=${dest_path}/input
+dest_path=${repo_home}/${experiment_text_file::-14}
+rsync --archive --update --compress --progress ${src_path}/ ${dest_path}
+rm -rf src_path/*
+
 
