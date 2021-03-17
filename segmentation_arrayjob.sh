@@ -53,6 +53,5 @@ echo "Moving output data back to DFS"
 src_path=${dest_path}/output/${exp_name}
 dest_path=${repo_home}/${exp_name}
 rsync --archive --update --compress --progress ${src_path}/ ${dest_path}
-rm -rf src_path/*
 
 
