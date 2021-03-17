@@ -1,5 +1,6 @@
 """Script for generating experiments.txt"""
 import os
+import sys
 import itertools
 
 # The home dir on the node's scratch disk
