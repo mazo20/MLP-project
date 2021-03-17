@@ -49,7 +49,7 @@ echo "Command ran successfully!"
 echo "Moving output data back to DFS"
 
 src_path=${dest_path}/input
-dest_path=/repo_home/$2
+dest_path=${repo_home}/${experiment_text_file::-14}
 rsync --archive --update --compress --progress ${src_path}/ ${dest_path}
 
 
