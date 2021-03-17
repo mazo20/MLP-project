@@ -14,7 +14,8 @@ base_call = (f"python code/main.py  --data_root {DATA_HOME}")
 config = {
     '--output_stride': ['16', '21'],
     '--batch_size': ['8'], 
-    '--crop_size': ['300']
+    '--crop_size': ['300'],
+    '--results_root': ['results/' + sys.argv[1]],
 }
 
 keys, values = zip(*config.items())
