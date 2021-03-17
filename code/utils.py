@@ -123,7 +123,7 @@ class Denormalize(object):
 def save_ckpt(path, opts, model, optimizer, scheduler, best_score, epoch):
         """ save current model
         """
-        root = os.path.join(path, 'input')
+        root = os.path.join(path, 'output')
         if not os.path.exists(root):
             os.mkdir(root)
         

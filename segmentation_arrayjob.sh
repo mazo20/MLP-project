@@ -41,6 +41,7 @@ mkdir -p ${dest_path}  # make it if required
 rsync --archive --update --compress --progress ${src_path}/ ${dest_path}
 
 experiment_text_file=$1
+exp_name=${experiment_text_file::-14}
 COMMAND="`sed \"${SLURM_ARRAY_TASK_ID}q;d\" ${experiment_text_file}`"
 echo "Running provided command: ${COMMAND}"
 eval "${COMMAND}"
@@ -48,8 +49,8 @@ echo "Command ran successfully!"
 
 echo "Moving output data back to DFS"
 
-src_path=${dest_path}/input
-dest_path=${repo_home}/${experiment_text_file::-14}
+src_path=${dest_path}/output/${exp_name}
+dest_path=${repo_home}/${exp_name}
 rsync --archive --update --compress --progress ${src_path}/ ${dest_path}
 rm -rf src_path/*
 
