@@ -14,8 +14,8 @@ base_call = (f"python code/main.py  --data_root {DATA_HOME}")
 
 config = {
     '--output_stride': ['16'],
-    '--dataset': ['dataset-sample'],
-    '--batch_size': ['8'], 
+    '--dataset': ['dataset-sample', 'dataset-medium'],
+    '--batch_size': ['8'],
     '--crop_size': ['300'],
     '--results_root': ['results/' + sys.argv[1]],
 }
