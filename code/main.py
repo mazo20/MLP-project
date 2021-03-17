@@ -154,6 +154,7 @@ if __name__ == '__main__':
     '''
     Use to print normalisation values (mean, std) for the given dataset
     '''
+     
     #utils.normalisatonValues(train_dst)
     
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_id
