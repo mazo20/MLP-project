@@ -9,4 +9,4 @@ mv -f code.zip results/$2
 
 source ~/.bashrc
 
-run_experiment -b segmentation_arrayjob.sh -e results/$2/experiment.txt \ --partition=PGR-Standard --cpus-per-task=4 --gres=gpu:1 --mem=20000
+run_experiment -b segmentation_arrayjob.sh -e results/$2/experiment.txt results/$2 \ --partition=PGR-Standard --cpus-per-task=4 --gres=gpu:1 --mem=20000

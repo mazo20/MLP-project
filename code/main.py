@@ -26,7 +26,7 @@ def get_argparser():
     parser.add_argument("--random_seed", type=int, default=0)
     
     parser.add_argument("--ckpt", default=None, type=str,help="restore from checkpoint")
-    parser.add_argument("--batch_size", type=int, default=2, help='batch size (default: 16)')
+    parser.add_argument("--batch_size", type=int, default=8, help='batch size (default: 16)')
     parser.add_argument("--val_batch_size", type=int, default=8, help='batch size for validation (default: 4)')
     parser.add_argument('--crop_size', type=int, default=100, help="size of the crop size  during transform")
     parser.add_argument('--num_classes', type=int, default=7, help="number of the classes")
@@ -142,7 +142,7 @@ def main():
         
         if score['Mean IoU'] > best_score:  # save best model
             best_score = score['Mean IoU']
-            utils.save_ckpt(args.results_root, args, model, optimizer, scheduler, best_score, epoch+1)
+            utils.save_ckpt(args.data_root, args, model, optimizer, scheduler, best_score, epoch+1)
 
 if __name__ == '__main__':
     args = get_argparser()

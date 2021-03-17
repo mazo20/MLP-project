@@ -73,8 +73,11 @@ class Denormalize(object):
 def save_ckpt(path, opts, model, optimizer, scheduler, best_score, epoch):
         """ save current model
         """
+        root = path + '/input'
+        if not os.path.exists(root):
+            os.mkdir(root)
         
-        path = path + '/%s_%s_os%d_%d.pth' % (opts.model, opts.dataset, opts.output_stride, opts.random_seed)
+        path = root + '/%s_%s_os%d_%d.pth' % (opts.model, opts.dataset, opts.output_stride, opts.random_seed)
         
         torch.save({
             "epoch": epoch,
