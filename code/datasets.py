@@ -7,6 +7,7 @@ import ext_transforms         as et
 import torchvision.transforms as transforms
 
 from PIL         import Image
+from config      import ELEVATION_IGNORE
 from torch.utils import data
 
 
@@ -63,15 +64,15 @@ def get_dataset(args):
         et.ExtRandomCrop(size=(args.crop_size, args.crop_size), pad_if_needed=True),
         et.ExtRandomHorizontalFlip(),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516],
-                        std =[0.1983, 0.1882, 0.1934]),
+        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516, 0.09183968857583202],
+                        std =[0.1983, 0.1882, 0.1934, 0.05884465529577935]),
     ])
     val_transform = et.ExtCompose([
         et.ExtResize(args.crop_size),
         et.ExtCenterCrop(args.crop_size),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516],
-                        std =[0.1983, 0.1882, 0.1934]),
+        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516, 0.09183968857583202],
+                        std =[0.1983, 0.1882, 0.1934, 0.05884465529577935]),
     ])
     
     train_dst = DroneDeploy(root=args.data_root, dataset=args.dataset, image_set='train', transform=train_transform)
@@ -128,6 +129,15 @@ class DroneDeploy(data.Dataset):
         img    = Image.open(self.images[index])
         target = Image.open(self.masks[index])
         eleva  = Image.open(self.eleva[index])
+        eleva  = np.array(eleva)
+
+        # Impute IGNORE elevation values with mean.
+        eleva[eleva == ELEVATION_IGNORE] = 11.553864551722832
+
+        four_chan         = np.zeros(eleva.shape + (4,))
+        four_chan[:,:,:3] = np.array(image)
+        four_chan[:,:,3]  = ((eleva + 39.504932) / (39.504932 + 504.8893)) * 255
+        img               = Image.fromarray(np.uint8(four_chan))
 
         if self.transform is not None:
             img, target = self.transform(img, target)
