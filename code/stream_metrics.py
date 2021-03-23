@@ -39,7 +39,7 @@ class StreamSegMetrics(_StreamMetrics):
         string = "\n"
         for k, v in results.items():
             if k!="Class IoU":
-                string += "%s: %f\n"%(k, v)
+                string += "%s: "%(k) + " " * (11 - len(k)) + "%f\n"%(v)
         
         #string+='Class IoU:\n'
         #for k, v in results['Class IoU'].items():

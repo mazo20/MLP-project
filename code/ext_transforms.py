@@ -1,9 +1,10 @@
-import torchvision
 import torch
-import torchvision.transforms.functional as F
 import random 
 import numbers
-import numpy as np
+import torchvision
+import numpy                             as np
+import torchvision.transforms.functional as F
+
 from PIL import Image
 
 
@@ -20,17 +21,19 @@ class ExtRandomHorizontalFlip(object):
     def __init__(self, p=0.5):
         self.p = p
 
-    def __call__(self, img, lbl):
+    def __call__(self, img, lbl, elv):
         """
         Args:
-            img (PIL Image): Image to be flipped.
+            img (PIL Image):    Image to be flipped.
+            elv (torch Tensor): Elevation map to be flipped.
 
         Returns:
-            PIL Image: Randomly flipped image.
+            PIL Image:    Randomly flipped image.
+            torch Tensor: Randomly flipped elevation map.
         """
         if random.random() < self.p:
-            return F.hflip(img), F.hflip(lbl)
-        return img, lbl
+            return F.hflip(img), F.hflip(lbl), F.hflip(elv)
+        return img, lbl, elv
 
     def __repr__(self):
         return self.__class__.__name__ + '(p={})'.format(self.p)
@@ -51,10 +54,10 @@ class ExtCompose(object):
     def __init__(self, transforms):
         self.transforms = transforms
 
-    def __call__(self, img, lbl):
+    def __call__(self, img, lbl, elv):
         for t in self.transforms:
-            img, lbl = t(img, lbl)
-        return img, lbl
+            img, lbl, elv = t(img, lbl, elv)
+        return img, lbl, elv
 
     def __repr__(self):
         format_string = self.__class__.__name__ + '('
@@ -79,14 +82,16 @@ class ExtCenterCrop(object):
         else:
             self.size = size
 
-    def __call__(self, img, lbl):
+    def __call__(self, img, lbl, elv):
         """
         Args:
-            img (PIL Image): Image to be cropped.
+            img (PIL Image):    Image to be cropped.
+            elv (torch Tensor): Elevation map to be cropped.
         Returns:
-            PIL Image: Cropped image.
+            PIL Image:    Cropped image.
+            torch Tensor: Cropped elevation map.
         """
-        return F.center_crop(img, self.size), F.center_crop(lbl, self.size)
+        return F.center_crop(img, self.size), F.center_crop(lbl, self.size), F.center_crop(elv, self.size)
 
     def __repr__(self):
         return self.__class__.__name__ + '(size={0})'.format(self.size)
@@ -94,22 +99,26 @@ class ExtCenterCrop(object):
 
 class ExtRandomScale(object):
     def __init__(self, scale_range, interpolation=Image.BILINEAR):
-        self.scale_range = scale_range
+        self.scale_range   = scale_range
         self.interpolation = interpolation
 
-    def __call__(self, img, lbl):
+    def __call__(self, img, lbl, elv):
         """
         Args:
-            img (PIL Image): Image to be scaled.
-            lbl (PIL Image): Label to be scaled.
+            img (PIL Image):    Image to be scaled.
+            lbl (PIL Image):    Label to be scaled.
+            elv (torch Tensor): Rescaled elevation map.
         Returns:
-            PIL Image: Rescaled image.
-            PIL Image: Rescaled label.
+            PIL Image:    Rescaled image.
+            PIL Image:    Rescaled label.
+            torch Tensor: Rescaled elevation map.
         """
         assert img.size == lbl.size
-        scale = random.uniform(self.scale_range[0], self.scale_range[1])
+
+        scale       = random.uniform(self.scale_range[0], self.scale_range[1])
         target_size = ( int(img.size[1]*scale), int(img.size[0]*scale) )
-        return F.resize(img, target_size, self.interpolation), F.resize(lbl, target_size, Image.NEAREST)
+
+        return F.resize(img, target_size, self.interpolation), F.resize(lbl, target_size, Image.NEAREST), F.resize(elv.unsqueeze(0), target_size, self.interpolation).squeeze(0)
 
     def __repr__(self):
         interpolate_str = _pil_interpolation_to_str[self.interpolation]
@@ -219,16 +228,18 @@ class ExtRandomHorizontalFlip(object):
     def __init__(self, p=0.5):
         self.p = p
 
-    def __call__(self, img, lbl):
+    def __call__(self, img, lbl, elv):
         """
         Args:
-            img (PIL Image): Image to be flipped.
+            img (PIL Image):    Image to be flipped.
+            elv (torch Tensor): Elevation map to be flipped.
         Returns:
-            PIL Image: Randomly flipped image.
+            PIL Image:    Randomly flipped image.
+            torch Tensor: Randomly flipped elevation map.
         """
         if random.random() < self.p:
-            return F.hflip(img), F.hflip(lbl)
-        return img, lbl
+            return F.hflip(img), F.hflip(lbl), F.hflip(elv)
+        return img, lbl, elv
 
     def __repr__(self):
         return self.__class__.__name__ + '(p={})'.format(self.p)
@@ -243,18 +254,20 @@ class ExtRandomVerticalFlip(object):
     def __init__(self, p=0.5):
         self.p = p
 
-    def __call__(self, img, lbl):
+    def __call__(self, img, lbl, elv):
         """
         Args:
-            img (PIL Image): Image to be flipped.
-            lbl (PIL Image): Label to be flipped.
+            img (PIL Image):    Image to be flipped.
+            lbl (PIL Image):    Label to be flipped.
+            elv (torch Tensor): Elevation map to be flipped.
         Returns:
-            PIL Image: Randomly flipped image.
-            PIL Image: Randomly flipped label.
+            PIL Image:    Randomly flipped image.
+            PIL Image:    Randomly flipped label.
+            torch Tensor: Randomly flipped elevation map.
         """
         if random.random() < self.p:
-            return F.vflip(img), F.vflip(lbl)
-        return img, lbl
+            return F.vflip(img), F.vflip(lbl), F.vflip(elv)
+        return img, lbl, elv
 
     def __repr__(self):
         return self.__class__.__name__ + '(p={})'.format(self.p)
@@ -279,19 +292,22 @@ class ExtToTensor(object):
     def __init__(self, normalize=True, target_type='uint8'):
         self.normalize = normalize
         self.target_type = target_type
-    def __call__(self, pic, lbl):
+    def __call__(self, pic, lbl, elv):
         """
         Note that labels will not be normalized to [0, 1].
         Args:
             pic (PIL Image or numpy.ndarray): Image to be converted to tensor.
             lbl (PIL Image or numpy.ndarray): Label to be converted to tensor. 
+            elv (torch Tensor):               Elevation just normalize it to [0.0, 1.0].
         Returns:
-            Tensor: Converted image and label
+            Tensor: Converted image and label and elevation
         """
         if self.normalize:
-            return F.to_tensor(pic), torch.from_numpy( np.array( lbl, dtype=self.target_type) )
+            elv = (elv + 39.504932) / (39.504932 + 504.8893)
+
+            return F.to_tensor(pic), torch.from_numpy( np.array( lbl, dtype=self.target_type) ), elv
         else:
-            return torch.from_numpy( np.array( pic, dtype=np.float32).transpose(2, 0, 1) ), torch.from_numpy( np.array( lbl, dtype=self.target_type) )
+            return torch.from_numpy( np.array( pic, dtype=np.float32).transpose(2, 0, 1) ), torch.from_numpy( np.array( lbl, dtype=self.target_type) ), elv
 
     def __repr__(self):
         return self.__class__.__name__ + '()'
@@ -310,16 +326,18 @@ class ExtNormalize(object):
         self.mean = mean
         self.std = std
 
-    def __call__(self, tensor, lbl):
+    def __call__(self, tensor, lbl, elv):
         """
         Args:
-            tensor (Tensor): Tensor image of size (C, H, W) to be normalized.
-            tensor (Tensor): Tensor of label. A dummy input for ExtCompose
+            tensor (Tensor):    Tensor image of size (C, H, W) to be normalized.
+            tensor (Tensor):    Tensor of label. A dummy input for ExtCompose
+            elv (torch Tensor): Elevation map for standardization.
         Returns:
             Tensor: Normalized Tensor image.
             Tensor: Unchanged Tensor label
+            Tensor: Normalized Tensor elevation.
         """
-        return F.normalize(tensor, self.mean, self.std), lbl
+        return F.normalize(tensor, self.mean[:3], self.std[:3]), lbl, (elv - self.mean[3]) / self.std[3]
 
     def __repr__(self):
         return self.__class__.__name__ + '(mean={0}, std={1})'.format(self.mean, self.std)
@@ -365,33 +383,40 @@ class ExtRandomCrop(object):
         j = random.randint(0, w - tw)
         return i, j, th, tw
 
-    def __call__(self, img, lbl):
+    def __call__(self, img, lbl, elv):
         """
         Args:
-            img (PIL Image): Image to be cropped.
-            lbl (PIL Image): Label to be cropped.
+            img (PIL Image):    Image to be cropped.
+            lbl (PIL Image):    Label to be cropped.
+            elv (torch Tensor): Elevation map to be cropped.
         Returns:
-            PIL Image: Cropped image.
-            PIL Image: Cropped label.
+            PIL Image:    Cropped image.
+            PIL Image:    Cropped label.
+            torch Tensor: Cropped elevation.
         """
-        assert img.size == lbl.size, 'size of img and lbl should be the same. %s, %s'%(img.size, lbl.size)
+        assert img.size == lbl.size,         'size of img and lbl should be the same. %s, %s'%(img.size, lbl.size)
+        assert img.size == tuple(elv.shape), 'size of img and elv should be the same. %s, %s'%(img.size, tuple(elv.shape))
+
         if self.padding > 0:
             img = F.pad(img, self.padding)
             lbl = F.pad(lbl, self.padding)
+            elv = F.pad(elv, self.padding)
 
         # pad the width if needed
         if self.pad_if_needed and img.size[0] < self.size[1]:
             img = F.pad(img, padding=int((1 + self.size[1] - img.size[0]) / 2))
             lbl = F.pad(lbl, padding=int((1 + self.size[1] - lbl.size[0]) / 2))
+            elv = F.pad(elv, padding=int((1 + self.size[1] - elv.size[0]) / 2))
 
         # pad the height if needed
         if self.pad_if_needed and img.size[1] < self.size[0]:
             img = F.pad(img, padding=int((1 + self.size[0] - img.size[1]) / 2))
             lbl = F.pad(lbl, padding=int((1 + self.size[0] - lbl.size[1]) / 2))
+            elv = F.pad(elv, padding=int((1 + self.size[0] - elv.size[1]) / 2))
 
         i, j, h, w = self.get_params(img, self.size)
 
-        return F.crop(img, i, j, h, w), F.crop(lbl, i, j, h, w)
+        return F.crop(img, i, j, h, w), F.crop(lbl, i, j, h, w), F.crop(elv, i, j, h, w)
 
     def __repr__(self):
         return self.__class__.__name__ + '(size={0}, padding={1})'.format(self.size, self.padding)
@@ -414,14 +439,15 @@ class ExtResize(object):
         self.size = size
         self.interpolation = interpolation
 
-    def __call__(self, img, lbl):
+    def __call__(self, img, lbl, elv):
         """
         Args:
-            img (PIL Image): Image to be scaled.
+            img (PIL Image):    Image to be scaled.
+            elv (torch Tensor): Elevation map to be scaled.
         Returns:
-            PIL Image: Rescaled image.
+            PIL Image: Rescaled image and elevetaion Tensor.
         """
-        return F.resize(img, self.size, self.interpolation), F.resize(lbl, self.size, Image.NEAREST)
+        return F.resize(img, self.size, self.interpolation), F.resize(lbl, self.size, Image.NEAREST), F.resize(elv.unsqueeze(0), self.size, self.interpolation).squeeze(0)
 
     def __repr__(self):
         interpolate_str = _pil_interpolation_to_str[self.interpolation]

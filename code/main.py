@@ -54,20 +54,21 @@ def validate(model):
         img_id = 0  
 
     with torch.no_grad():
-        for images, labels in tqdm(val_loader):
+        for images, labels, eleva in tqdm(val_loader):
+            images = torch.cat([images, eleva.unsqueeze(1)], dim=1)
             images = images.to(device, dtype=torch.float32)
             labels = labels.to(device, dtype=torch.long)
             
             outputs, ints = model(images)
-            preds = outputs.detach().max(dim=1)[1].cpu().numpy()
-            targets = labels.cpu().numpy()
+            preds         = outputs.detach().max(dim=1)[1].cpu().numpy()
+            targets       = labels.cpu().numpy()
             
             metrics.update(targets, preds)
             
             if args.save_val_results:
                 for i in range(len(images)):
                     at_maps = [ints[j][i] for j in range(len(ints))]
-                    utils.save_images(val_loader, images[i], targets[i], preds[i], denorm, img_id, args.results_root)
+                    utils.save_images(val_loader, images[i][:3], targets[i], preds[i], denorm, img_id, args.results_root)
                     img_id += 1 
                         
         score = metrics.get_results()
@@ -77,12 +78,12 @@ def validate(model):
 
 def main():
     best_score = 0.0
-    epoch = 0
+    epoch      = 0
     
     model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride, depth_mode=args.depth_mode)
     
     optimizer = torch.optim.SGD(params=[
-        {'params': model.backbone.parameters(), 'lr': 0.1*args.lr},
+        {'params': model.backbone.parameters(),   'lr': args.lr*0.1},
         {'params': model.classifier.parameters(), 'lr': args.lr},
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
     scheduler = PolyLR(optimizer, args.total_epochs * len(val_loader), power=0.9)
@@ -118,14 +119,15 @@ def main():
         model.train()
         metrics.reset()
         pbar = tqdm(train_loader)
-        for images, labels in pbar:
+        for images, labels, eleva in pbar:
+            images = torch.cat([images, eleva.unsqueeze(1)], dim=1)
             images = images.to(device, dtype=torch.float32)
             labels = labels.to(device, dtype=torch.long)
             
             outputs, _ = model(images)
-            loss = criterion(outputs, labels)
+            loss       = criterion(outputs, labels)
             
-            preds = outputs.detach().max(dim=1)[1].cpu().numpy()
+            preds   = outputs.detach().max(dim=1)[1].cpu().numpy()
             targets = labels.cpu().numpy()
             
             metrics.update(targets, preds)

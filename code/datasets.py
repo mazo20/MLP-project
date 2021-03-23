@@ -1,14 +1,16 @@
 import os
 import sys
+import torch
 import torchvision
 import images2chips
 import numpy                  as np
 import ext_transforms         as et
 import torchvision.transforms as transforms
 
-from PIL         import Image
-from config      import ELEVATION_IGNORE
-from torch.utils import data
+from PIL            import Image
+from config         import ELEVATION_IGNORE
+from torch.utils    import data
+from sklearn.impute import KNNImputer
 
 
 URLS = {
@@ -64,15 +66,15 @@ def get_dataset(args):
         et.ExtRandomCrop(size=(args.crop_size, args.crop_size), pad_if_needed=True),
         et.ExtRandomHorizontalFlip(),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516, 0.09183968857583202],
-                        std =[0.1983, 0.1882, 0.1934, 0.05884465529577935]),
+        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516, 0.09379011858836295],
+                        std =[0.1983, 0.1882, 0.1934, 0.05884266938976959]),
     ])
     val_transform = et.ExtCompose([
         et.ExtResize(args.crop_size),
         et.ExtCenterCrop(args.crop_size),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516, 0.09183968857583202],
-                        std =[0.1983, 0.1882, 0.1934, 0.05884465529577935]),
+        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516, 0.09379011858836295],
+                        std =[0.1983, 0.1882, 0.1934, 0.05884266938976959]),
     ])
     
     train_dst = DroneDeploy(root=args.data_root, dataset=args.dataset, image_set='train', transform=train_transform)
@@ -88,6 +90,7 @@ class DroneDeploy(data.Dataset):
         self.image_set = image_set
         self.transform = transform
         self.data_root = os.path.join(self.root, self.dataset)
+        self.imputer   = KNNImputer(missing_values=ELEVATION_IGNORE, n_neighbors=8, weights='distance')
         
         image_dir = os.path.join(self.data_root, 'image-chips')
         mask_dir  = os.path.join(self.data_root, 'label-chips')
@@ -131,18 +134,17 @@ class DroneDeploy(data.Dataset):
         eleva  = Image.open(self.eleva[index])
         eleva  = np.array(eleva)
 
-        # Impute IGNORE elevation values with mean.
-        eleva[eleva == ELEVATION_IGNORE] = 11.553864551722832
+        # Impute IGNORE elevation values with mean of 8-NNs.
+        if np.any(eleva == ELEVATION_IGNORE):
+            data  = np.stack([np.where(eleva)[0], np.where(eleva)[1], eleva.flatten()], axis=1)
+            eleva = self.imputer.fit_transform(data)[:,2].reshape(eleva.shape)
 
-        four_chan         = np.zeros(eleva.shape + (4,))
-        four_chan[:,:,:3] = np.array(image)
-        four_chan[:,:,3]  = ((eleva + 39.504932) / (39.504932 + 504.8893)) * 255
-        img               = Image.fromarray(np.uint8(four_chan))
+        eleva = torch.Tensor(eleva)
 
         if self.transform is not None:
-            img, target = self.transform(img, target)
+            img, target, eleva = self.transform(img, target, eleva)
 
-        return img, target
+        return img, target, eleva
 
 
     def __len__(self):
