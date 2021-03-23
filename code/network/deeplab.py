@@ -176,9 +176,7 @@ class ASPP(nn.Module):
     def forward(self, x, depth):
         res = []
         if self.depth_mode == 'aspp':
-            print(depth.shape)
             depth = F.interpolate(self.depth_conv(depth), size=x.shape[-2:], mode='bilinear', align_corners=False)
-            print(depth.shape)
             res.append(depth)
         for conv in self.convs:
             res.append(conv(x))

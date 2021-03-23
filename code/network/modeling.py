@@ -48,7 +48,7 @@ def deeplabv3plus_resnet50(num_classes=7, output_stride=8, pretrained_backbone=T
     return _load_model('deeplabv3plus', 'resnet50', num_classes, output_stride=output_stride, pretrained_backbone=pretrained_backbone, depth_mode=depth_mode)
 
 
-def deeplabv3plus_resnet101(num_classes=7, output_stride=8, pretrained_backbone=True, depth_none='none'):
+def deeplabv3plus_resnet101(num_classes=7, output_stride=8, pretrained_backbone=True, depth_mode='none'):
     """Constructs a DeepLabV3+ model with a ResNet-101 backbone.
 
     Args:
@@ -58,7 +58,7 @@ def deeplabv3plus_resnet101(num_classes=7, output_stride=8, pretrained_backbone=
     """
     return _load_model('deeplabv3plus', 'resnet101', num_classes, output_stride=output_stride, pretrained_backbone=pretrained_backbone, depth_mode=depth_mode)
 
-def deeplabv3_resnet50(num_classes=7, output_stride=8, pretrained_backbone=True, depth_none='none'):
+def deeplabv3_resnet50(num_classes=7, output_stride=8, pretrained_backbone=True, depth_mode='none'):
     """Constructs a DeepLabV3 model with a ResNet-50 backbone.
 
     Args:
@@ -68,7 +68,7 @@ def deeplabv3_resnet50(num_classes=7, output_stride=8, pretrained_backbone=True,
     """
     return _load_model('deeplabv3', 'resnet50', num_classes, output_stride=output_stride, pretrained_backbone=pretrained_backbone, depth_mode=depth_mode)
 
-def deeplabv3_resnet101(num_classes=7, output_stride=8, pretrained_backbone=True, depth_none='none'):
+def deeplabv3_resnet101(num_classes=7, output_stride=8, pretrained_backbone=True, depth_mode='none'):
     """Constructs a DeepLabV3 model with a ResNet-101 backbone.
 
     Args:
