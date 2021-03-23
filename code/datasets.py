@@ -139,7 +139,14 @@ class DroneDeploy(data.Dataset):
             data  = np.stack([np.where(eleva)[0], np.where(eleva)[1], eleva.flatten()], axis=1)
             eleva = self.imputer.fit_transform(data)[:,2].reshape(eleva.shape)
 
+<<<<<<< HEAD
         eleva = torch.Tensor(eleva)
+=======
+        four_chan         = np.zeros(eleva.shape + (4,))
+        four_chan[:,:,:3] = np.array(img)
+        four_chan[:,:,3]  = ((eleva + 39.504932) / (39.504932 + 504.8893)) * 255
+        img               = Image.fromarray(np.uint8(four_chan))
+>>>>>>> dda87bd5a6d3057080591993d856769dd176af65
 
         if self.transform is not None:
             img, target, eleva = self.transform(img, target, eleva)

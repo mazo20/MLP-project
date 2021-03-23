@@ -147,6 +147,15 @@ class ASPP(nn.Module):
         modules.append(ASPPConv(in_channels, out_channels, rate3))
         modules.append(ASPPPooling(in_channels, out_channels))
         
+        self.depth_conv = nn.Sequential(
+            nn.Conv2d(1, 16, kernel_size=3, stride=2),
+            nn.BatchNorm2d(16),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(16, 256, kernel_size=3, stride=2),
+            nn.BatchNorm2d(256),
+            nn.ReLU(inplace=True),
+        )
+        
 
         self.convs = nn.ModuleList(modules)
         
@@ -155,7 +164,7 @@ class ASPP(nn.Module):
         '''
         in_channels = 5 * out_channels
         if self.depth_mode=='aspp':
-            in_channels += 1
+            in_channels += out_channels
             
 
         self.project = nn.Sequential(
@@ -167,7 +176,9 @@ class ASPP(nn.Module):
     def forward(self, x, depth):
         res = []
         if self.depth_mode == 'aspp':
-            depth = F.interpolate(depth, size=x.shape[-2:], mode='bilinear', align_corners=False)
+            print(depth.shape)
+            depth = F.interpolate(self.depth_conv(depth), size=x.shape[-2:], mode='bilinear', align_corners=False)
+            print(depth.shape)
             res.append(depth)
         for conv in self.convs:
             res.append(conv(x))
