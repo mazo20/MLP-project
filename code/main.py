@@ -119,10 +119,7 @@ def main():
         metrics.reset()
         pbar = tqdm(train_loader)
         for images, labels in pbar:
-            #TODO: Swap the forth channel for elevation
-            img = torch.ones((images.shape[0], images.shape[1] + 1, images.shape[2], images.shape[3]))
-            img[:,:3] = images
-            images = img.to(device, dtype=torch.float32)
+            images = images.to(device, dtype=torch.float32)
             labels = labels.to(device, dtype=torch.long)
             
             outputs, _ = model(images)
