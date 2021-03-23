@@ -1,5 +1,8 @@
 LABELS = ['BUILDING', 'CLUTTER', 'VEGETATION', 'WATER', 'GROUND', 'CAR']
 
+# Constant encoding of elevation of IGNORE class pixels in all photos.
+ELEVATION_IGNORE = -32767.0
+
 # Class to color (BGR)
 LABELMAP = {
     0 : (255,   0, 255),

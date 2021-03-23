@@ -1,12 +1,13 @@
-import sys
 import os
-import images2chips
-from PIL import Image
-import ext_transforms as et
-import numpy as np
-from torch.utils import data
+import sys
 import torchvision
+import images2chips
+import numpy                  as np
+import ext_transforms         as et
 import torchvision.transforms as transforms
+
+from PIL         import Image
+from torch.utils import data
 
 
 URLS = {
@@ -63,53 +64,33 @@ def get_dataset(args):
         et.ExtRandomHorizontalFlip(),
         et.ExtToTensor(),
         et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516],
-                        std=[0.1983, 0.1882, 0.1934]),
+                        std =[0.1983, 0.1882, 0.1934]),
     ])
     val_transform = et.ExtCompose([
         et.ExtResize(args.crop_size),
         et.ExtCenterCrop(args.crop_size),
         et.ExtToTensor(),
-        et.ExtNormalize(mean=[0.5121, 0.5149, 0.4525],
-                        std=[0.1683, 0.1635, 0.1856]),
+        et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516],
+                        std =[0.1983, 0.1882, 0.1934]),
     ])
     
     train_dst = DroneDeploy(root=args.data_root, dataset=args.dataset, image_set='train', transform=train_transform)
-    val_dst = DroneDeploy(root=args.data_root, dataset=args.dataset, image_set='val', transform=val_transform)
+    val_dst   = DroneDeploy(root=args.data_root, dataset=args.dataset, image_set='val',   transform=val_transform)
     
     return train_dst, val_dst
-
-def dd_cmap(N=256, normalized=False):
-    def bitget(byteval, idx):
-        return ((byteval & (1 << idx)) != 0)
-
-    dtype = 'float32' if normalized else 'uint8'
-    cmap = np.zeros((N, 3), dtype=dtype)
-    for i in range(N):
-        r = g = b = 0
-        c = i
-        for j in range(8):
-            r = r | (bitget(c, 0) << 7-j)
-            g = g | (bitget(c, 1) << 7-j)
-            b = b | (bitget(c, 2) << 7-j)
-            c = c >> 3
-
-        cmap[i] = np.array([r, g, b])
-
-    cmap = cmap/255 if normalized else cmap
-    return cmap
     
 class DroneDeploy(data.Dataset):
-    cmap = dd_cmap()
     def __init__(self, root, dataset, image_set='train', transform=None):
         
-        self.root = root
-        self.dataset = dataset
+        self.root      = root
+        self.dataset   = dataset
         self.image_set = image_set
         self.transform = transform
         self.data_root = os.path.join(self.root, self.dataset)
         
         image_dir = os.path.join(self.data_root, 'image-chips')
-        mask_dir = os.path.join(self.data_root, 'label-chips')
+        mask_dir  = os.path.join(self.data_root, 'label-chips')
+        eleva_dir = os.path.join(self.data_root, 'elevation-chips')
 
         if not os.path.isdir(image_dir):
             raise RuntimeError('Dataset not found or corrupted.' +
@@ -130,9 +111,12 @@ class DroneDeploy(data.Dataset):
         with open(os.path.join(split_f), "r") as f:
             file_names = [x.strip() for x in f.readlines()]
         
-        self.images = [os.path.join(image_dir, x) for x in file_names]
-        self.masks = [os.path.join(mask_dir, x) for x in file_names]
+        self.images = [os.path.join(image_dir, x)              for x in file_names]
+        self.masks  = [os.path.join(mask_dir, x)               for x in file_names]
+        self.eleva  = [os.path.join(eleva_dir, x[:-3] + 'tif') for x in file_names]
+
         assert (len(self.images) == len(self.masks))
+        assert (len(self.images) == len(self.eleva))
 
     def __getitem__(self, index):
         """
@@ -141,8 +125,10 @@ class DroneDeploy(data.Dataset):
         Returns:
             tuple: (image, target) where target is the image segmentation.
         """
-        img = Image.open(self.images[index])
+        img    = Image.open(self.images[index])
         target = Image.open(self.masks[index])
+        eleva  = Image.open(self.eleva[index])
+
         if self.transform is not None:
             img, target = self.transform(img, target)
 
@@ -151,8 +137,3 @@ class DroneDeploy(data.Dataset):
 
     def __len__(self):
         return len(self.images)
-    
-    @classmethod
-    def decode_target(cls, mask):
-        """decode semantic mask to RGB image"""
-        return cls.cmap[mask]

@@ -7,13 +7,10 @@ import matplotlib.pyplot   as plt
 import torch.nn.functional as F
 
 from PIL               import Image
-from config            import LABELMAP
+from config            import LABELMAP, ELEVATION_IGNORE
 from datasets          import *
 from matplotlib        import cm
 from matplotlib.colors import ListedColormap
-
-# Constant encoding of elevation of IGNORE class pixels in all photos.
-ELEVATION_IGNORE = -32767.0
 
 def save_images(loader, image, target, pred, denorm, img_id, root):
     root = root + '/images'

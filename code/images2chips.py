@@ -1,8 +1,8 @@
-import cv2
 import os
+import cv2
 import numpy as np
 
-from config import train_ids, val_ids, test_ids, LABELMAP, INV_LABELMAP
+from config import train_ids, val_ids, test_ids, LABELMAP, INV_LABELMAP, ELEVATION_IGNORE
 
 size   = 300
 stride = 300
@@ -59,7 +59,7 @@ def image2tile(prefix, scene, dataset, orthofile, elevafile, labelfile, windowx=
 
             orthochip_filename = os.path.join(prefix, 'image-chips',     scene + '-' + str(counter).zfill(6) + '.png')
             labelchip_filename = os.path.join(prefix, 'label-chips',     scene + '-' + str(counter).zfill(6) + '.png')
-            elevachip_filename = os.path.join(prefix, 'elevation-chips', scene + '-' + str(counter).zfill(6) + '.png')
+            elevachip_filename = os.path.join(prefix, 'elevation-chips', scene + '-' + str(counter).zfill(6) + '.tif')
 
             with open(f"{prefix}/{dataset}", mode='a') as fd:
                 fd.write(scene + '-' + str(counter).zfill(6) + '.png\n')

@@ -1,39 +1,42 @@
-import argparse
-import torch
 import cv2
-from tqdm import tqdm
-import numpy as np
-from datasets import *
-import utils as utils
-from scheduler import *
-from stream_metrics import *
+import torch
 import network
+import argparse
+import numpy           as np
+import utils           as utils
+import multiprocessing as mp
+
+from tqdm           import tqdm
+from datasets       import *
+from scheduler      import *
+from stream_metrics import *
 
 model_map = {
-    'v3plus_resnet50': network.deeplabv3plus_resnet50,
+    'v3plus_resnet50':  network.deeplabv3plus_resnet50,
     'v3plus_resnet101': network.deeplabv3plus_resnet101,
 }
 
 def get_argparser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data_root", type=str, default='./datasets', help="path to Dataset")
-    parser.add_argument("--results_root", type=str, default='./results')
-    parser.add_argument("--dataset", type=str, default='dataset-sample', choices=['dataset-sample', 'dataset-medium'])
-    parser.add_argument('--model', type=str, default='v3plus_resnet50', choices=['v3plus_resnet50', 'v3plus_resnet101'], help="model name")
-    parser.add_argument("--gpu_id", type=str, default='0', help="GPU ID")
-    parser.add_argument("--save_val_results", action='store_true', default=False, help="save segmentation results to \"./results\"")
-    parser.add_argument("--mode", default='train', choices=['train', 'validate'])
-    parser.add_argument("--random_seed", type=int, default=0)
+
+    parser.add_argument("--random_seed",      type=int,   default=0)
+    parser.add_argument("--results_root",     type=str,   default='./results')
+    parser.add_argument("--dataset",          type=str,   default='dataset-sample',                                                     choices=['dataset-sample',  'dataset-medium'])
+    parser.add_argument('--model',            type=str,   default='v3plus_resnet50', help="model name",                                 choices=['v3plus_resnet50', 'v3plus_resnet101'])
+    parser.add_argument("--data_root",        type=str,   default='./datasets',      help="path to Dataset")
+    parser.add_argument("--gpu_id",           type=str,   default='0',               help="GPU ID")
+    parser.add_argument("--save_val_results",             default=False,             help="save segmentation results to \"./results\"", action='store_true')
+    parser.add_argument("--mode",                         default='train',                                                              choices=['train', 'validate'])
     
-    parser.add_argument("--ckpt", default=None, type=str,help="restore from checkpoint")
-    parser.add_argument("--batch_size", type=int, default=8, help='batch size (default: 16)')
-    parser.add_argument("--val_batch_size", type=int, default=8, help='batch size for validation (default: 4)')
-    parser.add_argument('--crop_size', type=int, default=100, help="size of the crop size  during transform")
-    parser.add_argument('--num_classes', type=int, default=7, help="number of the classes")
-    parser.add_argument('--output_stride', type=int, default=16, help="output stride of the image, default: 16")
-    parser.add_argument("--weight_decay", type=float, default=1e-4, help='weight decay (default: 1e-4)')
-    parser.add_argument("--total_epochs", type=int, default=30, help="Number of epochs per training")
-    parser.add_argument("--lr", type=float, default=0.01, help="learning rate (default: 0.01)")
+    parser.add_argument("--ckpt",             type=str,   default=None,              help="restore from checkpoint")
+    parser.add_argument("--batch_size",       type=int,   default=8,                 help='batch size (default: 16)')
+    parser.add_argument("--val_batch_size",   type=int,   default=8,                 help='batch size for validation (default: 4)')
+    parser.add_argument('--crop_size',        type=int,   default=100,               help="size of the crop size  during transform")
+    parser.add_argument('--num_classes',      type=int,   default=7,                 help="number of the classes")
+    parser.add_argument('--output_stride',    type=int,   default=16,                help="output stride of the image, default: 16")
+    parser.add_argument("--weight_decay",     type=float, default=1e-4,              help='weight decay (default: 1e-4)')
+    parser.add_argument("--total_epochs",     type=int,   default=30,                help="Number of epochs per training")
+    parser.add_argument("--lr",               type=float, default=0.01,              help="learning rate (default: 0.01)")
     
     args = parser.parse_args()
     return args
@@ -148,8 +151,8 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader = data.DataLoader(train_dst, batch_size=args.batch_size, shuffle=True, num_workers=8)
-    val_loader = data.DataLoader(val_dst, batch_size=args.val_batch_size, shuffle=True, num_workers=8)
+    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=mp.cpu_count()-1)
+    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=mp.cpu_count()-1)
     
     '''
     Use to print normalisation values (mean, std) for the given dataset
