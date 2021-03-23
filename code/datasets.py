@@ -135,7 +135,7 @@ class DroneDeploy(data.Dataset):
         eleva[eleva == ELEVATION_IGNORE] = 11.553864551722832
 
         four_chan         = np.zeros(eleva.shape + (4,))
-        four_chan[:,:,:3] = np.array(image)
+        four_chan[:,:,:3] = np.array(img)
         four_chan[:,:,3]  = ((eleva + 39.504932) / (39.504932 + 504.8893)) * 255
         img               = Image.fromarray(np.uint8(four_chan))
 
