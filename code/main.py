@@ -46,8 +46,8 @@ def validate(model):
     metrics.reset()
     
     if args.save_val_results:
-        denorm = utils.Denormalize(mean=[0.6045, 0.6181, 0.5966],
-                                    std=[0.1589, 0.1439, 0.1654])
+        denorm = utils.Denormalize(mean=[0.5121, 0.5149, 0.4525],
+                                    std=[0.1683, 0.1635, 0.1856])
         img_id = 0  
 
     with torch.no_grad():
