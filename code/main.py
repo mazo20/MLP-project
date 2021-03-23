@@ -14,6 +14,8 @@ from stream_metrics import *
 model_map = {
     'v3plus_resnet50':  network.deeplabv3plus_resnet50,
     'v3plus_resnet101': network.deeplabv3plus_resnet101,
+    'v3_resnet50': network.deeplabv3_resnet50,
+    'v3_resnet101': network.deeplabv3_resnet101,
 }
 
 def get_argparser():
@@ -22,11 +24,12 @@ def get_argparser():
     parser.add_argument("--random_seed",      type=int,   default=0)
     parser.add_argument("--results_root",     type=str,   default='./results')
     parser.add_argument("--dataset",          type=str,   default='dataset-sample',                                                     choices=['dataset-sample',  'dataset-medium'])
-    parser.add_argument('--model',            type=str,   default='v3plus_resnet50', help="model name",                                 choices=['v3plus_resnet50', 'v3plus_resnet101'])
+    parser.add_argument('--model',            type=str,   default='v3plus_resnet50', help="model name",                                 choices=['v3plus_resnet50', 'v3plus_resnet101', 'v3_resnet50', 'v3_resnet101'])
     parser.add_argument("--data_root",        type=str,   default='./datasets',      help="path to Dataset")
     parser.add_argument("--gpu_id",           type=str,   default='0',               help="GPU ID")
     parser.add_argument("--save_val_results",             default=False,             help="save segmentation results to \"./results\"", action='store_true')
     parser.add_argument("--mode",                         default='train',                                                              choices=['train', 'validate'])
+    parser.add_argument("--depth_mode",       type=str,   default='none',            help="",                                           choices=['aspp', 'none'])
     
     parser.add_argument("--ckpt",             type=str,   default=None,              help="restore from checkpoint")
     parser.add_argument("--batch_size",       type=int,   default=8,                 help='batch size (default: 16)')
@@ -76,7 +79,7 @@ def main():
     best_score = 0.0
     epoch = 0
     
-    model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride)
+    model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride, depth_mode=args.depth_mode)
     
     optimizer = torch.optim.SGD(params=[
         {'params': model.backbone.parameters(), 'lr': 0.1*args.lr},
@@ -84,8 +87,6 @@ def main():
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
     scheduler = PolyLR(optimizer, args.total_epochs * len(val_loader), power=0.9)
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, reduction='mean')
-    
-    print(args.ckpt)
     
     if args.ckpt is not None and os.path.isfile(args.ckpt):
         checkpoint = torch.load(args.ckpt, map_location=torch.device('cpu'))
@@ -112,15 +113,16 @@ def main():
         return
     
     
-    print(epoch)
-    
     for epoch in tqdm(range(epoch, args.total_epochs)):
         
         model.train()
         metrics.reset()
         pbar = tqdm(train_loader)
         for images, labels in pbar:
-            images = images.to(device, dtype=torch.float32)
+            #TODO: Swap the forth channel for elevation
+            img = torch.ones((images.shape[0], images.shape[1] + 1, images.shape[2], images.shape[3]))
+            img[:,:3] = images
+            images = img.to(device, dtype=torch.float32)
             labels = labels.to(device, dtype=torch.long)
             
             outputs, _ = model(images)
@@ -143,7 +145,7 @@ def main():
         print(metrics.to_str(score))
         utils.save_result(score, args)
         
-        if score['Mean IoU'] > best_score:  # save best model
+        if score['Mean IoU'] > best_score and device == 'cuda':  # save best model
             best_score = score['Mean IoU']
             utils.save_ckpt(args.data_root, args, model, optimizer, scheduler, best_score, epoch+1)
 

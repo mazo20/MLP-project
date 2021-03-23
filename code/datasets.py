@@ -59,7 +59,7 @@ def get_dataset(args):
     download_dataset(args.data_root, args.dataset)
     
     train_transform = et.ExtCompose([
-        et.ExtRandomScale((0.8, 1.2)),
+        # et.ExtRandomScale((0.8, 1.2)),
         et.ExtRandomCrop(size=(args.crop_size, args.crop_size), pad_if_needed=True),
         et.ExtRandomHorizontalFlip(),
         et.ExtToTensor(),

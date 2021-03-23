@@ -26,7 +26,7 @@ class DeepLabV3(_SimpleSegmentationModel):
     pass
 
 class DeepLabHeadV3Plus(nn.Module):
-    def __init__(self, in_channels, low_level_channels, num_classes, aspp_dilate=[12, 24, 36]):
+    def __init__(self, in_channels, low_level_channels, num_classes, aspp_dilate=[12, 24, 36], depth_mode='none'):
         super(DeepLabHeadV3Plus, self).__init__()
         self.project = nn.Sequential( 
             nn.Conv2d(low_level_channels, 48, 1, bias=False),
@@ -34,7 +34,7 @@ class DeepLabHeadV3Plus(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-        self.aspp = ASPP(in_channels, aspp_dilate)
+        self.aspp = ASPP(in_channels, aspp_dilate, depth_mode)
 
         self.classifier = nn.Sequential(
             nn.Conv2d(304, 256, 3, padding=1, bias=False),
@@ -46,7 +46,7 @@ class DeepLabHeadV3Plus(nn.Module):
 
     def forward(self, feature):
         low_level_feature = self.project( feature['low_level'] )
-        output_feature = self.aspp(feature['out'])
+        output_feature = self.aspp(feature['out'], feature['depth'])
         output_feature = F.interpolate(output_feature, size=low_level_feature.shape[2:], mode='bilinear', align_corners=False)
         return self.classifier( torch.cat( [ low_level_feature, output_feature ], dim=1 ) )
     
@@ -59,11 +59,11 @@ class DeepLabHeadV3Plus(nn.Module):
                 nn.init.constant_(m.bias, 0)
 
 class DeepLabHead(nn.Module):
-    def __init__(self, in_channels, num_classes, aspp_dilate=[12, 24, 36]):
+    def __init__(self, in_channels, num_classes, aspp_dilate=[12, 24, 36], depth_mode='none'):
         super(DeepLabHead, self).__init__()
 
         self.classifier = nn.Sequential(
-            ASPP(in_channels, aspp_dilate),
+            ASPP(in_channels, aspp_dilate, depth_mode),
             nn.Conv2d(256, 256, 3, padding=1, bias=False),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
@@ -72,7 +72,7 @@ class DeepLabHead(nn.Module):
         self._init_weight()
 
     def forward(self, feature):
-        return self.classifier( feature['out'] )
+        return self.classifier( feature['out'], feature['depth'] )
 
     def _init_weight(self):
         for m in self.modules():
@@ -131,8 +131,9 @@ class ASPPPooling(nn.Sequential):
         return F.interpolate(x, size=size, mode='bilinear', align_corners=False)
 
 class ASPP(nn.Module):
-    def __init__(self, in_channels, atrous_rates):
+    def __init__(self, in_channels, atrous_rates, depth_mode):
         super(ASPP, self).__init__()
+        self.depth_mode = depth_mode
         out_channels = 256
         modules = []
         modules.append(nn.Sequential(
@@ -145,17 +146,29 @@ class ASPP(nn.Module):
         modules.append(ASPPConv(in_channels, out_channels, rate2))
         modules.append(ASPPConv(in_channels, out_channels, rate3))
         modules.append(ASPPPooling(in_channels, out_channels))
+        
 
         self.convs = nn.ModuleList(modules)
+        
+        '''
+        Added to support depth
+        '''
+        in_channels = 5 * out_channels
+        if self.depth_mode=='aspp':
+            in_channels += 1
+            
 
         self.project = nn.Sequential(
-            nn.Conv2d(5 * out_channels, out_channels, 1, bias=False),
+            nn.Conv2d(in_channels, out_channels, 1, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
             nn.Dropout(0.1),)
 
-    def forward(self, x):
+    def forward(self, x, depth):
         res = []
+        if self.depth_mode == 'aspp':
+            depth = F.interpolate(depth, size=x.shape[-2:], mode='bilinear', align_corners=False)
+            res.append(depth)
         for conv in self.convs:
             res.append(conv(x))
         res = torch.cat(res, dim=1)

@@ -3,3 +3,4 @@ dataset-sample/
 dataset-medium/
 datasets/
 results/
+*.pth
