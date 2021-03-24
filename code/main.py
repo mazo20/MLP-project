@@ -30,6 +30,7 @@ def get_argparser():
     parser.add_argument("--save_val_results",             default=False,             help="save segmentation results to \"./results\"", action='store_true')
     parser.add_argument("--mode",                         default='train',                                                              choices=['train', 'validate'])
     parser.add_argument("--depth_mode",       type=str,   default='none',            help="",                                           choices=['aspp', 'none'])
+    parser.add_argument("--pretrained",       type=str,   default='true', choices=['false', 'true'])
     
     parser.add_argument("--ckpt",             type=str,   default=None,              help="restore from checkpoint")
     parser.add_argument("--batch_size",       type=int,   default=8,                 help='batch size (default: 16)')
@@ -42,8 +43,8 @@ def get_argparser():
     parser.add_argument("--lr",               type=float, default=0.01,              help="learning rate (default: 0.01)")
     parser.add_argument("--min_scaling",      type=float, default=1.0)
     parser.add_argument("--max_scaling",      type=float, default=1.0)
-    parser.add_argument("--vertical_flip",    type=str,   default='false', choices=['false', 'true']),
-    parser.add_argument("--horizontal_flip",  type=str,   default='false', choices=['false', 'true'])
+    parser.add_argument("--vertical_flip",    type=str,   default='true', choices=['false', 'true']),
+    parser.add_argument("--horizontal_flip",  type=str,   default='true', choices=['false', 'true'])
     
     args = parser.parse_args()
     return args
@@ -84,7 +85,7 @@ def main():
     best_score = 0.0
     epoch      = 0
     
-    model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride, depth_mode=args.depth_mode)
+    model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride, depth_mode=args.depth_mode, pretrained_backbone=args.pretrained=='true')
     
     optimizer = torch.optim.SGD(params=[
         {'params': model.backbone.parameters(),   'lr': args.lr*0.1},
@@ -156,8 +157,8 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=mp.cpu_count()-1)
-    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=mp.cpu_count()-1)
+    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=8)
+    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=8)
     
     '''
     Use to print normalisation values (mean, std) for the given dataset
