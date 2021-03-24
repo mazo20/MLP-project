@@ -40,6 +40,10 @@ def get_argparser():
     parser.add_argument("--weight_decay",     type=float, default=1e-4,              help='weight decay (default: 1e-4)')
     parser.add_argument("--total_epochs",     type=int,   default=30,                help="Number of epochs per training")
     parser.add_argument("--lr",               type=float, default=0.01,              help="learning rate (default: 0.01)")
+    parser.add_argument("--min-scaling",      type=float, default=1.0)
+    parser.add_argument("--max-scaling",      type=float, default=1.0)
+    parser.add_argument("--vertical_flip",    type=str,   default='false', choices=['false', 'true']),
+    parser.add_argument("--horizontal_flip",  type=str,   default='false', choices=['false', 'true'])
     
     args = parser.parse_args()
     return args

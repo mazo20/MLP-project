@@ -62,13 +62,18 @@ def get_dataset(args):
     download_dataset(args.data_root, args.dataset)
     
     train_transform = et.ExtCompose([
-        # et.ExtRandomScale((0.8, 1.2)),
+        et.ExtRandomScale((args.min_scaling, args.max_scaling)),
         et.ExtRandomCrop(size=(args.crop_size, args.crop_size), pad_if_needed=True),
-        et.ExtRandomHorizontalFlip(),
         et.ExtToTensor(),
         et.ExtNormalize(mean=[0.5220, 0.5120, 0.4516, 0.09379011858836295],
                         std =[0.1983, 0.1882, 0.1934, 0.05884266938976959]),
     ])
+    
+    if args.vertical_flip == 'true':
+        train_transform.transforms.insert(2, et.ExtRandomVerticalFlip(),)
+    if args.horizontal_flip == 'true':
+        train_transform.transforms.insert(2, et.ExtRandomHorizontalFlip(),)
+        
     val_transform = et.ExtCompose([
         et.ExtResize(args.crop_size),
         et.ExtCenterCrop(args.crop_size),

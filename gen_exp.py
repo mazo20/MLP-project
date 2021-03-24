@@ -14,9 +14,13 @@ base_call = (f"python code/main.py  --data_root {DATA_HOME}")
 
 config = {
     '--output_stride': ['16'],
-    '--dataset': ['dataset-sample', 'dataset-medium'],
-    '--batch_size': ['8'],
-    '--crop_size': ['300'],
+    '--dataset': ['dataset-medium'],
+    '--batch_size': ['8', '16'],
+    '--crop_size': ['300', '250'],
+    '--vertical_flip': ['true', 'false'],
+    '--horizontal_flip': ['true', 'false'],
+    '--min_scaling': ['0.5', '0.8', '1'],
+    '--max_scaling': ['1', '1.25', '2']
     '--results_root': ['results/' + sys.argv[1]],
 }
 
