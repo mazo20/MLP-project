@@ -31,6 +31,7 @@ def get_argparser():
     parser.add_argument("--mode",                         default='train',                                                              choices=['train', 'validate'])
     parser.add_argument("--depth_mode",       type=str,   default='none',            help="",                                           choices=['aspp', 'none'])
     parser.add_argument("--pretrained",       type=str,   default='true', choices=['false', 'true'])
+    parser.add_argument("--nesterov",         type=str,   default='false', choices=['false', 'true'])
     
     parser.add_argument("--ckpt",             type=str,   default=None,              help="restore from checkpoint")
     parser.add_argument("--batch_size",       type=int,   default=8,                 help='batch size (default: 16)')
@@ -88,9 +89,9 @@ def main():
     model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride, depth_mode=args.depth_mode, pretrained_backbone=args.pretrained=='true')
     
     optimizer = torch.optim.SGD(params=[
-        {'params': model.backbone.parameters(),   'lr': args.lr*0.1},
+        {'params': model.backbone.parameters(),   'lr': args.lr},
         {'params': model.classifier.parameters(), 'lr': args.lr},
-    ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
+    ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay, nesterov=args.nesterov=='true')
     scheduler = PolyLR(optimizer, args.total_epochs * len(val_loader), power=0.9)
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, reduction='mean')
     
