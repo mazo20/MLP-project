@@ -150,10 +150,13 @@ class ASPP(nn.Module):
         modules.append(ASPPPooling(in_channels, out_channels))
         
         self.depth_conv = nn.Sequential(
-            nn.Conv2d(1, 16, kernel_size=3, stride=2),
-            nn.BatchNorm2d(16),
+            nn.Conv2d(1, 8, kernel_size=3, stride=2),
+            nn.BatchNorm2d(8),
             nn.ReLU(inplace=True),
-            nn.Conv2d(16, 256, kernel_size=3, stride=2),
+            nn.Conv2d(8, 64, kernel_size=3, stride=2),
+            nn.BatchNorm2d(64),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(64, 256, kernel_size=3, stride=2),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
         )

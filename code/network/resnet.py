@@ -142,7 +142,7 @@ class ResNet(nn.Module):
         if depth_mode=='input':
             self.input_channels = 4
         
-        self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3,
+        self.conv1 = nn.Conv2d(self.input_channels, self.inplanes, kernel_size=7, stride=2, padding=3,
                                bias=False)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
@@ -199,8 +199,8 @@ class ResNet(nn.Module):
         #Add activations if needed
         activations = []
         
-        if self.depth_mode == 'resnet':
-            x = x + depth
+        if self.depth_mode == 'input':
+            x = torch.cat([x, depth], dim=1)
         
         x = self.conv1(x)
         x = self.bn1(x)
