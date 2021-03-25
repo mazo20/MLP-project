@@ -196,9 +196,6 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x, depth):
-        #Add activations if needed
-        activations = []
-        
         if self.depth_mode == 'input':
             x = torch.cat([x, depth], dim=1)
         
@@ -211,7 +208,7 @@ class ResNet(nn.Module):
         x = self.layer3(x)
         x = self.layer4(x)
 
-        return x, activations
+        return x
 
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):

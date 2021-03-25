@@ -71,11 +71,9 @@ class IntermediateLayerGetter(nn.ModuleDict):
 
     def forward(self, x):
         out = OrderedDict()
-        activations = []
         for name, module in self.named_children():
             x = module(x)
-            activations.append(x)
             if name in self.return_layers:
                 out_name = self.return_layers[name]
                 out[out_name] = x
-        return out, activations
+        return out

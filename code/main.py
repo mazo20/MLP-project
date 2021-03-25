@@ -65,7 +65,7 @@ def validate(model):
             images = images.to(device, dtype=torch.float32)
             labels = labels.to(device, dtype=torch.long)
             
-            outputs, ints = model(images)
+            outputs = model(images)
             preds         = outputs.detach().max(dim=1)[1].cpu().numpy()
             targets       = labels.cpu().numpy()
             
@@ -73,7 +73,6 @@ def validate(model):
             
             if args.save_val_results:
                 for i in range(len(images)):
-                    at_maps = [ints[j][i] for j in range(len(ints))]
                     utils.save_images(val_loader, images[i][:3], targets[i], preds[i], denorm, img_id, args.results_root)
                     img_id += 1 
                         
@@ -130,7 +129,7 @@ def main():
             images = images.to(device, dtype=torch.float32)
             labels = labels.to(device, dtype=torch.long)
             
-            outputs, _ = model(images)
+            outputs = model(images)
             loss       = criterion(outputs, labels)
             
             preds   = outputs.detach().max(dim=1)[1].cpu().numpy()
