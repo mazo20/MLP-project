@@ -204,30 +204,11 @@ class ResNet(nn.Module):
         
         x = self.conv1(x)
         x = self.bn1(x)
-        
-        if self.depth_mode == 'resnet':
-            depth = nn.AdaptiveAvgPool2d(x.shape[-2:])(depth)
-            x = x + depth  
-        
         x = self.relu(x)
         x = self.maxpool(x)
-        
-        
-        x = self.layer1(x)
-        if self.depth_mode == 'resnet':
-            depth = nn.AdaptiveAvgPool2d(x.shape[-2:])(depth)
-            x = x + depth  
-        
-        x = self.layer2(x)
-        if self.depth_mode == 'resnet':
-            depth = nn.AdaptiveAvgPool2d(x.shape[-2:])(depth)
-            x = x + depth  
-        
+        x = self.layer1(x) 
+        x = self.layer2(x) 
         x = self.layer3(x)
-        if self.depth_mode == 'resnet':
-            depth = nn.AdaptiveAvgPool2d(x.shape[-2:])(depth)
-            x = x + depth  
-        
         x = self.layer4(x)
 
         return x, activations
