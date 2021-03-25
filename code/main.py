@@ -4,7 +4,7 @@ import network
 import argparse
 import numpy           as np
 import utils           as utils
-import multiprocessing as mp
+# import multiprocessing as mp
 
 from tqdm           import tqdm
 from datasets       import *
@@ -29,7 +29,7 @@ def get_argparser():
     parser.add_argument("--gpu_id",           type=str,   default='0',               help="GPU ID")
     parser.add_argument("--save_val_results",             default=False,             help="save segmentation results to \"./results\"", action='store_true')
     parser.add_argument("--mode",                         default='train',                                                              choices=['train', 'validate'])
-    parser.add_argument("--depth_mode",       type=str,   default='none',            help="",                                           choices=['aspp', 'none'])
+    parser.add_argument("--depth_mode",       type=str,   default='none',            help="",                                           choices=['aspp', 'none', 'resnet'])
     parser.add_argument("--pretrained",       type=str,   default='true', choices=['false', 'true'])
     parser.add_argument("--nesterov",         type=str,   default='false', choices=['false', 'true'])
     
@@ -158,8 +158,8 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=8)
-    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=8)
+    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=0)
+    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=0)
     
     '''
     Use to print normalisation values (mean, std) for the given dataset

@@ -124,6 +124,7 @@ class ResNet(nn.Module):
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
         self._norm_layer = norm_layer
+        self.depth_mode = depth_mode
 
         self.inplanes = 64
         self.dilation = 1
@@ -141,7 +142,7 @@ class ResNet(nn.Module):
         if depth_mode=='input':
             self.input_channels = 4
         
-        self.conv1 = nn.Conv2d(self.input_channels, self.inplanes, kernel_size=7, stride=2, padding=3,
+        self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3,
                                bias=False)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
@@ -194,22 +195,42 @@ class ResNet(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def forward(self, x):
+    def forward(self, x, depth):
+        #Add activations if needed
+        activations = []
+        
+        if self.depth_mode == 'resnet':
+            x = x + depth
+        
         x = self.conv1(x)
         x = self.bn1(x)
+        
+        if self.depth_mode == 'resnet':
+            depth = nn.AdaptiveAvgPool2d(x.shape[-2:])(depth)
+            x = x + depth  
+        
         x = self.relu(x)
         x = self.maxpool(x)
-
+        
+        
         x = self.layer1(x)
+        if self.depth_mode == 'resnet':
+            depth = nn.AdaptiveAvgPool2d(x.shape[-2:])(depth)
+            x = x + depth  
+        
         x = self.layer2(x)
+        if self.depth_mode == 'resnet':
+            depth = nn.AdaptiveAvgPool2d(x.shape[-2:])(depth)
+            x = x + depth  
+        
         x = self.layer3(x)
+        if self.depth_mode == 'resnet':
+            depth = nn.AdaptiveAvgPool2d(x.shape[-2:])(depth)
+            x = x + depth  
+        
         x = self.layer4(x)
 
-        x = self.avgpool(x)
-        x = torch.flatten(x, 1)
-        x = self.fc(x)
-
-        return x
+        return x, activations
 
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):

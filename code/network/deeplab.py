@@ -44,7 +44,7 @@ class DeepLabHeadV3Plus(nn.Module):
         )
         self._init_weight()
 
-    def forward(self, feature):
+    def forward(self, feature, depth):
         low_level_feature = self.project( feature['low_level'] )
         output_feature = self.aspp(feature['out'], feature['depth'])
         output_feature = F.interpolate(output_feature, size=low_level_feature.shape[2:], mode='bilinear', align_corners=False)
@@ -61,9 +61,10 @@ class DeepLabHeadV3Plus(nn.Module):
 class DeepLabHead(nn.Module):
     def __init__(self, in_channels, num_classes, aspp_dilate=[12, 24, 36], depth_mode='none'):
         super(DeepLabHead, self).__init__()
+        
+        self.aspp = ASPP(in_channels, aspp_dilate, depth_mode)
 
         self.classifier = nn.Sequential(
-            ASPP(in_channels, aspp_dilate, depth_mode),
             nn.Conv2d(256, 256, 3, padding=1, bias=False),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
@@ -71,8 +72,9 @@ class DeepLabHead(nn.Module):
         )
         self._init_weight()
 
-    def forward(self, feature):
-        return self.classifier( feature['out'], feature['depth'] )
+    def forward(self, x, depth):
+        x = self.aspp(x, depth)
+        return self.classifier(x)
 
     def _init_weight(self):
         for m in self.modules():

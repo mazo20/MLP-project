@@ -23,10 +23,11 @@ def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_bac
     low_level_planes = 256
 
     return_layers = {'layer4': 'out', 'layer1': 'low_level'}
-    classifier = DeepLabHeadV3Plus(inplanes, low_level_planes, num_classes, aspp_dilate, depth_mode)
+    # classifier = DeepLabHeadV3Plus(inplanes, low_level_planes, num_classes, aspp_dilate, depth_mode)
+    classifier = DeepLabHead(inplanes , num_classes, aspp_dilate, depth_mode)
         
     
-    backbone = IntermediateLayerGetter(backbone, return_layers=return_layers)
+    # backbone = IntermediateLayerGetter(backbone, return_layers=return_layers)
     
     model = DeepLabV3(backbone, classifier)
     return model
