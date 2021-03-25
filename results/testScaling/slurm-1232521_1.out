@@ -1,0 +1,46 @@
+Job running on damnii11
+Job started: 24/03/2021 17:15:40
+Setting up bash enviroment
+Activating conda environment: mlp
+Moving input data to the compute node's scratch space: /disk/scratch
+sending incremental file list
+Running provided command: python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --output_stride 16 --dataset dataset-medium --crop_size 300 --min_scaling 0.5 --max_scaling 1 --results_root results/testScaling --random_seed 0
+  0%|          | 0/30 [00:00<?, ?it/s]
+  0%|          | 0/1461 [00:00<?, ?it/s][Azipfile "dataset-medium.tar.gz" already exists, remove it if you want to re-download.
+folder "/disk/scratch/s1762992/dronedeploy/datasets//dataset-medium" already exists, remove it if you want to re-create.
+chip folders "/disk/scratch/s1762992/dronedeploy/datasets//dataset-medium/image-chips" and "/disk/scratch/s1762992/dronedeploy/datasets//dataset-medium/label-chips" already exist, remove them to recreate chips.
+Device: cuda
+Train set: 11686, Val set: 2090
+  0%|          | 0/1461 [00:00<?, ?it/s]
+  0%|          | 0/30 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "code/main.py", line 176, in <module>
+    main()
+  File "code/main.py", line 126, in main
+    for images, labels, eleva in pbar:
+  File "/home/s1762992/miniconda3/envs/mlp/lib/python3.8/site-packages/tqdm/std.py", line 1166, in __iter__
+    for obj in iterable:
+  File "/home/s1762992/miniconda3/envs/mlp/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 435, in __next__
+    data = self._next_data()
+  File "/home/s1762992/miniconda3/envs/mlp/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 1085, in _next_data
+    return self._process_data(data)
+  File "/home/s1762992/miniconda3/envs/mlp/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 1111, in _process_data
+    data.reraise()
+  File "/home/s1762992/miniconda3/envs/mlp/lib/python3.8/site-packages/torch/_utils.py", line 428, in reraise
+    raise self.exc_type(msg)
+TypeError: Caught TypeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/s1762992/miniconda3/envs/mlp/lib/python3.8/site-packages/torch/utils/data/_utils/worker.py", line 198, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/home/s1762992/miniconda3/envs/mlp/lib/python3.8/site-packages/torch/utils/data/_utils/fetch.py", line 44, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/s1762992/miniconda3/envs/mlp/lib/python3.8/site-packages/torch/utils/data/_utils/fetch.py", line 44, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/s1762992/git/MLP-project/code/datasets.py", line 150, in __getitem__
+    img, target, eleva = self.transform(img, target, eleva)
+  File "/home/s1762992/git/MLP-project/code/ext_transforms.py", line 59, in __call__
+    img, lbl, elv = t(img, lbl, elv)
+  File "/home/s1762992/git/MLP-project/code/ext_transforms.py", line 409, in __call__
+    elv = F.pad(elv, padding=int((1 + self.size[1] - elv.size[0]) / 2))
+TypeError: 'builtin_function_or_method' object is not subscriptable
+

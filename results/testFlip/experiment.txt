@@ -1,0 +1,4 @@
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --output_stride 16 --dataset dataset-medium --crop_size 300 --vertical_flip true --horizontal_flip true --results_root results/testFlip --random_seed 0
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --output_stride 16 --dataset dataset-medium --crop_size 300 --vertical_flip true --horizontal_flip false --results_root results/testFlip --random_seed 1
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --output_stride 16 --dataset dataset-medium --crop_size 300 --vertical_flip false --horizontal_flip true --results_root results/testFlip --random_seed 2
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --output_stride 16 --dataset dataset-medium --crop_size 300 --vertical_flip false --horizontal_flip false --results_root results/testFlip --random_seed 3
