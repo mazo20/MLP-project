@@ -168,8 +168,8 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader       = data.DataLoader(val_dst,   batch_size=args.batch_size,     shuffle=True, num_workers=16)
-    val_loader         = data.DataLoader(train_dst, batch_size=args.val_batch_size, shuffle=True, num_workers=16)
+    train_loader       = data.DataLoader(train_dst,   batch_size=args.batch_size,     shuffle=True, num_workers=8)
+    val_loader         = data.DataLoader(val_dst, batch_size=args.val_batch_size, shuffle=True, num_workers=8)
 
     '''
     Use to print normalisation values (mean, std) for the given dataset
