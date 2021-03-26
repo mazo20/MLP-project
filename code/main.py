@@ -96,8 +96,8 @@ def main():
                                   first_aware=args.first_aware=='true',
                                   all_bottlenenck=args.all_bottleneck=='true')
     
-    macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
-                                           print_per_layer_stat=True, verbose=True)
+    # macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
+    #                                        print_per_layer_stat=True, verbose=True)
     
     optimizer = torch.optim.SGD(params=[
         {'params': model.backbone.parameters(),   'lr': args.lr},
