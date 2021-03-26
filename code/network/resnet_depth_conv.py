@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from .depth_conv import * 
 
 from torchvision.models.utils import load_state_dict_from_url
 
@@ -156,7 +157,7 @@ class ResNet(nn.Module):
         if depth_mode=='input':
             self.input_channels = 4
         
-        self.conv1   = nn.Conv2d(self.input_channels, self.inplanes, 
+        self.conv1   = DepthConv2d(self.input_channels, self.inplanes, 
                                  kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1     = norm_layer(self.inplanes)
         self.relu    = nn.ReLU(inplace=True)
@@ -165,6 +166,8 @@ class ResNet(nn.Module):
         self.layer2  = self._make_layer(block, 128, layers[1], stride=2, dilate=replace_stride_with_dilation[0])
         self.layer3  = self._make_layer(block, 256, layers[2], stride=2, dilate=replace_stride_with_dilation[1])
         self.layer4  = self._make_layer(block, 512, layers[3], stride=2, dilate=replace_stride_with_dilation[2])
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.fc      = nn.Linear(512 * block.expansion, num_classes)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -213,8 +216,8 @@ class ResNet(nn.Module):
     def forward(self, x, depth):
         if self.depth_mode == 'input':
             x = torch.cat([x, depth], dim=1)
-        
-        x = self.conv1(x)
+            
+        x = self.conv1(x, depth)
         x = self.bn1(x)
         x = self.relu(x)
         x = self.maxpool(x)

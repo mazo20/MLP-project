@@ -16,14 +16,14 @@ class _SimpleSegmentationModel(nn.Module):
         input_shape           = x.shape[-2:]
         elev                  = x[:,-1].unsqueeze(1)
         rgb                   = x[:, :3]
-        features, activations = self.backbone(rgb, elev)
+        features              = self.backbone(rgb, elev)
 
         # features['depth'] = elev
 
         x = self.classifier(features, elev)
         x = F.interpolate(x, size=input_shape, mode='bilinear', align_corners=False)
 
-        return x, activations
+        return x
 
 
 class IntermediateLayerGetter(nn.ModuleDict):

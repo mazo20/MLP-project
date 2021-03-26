@@ -1,6 +1,7 @@
 from .network_utils import IntermediateLayerGetter
 from .deeplab       import DeepLabHead, DeepLabHeadV3Plus, DeepLabV3
 from .              import resnet
+from .              import resnet_depth_conv
 
 def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_backbone, depth_mode):
     if output_stride == 8:
@@ -13,7 +14,7 @@ def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_bac
         replace_stride_with_dilation = [False, False, False]
         aspp_dilate                  = [3, 6, 9]
 
-    backbone = resnet.__dict__[backbone_name](
+    backbone = resnet_depth_conv.__dict__[backbone_name](
         pretrained                   = pretrained_backbone,
         replace_stride_with_dilation = replace_stride_with_dilation,
         depth_mode                   = depth_mode)

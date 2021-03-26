@@ -5,10 +5,12 @@ import argparse
 import numpy    as np
 import utils    as utils
 
+
 from tqdm           import tqdm
 from datasets       import *
 from scheduler      import *
 from stream_metrics import *
+from ptflops import get_model_complexity_info
 
 model_map = {
     'v3plus_resnet50':  network.deeplabv3plus_resnet50,
@@ -85,6 +87,9 @@ def main():
     epoch      = 0
     
     model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride, depth_mode=args.depth_mode, pretrained_backbone=args.pretrained=='true')
+    
+    macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
+                                           print_per_layer_stat=True, verbose=True)
     
     optimizer = torch.optim.SGD(params=[
         {'params': model.backbone.parameters(),   'lr': args.lr},
