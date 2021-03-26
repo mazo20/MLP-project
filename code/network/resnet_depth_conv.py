@@ -97,6 +97,7 @@ class ResNet(nn.Module):
         self._norm_layer     = norm_layer
         self.depth_mode      = depth_mode
         self.all_bottlenenck = all_bottlenenck
+        self.first_aware     = first_aware
 
         self.inplanes = 64
         self.dilation = 1
@@ -188,7 +189,7 @@ class ResNet(nn.Module):
         if self.depth_mode == 'input':
             x = torch.cat([x, depth], dim=1)
 
-        if self.depth_mode == 'dconv':
+        if self.depth_mode == 'dconv' and self.first_aware:
             x  = self.conv1(x, depth)
         else:
             x  = self.conv1(x)
