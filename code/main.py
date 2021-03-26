@@ -5,12 +5,11 @@ import argparse
 import numpy    as np
 import utils    as utils
 
-
 from tqdm           import tqdm
 from datasets       import *
 from scheduler      import *
 from stream_metrics import *
-from ptflops import get_model_complexity_info
+from ptflops        import get_model_complexity_info
 
 model_map = {
     'v3plus_resnet50':  network.deeplabv3plus_resnet50,
@@ -30,9 +29,11 @@ def get_argparser():
     parser.add_argument("--gpu_id",           type=str,   default='0',               help="GPU ID")
     parser.add_argument("--save_val_results",             default=False,             help="save segmentation results to \"./results\"", action='store_true')
     parser.add_argument("--mode",                         default='train',                                                              choices=['train', 'validate'])
-    parser.add_argument("--depth_mode",       type=str,   default='none',            help="",                                           choices=['aspp', 'none', 'resnet', 'input'])
-    parser.add_argument("--pretrained",       type=str,   default='true', choices=['false', 'true'])
+    parser.add_argument("--depth_mode",       type=str,   default='none',  choices=['aspp', 'none', 'resnet', 'input', 'dconv'])
+    parser.add_argument("--pretrained",       type=str,   default='true',  choices=['false', 'true'])
     parser.add_argument("--nesterov",         type=str,   default='false', choices=['false', 'true'])
+    parser.add_argument("--first_aware",      type=str,   default='false', choices=['false', 'true'])
+    parser.add_argument("--all_bottleneck",   type=str,   default='false', choices=['false', 'true'])
     
     parser.add_argument("--ckpt",             type=str,   default=None,              help="restore from checkpoint")
     parser.add_argument("--batch_size",       type=int,   default=8,                 help='batch size (default: 16)')
@@ -85,8 +86,15 @@ def validate(model):
 def main():
     best_score = 0.0
     epoch      = 0
+
+    assert args.depth_mode == 'dconv' or (args.depth_mode != 'dconv' and args.first_aware=='false' and args.all_bottleneck=='false')
     
-    model = model_map[args.model](num_classes=args.num_classes, output_stride=args.output_stride, depth_mode=args.depth_mode, pretrained_backbone=args.pretrained=='true')
+    model = model_map[args.model](num_classes=args.num_classes, 
+                                  output_stride=args.output_stride, 
+                                  depth_mode=args.depth_mode, 
+                                  pretrained_backbone=args.pretrained=='true', 
+                                  first_aware=args.first_aware=='true',
+                                  all_bottlenenck=args.all_bottleneck=='true')
     
     macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
                                            print_per_layer_stat=True, verbose=True)
@@ -160,9 +168,9 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=4)
-    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=4)
-    
+    train_loader       = data.DataLoader(val_dst,   batch_size=args.batch_size,     shuffle=True, num_workers=16)
+    val_loader         = data.DataLoader(train_dst, batch_size=args.val_batch_size, shuffle=True, num_workers=16)
+
     '''
     Use to print normalisation values (mean, std) for the given dataset
     '''

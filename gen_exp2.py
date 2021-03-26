@@ -22,9 +22,7 @@ config = {
     '--nesterov': ['true'],
     '--min_scaling': ['0.5'],
     '--max_scaling': ['2'],
-    '--depth_mode': ['dconv'],
-    '--first_aware': ['true', 'false'],
-    '--all_bottleneck': ['true', 'false'],
+    '--depth_mode': ['none', 'input'],
     '--pretrained': ['true', 'false'],
     '--results_root': ['results/' + sys.argv[1]],
 
