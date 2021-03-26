@@ -1,12 +1,10 @@
 import torch
-from torch import nn
-from torch.nn import functional as F
 
+from torch          import nn
+from torch.nn       import functional               as F
 from .network_utils import _SimpleSegmentationModel
 
-
 __all__ = ["DeepLabV3"]
-
 
 class DeepLabV3(_SimpleSegmentationModel):
     """
@@ -46,8 +44,9 @@ class DeepLabHeadV3Plus(nn.Module):
 
     def forward(self, feature, depth):
         low_level_feature = self.project( feature['low_level'] )
-        output_feature = self.aspp(feature['out'], feature['depth'])
-        output_feature = F.interpolate(output_feature, size=low_level_feature.shape[2:], mode='bilinear', align_corners=False)
+        output_feature    = self.aspp(feature['out'], feature['depth'])
+        output_feature    = F.interpolate(output_feature, size=low_level_feature.shape[2:], mode='bilinear', align_corners=False)
+
         return self.classifier( torch.cat( [ low_level_feature, output_feature ], dim=1 ) )
     
     def _init_weight(self):
@@ -62,8 +61,7 @@ class DeepLabHead(nn.Module):
     def __init__(self, in_channels, num_classes, aspp_dilate=[12, 24, 36], depth_mode='none'):
         super(DeepLabHead, self).__init__()
         
-        self.aspp = ASPP(in_channels, aspp_dilate, depth_mode)
-
+        self.aspp       = ASPP(in_channels, aspp_dilate, depth_mode)
         self.classifier = nn.Sequential(
             nn.Conv2d(256, 256, 3, padding=1, bias=False),
             nn.BatchNorm2d(256),
@@ -74,6 +72,7 @@ class DeepLabHead(nn.Module):
 
     def forward(self, x, depth):
         x = self.aspp(x, depth)
+
         return self.classifier(x)
 
     def _init_weight(self):
@@ -129,26 +128,29 @@ class ASPPPooling(nn.Sequential):
 
     def forward(self, x):
         size = x.shape[-2:]
-        x = super(ASPPPooling, self).forward(x)
+        x    = super(ASPPPooling, self).forward(x)
+
         return F.interpolate(x, size=size, mode='bilinear', align_corners=False)
 
 class ASPP(nn.Module):
     def __init__(self, in_channels, atrous_rates, depth_mode):
         super(ASPP, self).__init__()
+
         self.depth_mode = depth_mode
-        out_channels = 256
-        modules = []
+        out_channels    = 256
+        modules         = []
+
         modules.append(nn.Sequential(
             nn.Conv2d(in_channels, out_channels, 1, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True)))
 
         rate1, rate2, rate3 = tuple(atrous_rates)
+
         modules.append(ASPPConv(in_channels, out_channels, rate1))
         modules.append(ASPPConv(in_channels, out_channels, rate2))
         modules.append(ASPPConv(in_channels, out_channels, rate3))
         modules.append(ASPPPooling(in_channels, out_channels))
-        
         
         #ASPP depth code
         self.depth_conv = nn.Sequential(
@@ -164,46 +166,51 @@ class ASPP(nn.Module):
         )
         #END
         
-
         self.convs = nn.ModuleList(modules)
         
         '''
         Added to support depth
         '''
         in_channels = 5 * out_channels
+
         if self.depth_mode=='aspp':
             in_channels += out_channels
-            
 
         self.project = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, 1, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
-            nn.Dropout(0.1),)
+            nn.Dropout(0.1))
 
     def forward(self, x, depth):
         res = []
+
         #Add depth in ASPP
         if self.depth_mode == 'aspp':
             depth = F.interpolate(self.depth_conv(depth), size=x.shape[-2:], mode='bilinear', align_corners=False)
+
             res.append(depth)
+
         for conv in self.convs:
             res.append(conv(x))
+
         res = torch.cat(res, dim=1)
+
         return self.project(res)
-
-
 
 def convert_to_separable_conv(module):
     new_module = module
+
     if isinstance(module, nn.Conv2d) and module.kernel_size[0]>1:
         new_module = AtrousSeparableConvolution(module.in_channels,
-                                      module.out_channels, 
-                                      module.kernel_size,
-                                      module.stride,
-                                      module.padding,
-                                      module.dilation,
-                                      module.bias)
+                                                module.out_channels, 
+                                                module.kernel_size,
+                                                module.stride,
+                                                module.padding,
+                                                module.dilation,
+                                                module.bias)
+
     for name, child in module.named_children():
         new_module.add_module(name, convert_to_separable_conv(child))
+
     return new_module

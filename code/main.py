@@ -2,9 +2,8 @@ import cv2
 import torch
 import network
 import argparse
-import numpy           as np
-import utils           as utils
-# import multiprocessing as mp
+import numpy    as np
+import utils    as utils
 
 from tqdm           import tqdm
 from datasets       import *
@@ -14,8 +13,8 @@ from stream_metrics import *
 model_map = {
     'v3plus_resnet50':  network.deeplabv3plus_resnet50,
     'v3plus_resnet101': network.deeplabv3plus_resnet101,
-    'v3_resnet50': network.deeplabv3_resnet50,
-    'v3_resnet101': network.deeplabv3_resnet101,
+    'v3_resnet50':      network.deeplabv3_resnet50,
+    'v3_resnet101':     network.deeplabv3_resnet101,
 }
 
 def get_argparser():
@@ -66,8 +65,8 @@ def validate(model):
             labels = labels.to(device, dtype=torch.long)
             
             outputs = model(images)
-            preds         = outputs.detach().max(dim=1)[1].cpu().numpy()
-            targets       = labels.cpu().numpy()
+            preds   = outputs.detach().max(dim=1)[1].cpu().numpy()
+            targets = labels.cpu().numpy()
             
             metrics.update(targets, preds)
             
@@ -117,7 +116,6 @@ def main():
         score = validate(model)
         print(metrics.to_str(score))
         return
-    
     
     for epoch in tqdm(range(epoch, args.total_epochs)):
         

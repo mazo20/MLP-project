@@ -1,35 +1,36 @@
 from .network_utils import IntermediateLayerGetter
-from .deeplab import DeepLabHead, DeepLabHeadV3Plus, DeepLabV3
-from . import resnet
+from .deeplab       import DeepLabHead, DeepLabHeadV3Plus, DeepLabV3
+from .              import resnet
 
 def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_backbone, depth_mode):
-
     if output_stride == 8:
-        replace_stride_with_dilation=[False, True, True]
-        aspp_dilate = [12, 24, 36]
+        replace_stride_with_dilation = [False, True, True]
+        aspp_dilate                  = [12, 24, 36]
     elif output_stride == 16:
-        replace_stride_with_dilation=[False, False, True]
-        aspp_dilate = [6, 12, 18]
+        replace_stride_with_dilation = [False, False, True]
+        aspp_dilate                  = [6, 12, 18]
     else:
-        replace_stride_with_dilation=[False, False, False]
-        aspp_dilate = [3, 6, 9]
+        replace_stride_with_dilation = [False, False, False]
+        aspp_dilate                  = [3, 6, 9]
 
     backbone = resnet.__dict__[backbone_name](
-        pretrained=pretrained_backbone,
-        replace_stride_with_dilation=replace_stride_with_dilation,
-        depth_mode=depth_mode)
+        pretrained                   = pretrained_backbone,
+        replace_stride_with_dilation = replace_stride_with_dilation,
+        depth_mode                   = depth_mode)
     
-    inplanes = 2048
+    inplanes         = 2048
     low_level_planes = 256
 
     return_layers = {'layer4': 'out', 'layer1': 'low_level'}
+
     # classifier = DeepLabHeadV3Plus(inplanes, low_level_planes, num_classes, aspp_dilate, depth_mode)
+
     classifier = DeepLabHead(inplanes , num_classes, aspp_dilate, depth_mode)
-        
     
     # backbone = IntermediateLayerGetter(backbone, return_layers=return_layers)
     
     model = DeepLabV3(backbone, classifier)
+    
     return model
 
 def _load_model(arch_type, backbone, num_classes, output_stride, pretrained_backbone, depth_mode):
