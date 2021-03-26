@@ -66,10 +66,6 @@ class DepthConv2d(nn.Module):
         output_size = output_size - (self.kernel_size - 1) * (self.dilation - 1)
         output_size = int(output_size / self.stride) + 1
         
-        # Pad the inputs
-        im2col_input = pad(image,        (self.padding, ) * 4 )
-        im2col_depth = pad(im2col_depth, (self.padding, ) * 4 )
-        
         # Vectorize inputs
         im2col_input = unfold(im2col_input, self.weight.shape[2:], self.dilation, self.padding, self.stride).transpose(1, 2)
         im2col_depth = unfold(im2col_depth, self.weight.shape[2:], self.dilation, self.padding, self.stride).transpose(1, 2)
