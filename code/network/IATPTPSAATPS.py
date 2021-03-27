@@ -249,4 +249,4 @@ class Encoder(Module):
         depth_out = self.depthresnet4(depth_out)
         rgb_out   = self.fusion5(rgb_out, depth_out)
         
-        return rgb_out
+        return rgb_out, depth_out

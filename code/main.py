@@ -38,7 +38,7 @@ def get_argparser():
     parser.add_argument("--ckpt",             type=str,   default=None,              help="restore from checkpoint")
     parser.add_argument("--batch_size",       type=int,   default=8,                 help='batch size (default: 16)')
     parser.add_argument("--val_batch_size",   type=int,   default=8,                 help='batch size for validation (default: 4)')
-    parser.add_argument('--crop_size',        type=int,   default=100,               help="size of the crop size  during transform")
+    parser.add_argument('--crop_size',        type=int,   default=300,               help="size of the crop size  during transform")
     parser.add_argument('--num_classes',      type=int,   default=7,                 help="number of the classes")
     parser.add_argument('--output_stride',    type=int,   default=16,                help="output stride of the image, default: 16")
     parser.add_argument("--weight_decay",     type=float, default=1e-4,              help='weight decay (default: 1e-4)')
