@@ -22,10 +22,8 @@ config = {
     '--nesterov': ['true'],
     '--min_scaling': ['0.5'],
     '--max_scaling': ['2'],
-    '--depth_mode': ['dconv'],
-    '--first_aware': ['true', 'false'],
-    '--all_bottleneck': ['true', 'false'],
-    '--pretrained': ['true', 'false'],
+    '--depth_mode': ['aspp', 'none'],
+    '--model': ['v3_resnet50', 'v3_resnet101'],
     '--results_root': ['results/' + sys.argv[1]],
 
 }

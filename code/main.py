@@ -96,8 +96,8 @@ def main():
                                   first_aware=args.first_aware=='true',
                                   all_bottlenenck=args.all_bottleneck=='true')
     
-    # macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
-    #                                        print_per_layer_stat=True, verbose=True)
+    macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
+                                           print_per_layer_stat=True, verbose=True)
     
     optimizer = torch.optim.SGD(params=[
         {'params': model.backbone.parameters(),   'lr': args.lr},
@@ -168,8 +168,8 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader       = data.DataLoader(train_dst,   batch_size=args.batch_size,     shuffle=True, num_workers=8)
-    val_loader         = data.DataLoader(val_dst, batch_size=args.val_batch_size, shuffle=True, num_workers=8)
+    train_loader       = data.DataLoader(train_dst,   batch_size=args.batch_size,     shuffle=True, num_workers=0)
+    val_loader         = data.DataLoader(val_dst, batch_size=args.val_batch_size, shuffle=True, num_workers=0)
 
     '''
     Use to print normalisation values (mean, std) for the given dataset
