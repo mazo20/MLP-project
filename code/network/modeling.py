@@ -2,7 +2,7 @@ from .network_utils import IntermediateLayerGetter
 from .deeplab       import DeepLabHead, DeepLabHeadV3Plus, DeepLabV3
 from .              import resnet
 from .              import resnet_depth_conv
-from .IATPTPSAATPS  import Encoder
+from .IATPTPSAATPS  import load_encoder
 
 def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_backbone, depth_mode,
                  first_aware, all_bottlenenck):
@@ -26,12 +26,8 @@ def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_bac
     else:
         assert backbone_name in ['resnet50', 'resnet101'], 'backbone_name must be resnet50 or resnet101'
 
-        if backbone_name == 'resnet50':
-            blocks = [3, 4, 6, 3]
-        elif backbone_name == 'resnet101':
-            blocks = [3, 4, 23, 3]
-
-        backbone = Encoder(blocks=blocks, replace_stride_with_dilation=replace_stride_with_dilation)
+        backbone = load_encoder(pretrained=pretrained_backbone, 
+                                replace_stride_with_dilation=replace_stride_with_dilation)
     
     inplanes         = 2048
     low_level_planes = 256

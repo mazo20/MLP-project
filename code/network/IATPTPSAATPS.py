@@ -1,8 +1,16 @@
 import torch
 import torch.nn as nn
+import re
 
-from torch.nn      import Module, ModuleList, Conv2d, ReLU, BatchNorm2d, AdaptiveAvgPool2d, Sigmoid, MaxPool2d
-from torch.nn.init import kaiming_normal_, constant_
+from torch.nn              import Module, ModuleList, Conv2d, ReLU, BatchNorm2d, AdaptiveAvgPool2d, Sigmoid, MaxPool2d
+from collections           import OrderedDict
+from torch.nn.init         import kaiming_normal_, constant_
+from torch.utils.model_zoo import load_url
+
+model_urls = {
+    'resnet50':  'https://download.pytorch.org/models/resnet50-19c8e357.pth',
+    'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth'
+}
 
 class SqueezeAndExcitation(Module):
     
@@ -250,3 +258,48 @@ class Encoder(Module):
         rgb_out   = self.fusion5(rgb_out, depth_out)
         
         return rgb_out, depth_out
+
+def name_to_res(layer_name):
+    matches = [match.group() for match in re.finditer('(depth|rgb)resnet[1-4]\.layers', layer_name)]
+    
+    if len(matches) != 0:
+        name       = matches[0]
+        num        = [match.group() for match in re.finditer('[1-4]', name)][0]
+        layer_name = layer_name.replace(name, 'layer' + num)
+        
+    layer_name = layer_name.replace('norm', 'bn')
+    
+    if 'downsample' in layer_name:
+        layer_name = layer_name.replace('conv', '0')
+        layer_name = layer_name.replace('bn',   '1')
+        
+    layer_name = layer_name.replace('depthconv', 'conv1')
+    layer_name = layer_name.replace('depthbn',   'bn1')
+    layer_name = layer_name.replace('rgbconv',   'conv1')
+    layer_name = layer_name.replace('rgbbn',     'bn1')
+    
+    return layer_name
+
+def load_encoder(backbone_name='resnet50', pretrained=False, replace_stride_with_dilation=None):
+    if backbone_name == 'resnet50':
+        blocks = [3, 4, 6, 3]
+    elif backbone_name == 'resnet101':
+        blocks = [3, 4, 23, 3]
+
+    encoder = Encoder(blocks=blocks, replace_stride_with_dilation=replace_stride_with_dilation)
+
+    if pretrained:
+        weights        = load_url(model_urls[backbone_name], model_dir='./')
+        new_state_dict = OrderedDict()
+
+        for name, value in encoder.state_dict().items():
+            if name_to_res(name) in weights:
+                new_state_dict[name] = weights[name_to_res(name)]
+            else:
+                new_state_dict[name] = value
+        
+        new_state_dict['depthconv.weight'] = torch.sum(new_state_dict['depthconv.weight'], axis=1, keepdim=True)
+
+        encoder.load_state_dict(new_state_dict)
+
+    return encoder
