@@ -67,7 +67,7 @@ class DepthConv2d(nn.Module):
         output_size = int(output_size / self.stride) + 1
         
         # Vectorize inputs
-        im2col_input = unfold(image, self.weight.shape[2:], self.dilation, self.padding, self.stride).transpose(1, 2)
+        im2col_input = unfold(image,        self.weight.shape[2:], self.dilation, self.padding, self.stride).transpose(1, 2)
         im2col_depth = unfold(im2col_depth, self.weight.shape[2:], self.dilation, self.padding, self.stride).transpose(1, 2)
         
         # Compute pixel-wise similarity to central pixel
