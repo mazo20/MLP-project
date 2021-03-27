@@ -152,29 +152,33 @@ class ASPP(nn.Module):
         modules.append(ASPPConv(in_channels, out_channels, rate3))
         modules.append(ASPPPooling(in_channels, out_channels))
         
-        #ASPP depth code
-        self.depth_conv = nn.Sequential(
-            nn.Conv2d(1, 8, kernel_size=3, stride=2),
-            nn.BatchNorm2d(8),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(8, 64, kernel_size=3, stride=2),
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(64, 256, kernel_size=3, stride=2),
-            nn.BatchNorm2d(256),
-            nn.ReLU(inplace=True),
-        )
-        #END
+        
+        # #ASPP depth code
+        # self.depth_conv = nn.Sequential(
+        #     nn.Conv2d(1, 8, kernel_size=3, stride=2),
+        #     nn.BatchNorm2d(8),
+        #     nn.ReLU(inplace=True),
+        #     nn.Conv2d(8, 64, kernel_size=3, stride=2),
+        #     nn.BatchNorm2d(64),
+        #     nn.ReLU(inplace=True),
+        #     nn.Conv2d(64, 256, kernel_size=3, stride=2),
+        #     nn.BatchNorm2d(256),
+        #     nn.ReLU(inplace=True),
+        # )
+        # #END
         
         self.convs = nn.ModuleList(modules)
+        self.depth_pooling = ASPPPooling(in_channels, out_channels)
         
         '''
         Added to support depth
         '''
         in_channels = 5 * out_channels
 
-        if self.depth_mode=='aspp':
+        if self.depth_mode == 'aspp':
             in_channels += out_channels
+        else:
+            self.depth_pooling = None
 
         self.project = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, 1, bias=False),
@@ -185,14 +189,13 @@ class ASPP(nn.Module):
     def forward(self, x, depth):
         res = []
 
-        #Add depth in ASPP
-        if self.depth_mode == 'aspp':
-            depth = F.interpolate(self.depth_conv(depth), size=x.shape[-2:], mode='bilinear', align_corners=False)
-
-            res.append(depth)
-
         for conv in self.convs:
             res.append(conv(x))
+            
+        #Add depth in ASPP
+        if self.depth_mode == 'aspp':
+            res.append(self.depth_pooling(depth))
+
 
         res = torch.cat(res, dim=1)
 
