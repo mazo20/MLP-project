@@ -81,7 +81,8 @@ def deeplabv3plus_resnet101(num_classes=7, output_stride=8, pretrained_backbone=
         pretrained_backbone (bool): If True, use the pretrained backbone.
     """
     return _load_model('deeplabv3plus', 'resnet101', num_classes, output_stride=output_stride, 
-                       pretrained_backbone=pretrained_backbone, depth_mode=depth_mode)
+                       pretrained_backbone=pretrained_backbone, depth_mode=depth_mode,
+                       first_aware=first_aware, all_bottlenenck=all_bottlenenck)
 
 def deeplabv3_resnet50(num_classes=7, output_stride=8, pretrained_backbone=True, depth_mode='none',
                        first_aware=False, all_bottlenenck=False):
@@ -93,7 +94,8 @@ def deeplabv3_resnet50(num_classes=7, output_stride=8, pretrained_backbone=True,
         pretrained_backbone (bool): If True, use the pretrained backbone.
     """
     return _load_model('deeplabv3', 'resnet50', num_classes, output_stride=output_stride, 
-                        pretrained_backbone=pretrained_backbone, depth_mode=depth_mode)
+                        pretrained_backbone=pretrained_backbone, depth_mode=depth_mode,
+                       first_aware=first_aware, all_bottlenenck=all_bottlenenck)
 
 def deeplabv3_resnet101(num_classes=7, output_stride=8, pretrained_backbone=True, depth_mode='none', 
                         first_aware=False, all_bottlenenck=False):
