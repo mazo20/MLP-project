@@ -13,11 +13,12 @@ DATA_HOME = f'{SCRATCH_HOME}/dronedeploy/datasets/'
 base_call = (f"python code/main.py  --data_root {DATA_HOME}")
 
 config = {
-    '--dataset':      ['dataset-medium'],
-    '--pretrained':   ['true', 'false'],
-    '--depth_mode':   ['none', 'input'],
-    '--model':        ['v3_resnet50'],
-    '--results_root': ['results/' + sys.argv[1]],
+    '--dataset':        ['dataset-medium'],
+    '--pretrained':     ['true', 'false'],
+    '--depth_mode':     ['dconv'],
+    '--first_aware':    ['true', 'false'],
+    '--model':          ['v3_resnet50'],
+    '--results_root':   ['results/' + sys.argv[1]],
 
 }
 

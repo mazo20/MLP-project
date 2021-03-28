@@ -146,8 +146,12 @@ class ResNetLayer(Module):
         return out
 
 class Encoder(Module):
-    def __init__(self, blocks, zero_init_residual=False, replace_stride_with_dilation=None, dilation=None):
+    def __init__(self, blocks, 
+                 fusion_type='all', zero_init_residual=False, replace_stride_with_dilation=None, 
+                 dilation=None):
         super(Encoder, self).__init__()
+
+        self.fusion_type = fusion_type
         
         if replace_stride_with_dilation is None:
             replace_stride_with_dilation = [False] * 3
@@ -164,48 +168,61 @@ class Encoder(Module):
         self.depthnorm = BatchNorm2d(num_features=64)
         self.depthrelu = ReLU(inplace=True)
         
-        self.fusion1 = RGBDFusion(in_channels=64)
+        if fusion_type != 'late':
+            self.fusion1 = RGBDFusion(in_channels=64)
         
         # STAGE 1
         self.rgbmaxpool = MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.rgbresnet1 = ResNetLayer(in_channels=64, out_channels=64, blocks=blocks[0], dilation=1, dilate=dilation[0])
+        rgbdilation     = self.rgbresnet1.dilation
         
-        self.depthmaxpool = MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.depthresnet1 = ResNetLayer(in_channels=64, out_channels=64, blocks=blocks[0], dilation=1, dilate=dilation[0])
-        
-        self.fusion2 = RGBDFusion(in_channels=256)
-        
-        rgbdilation   = self.rgbresnet1.dilation
-        depthdilation = self.depthresnet1.dilation
+        if fusion_type != 'early':
+            self.depthmaxpool = MaxPool2d(kernel_size=3, stride=2, padding=1)
+            self.depthresnet1 = ResNetLayer(in_channels=64, out_channels=64, blocks=blocks[0], dilation=1, dilate=dilation[0])
+            depthdilation     = self.depthresnet1.dilation
+
+        if fusion_type == 'all':
+            self.fusion2 = RGBDFusion(in_channels=256)
         
         # STAGE 2
-        self.rgbresnet2   = ResNetLayer(in_channels=256, out_channels=128, blocks=blocks[1], dilation=rgbdilation, stride=2, 
-                                        dilate=dilation[1], replace_stride_with_dilation=replace_stride_with_dilation[0])
-        self.depthresnet2 = ResNetLayer(in_channels=256, out_channels=128, blocks=blocks[1],dilation=depthdilation, stride=2, 
-                                        dilate=dilation[1], replace_stride_with_dilation=replace_stride_with_dilation[0])
-        self.fusion3      = RGBDFusion(in_channels=512)
+        self.rgbresnet2 = ResNetLayer(in_channels=256, out_channels=128, blocks=blocks[1], dilation=rgbdilation, stride=2, 
+                                      dilate=dilation[1], replace_stride_with_dilation=replace_stride_with_dilation[0])
+        rgbdilation     = self.rgbresnet2.dilation
         
-        rgbdilation   = self.rgbresnet2.dilation
-        depthdilation = self.depthresnet2.dilation
+
+        if fusion_type != 'early':
+            self.depthresnet2 = ResNetLayer(in_channels=256, out_channels=128, blocks=blocks[1], 
+                                            dilation=depthdilation, stride=2, dilate=dilation[1], 
+                                            replace_stride_with_dilation=replace_stride_with_dilation[0])
+            depthdilation = self.depthresnet2.dilation
         
-        # STAGE 3
-        self.rgbresnet3   = ResNetLayer(in_channels=512, out_channels=256, blocks=blocks[2], 
-                                                       dilation=rgbdilation, stride=2, dilate=dilation[2],
-                                                       replace_stride_with_dilation=replace_stride_with_dilation[1])
-        self.depthresnet3 = ResNetLayer(in_channels=512, out_channels=256, blocks=blocks[2], 
-                                                       dilation=depthdilation, stride=2, dilate=dilation[2],
-                                                       replace_stride_with_dilation=replace_stride_with_dilation[1])
-        self.fusion4      = RGBDFusion(in_channels=1024)
-        
-        rgbdilation   = self.rgbresnet3.dilation
-        depthdilation = self.depthresnet3.dilation
+        if fusion_type == 'all':
+            self.fusion3 = RGBDFusion(in_channels=512)
         
         # STAGE 3
-        self.rgbresnet4   = ResNetLayer(in_channels=1024, out_channels=512, blocks=blocks[3], dilation=rgbdilation, stride=2, 
-                                        dilate=dilation[3], replace_stride_with_dilation=replace_stride_with_dilation[2])
-        self.depthresnet4 = ResNetLayer(in_channels=1024, out_channels=512, blocks=blocks[3], dilation=depthdilation, stride=2, 
-                                        dilate=dilation[3], replace_stride_with_dilation=replace_stride_with_dilation[2])
-        self.fusion5      = RGBDFusion(in_channels=2048)
+        self.rgbresnet3 = ResNetLayer(in_channels=512, out_channels=256, blocks=blocks[2], 
+                                      dilation=rgbdilation, stride=2, dilate=dilation[2],
+                                      replace_stride_with_dilation=replace_stride_with_dilation[1])
+        rgbdilation     = self.rgbresnet3.dilation
+
+        if fusion_type != 'early':
+            self.depthresnet3 = ResNetLayer(in_channels=512, out_channels=256, blocks=blocks[2], 
+                                            dilation=depthdilation, stride=2, dilate=dilation[2],
+                                            replace_stride_with_dilation=replace_stride_with_dilation[1])
+            depthdilation     = self.depthresnet3.dilation
+        
+        if fusion_type == 'all':
+            self.fusion4 = RGBDFusion(in_channels=1024)
+        
+        # STAGE 3
+        self.rgbresnet4 = ResNetLayer(in_channels=1024, out_channels=512, blocks=blocks[3], dilation=rgbdilation, stride=2, 
+                                      dilate=dilation[3], replace_stride_with_dilation=replace_stride_with_dilation[2])
+        
+        if fusion_type != 'early':
+            self.depthresnet4 = ResNetLayer(in_channels=1024, out_channels=512, blocks=blocks[3], 
+                                            dilation=depthdilation, stride=2, dilate=dilation[3], 
+                                            replace_stride_with_dilation=replace_stride_with_dilation[2])
+            self.fusion5      = RGBDFusion(in_channels=2048)
         
         # WEIGHT INIT
         for module in self.modules():
@@ -226,36 +243,51 @@ class Encoder(Module):
         rgb_out = self.rgbconv(rgb)
         rgb_out = self.rgbnorm(rgb_out)
         rgb_out = self.rgbrelu(rgb_out)
-        
+
         depth_out = self.depthconv(depth)
         depth_out = self.depthnorm(depth_out)
         depth_out = self.depthrelu(depth_out)
         
-        rgb_out = self.fusion1(rgb_out, depth_out)
+        if self.fusion_type not in ['late', 'aspp']:
+            rgb_out = self.fusion1(rgb_out, depth_out)
         
         # STAGE 1
         rgb_out = self.rgbmaxpool(rgb_out)
         rgb_out = self.rgbresnet1(rgb_out)
         
-        depth_out = self.depthmaxpool(depth_out)
-        depth_out = self.depthresnet1(depth_out)
+        if self.fusion_type != 'early':
+            depth_out = self.depthmaxpool(depth_out)
+            depth_out = self.depthresnet1(depth_out)
         
-        rgb_out = self.fusion2(rgb_out, depth_out)
+        if self.fusion_type == 'all':
+            rgb_out = self.fusion2(rgb_out, depth_out)
         
         # STAGE 2
-        rgb_out   = self.rgbresnet2(rgb_out)
-        depth_out = self.depthresnet2(depth_out)
-        rgb_out   = self.fusion3(rgb_out, depth_out)
+        rgb_out = self.rgbresnet2(rgb_out)
+
+        if self.fusion_type != 'early':
+            depth_out = self.depthresnet2(depth_out)
+
+        if self.fusion_type == 'all':
+            rgb_out = self.fusion3(rgb_out, depth_out)
         
         # STAGE 3
-        rgb_out   = self.rgbresnet3(rgb_out)
-        depth_out = self.depthresnet3(depth_out)
-        rgb_out   = self.fusion4(rgb_out, depth_out)
+        rgb_out = self.rgbresnet3(rgb_out)
+
+        if self.fusion_type != 'early':
+            depth_out = self.depthresnet3(depth_out)
+
+        if self.fusion_type == 'all':
+            rgb_out = self.fusion4(rgb_out, depth_out)
         
         # STAGE 4
-        rgb_out   = self.rgbresnet4(rgb_out)
-        depth_out = self.depthresnet4(depth_out)
-        rgb_out   = self.fusion5(rgb_out, depth_out)
+        rgb_out = self.rgbresnet4(rgb_out)
+
+        if self.fusion_type != 'early':
+            depth_out = self.depthresnet4(depth_out)
+        
+        if self.fusion_type not in ['early', 'aspp']:
+            rgb_out = self.fusion5(rgb_out, depth_out)
         
         return rgb_out, depth_out
 
@@ -280,13 +312,15 @@ def name_to_res(layer_name):
     
     return layer_name
 
-def load_encoder(backbone_name='resnet50', pretrained=False, replace_stride_with_dilation=None):
+def load_encoder(backbone_name='resnet50', pretrained=False, fusion_type='all', 
+                 replace_stride_with_dilation=None):
     if backbone_name == 'resnet50':
         blocks = [3, 4, 6, 3]
     elif backbone_name == 'resnet101':
         blocks = [3, 4, 23, 3]
 
-    encoder = Encoder(blocks=blocks, replace_stride_with_dilation=replace_stride_with_dilation)
+    encoder = Encoder(blocks=blocks, fusion_type=fusion_type, 
+                      replace_stride_with_dilation=replace_stride_with_dilation)
 
     if pretrained:
         weights        = load_url(model_urls[backbone_name], model_dir='./')

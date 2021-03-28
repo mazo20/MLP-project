@@ -12,10 +12,8 @@ from stream_metrics import *
 from ptflops        import get_model_complexity_info
 
 model_map = {
-    'v3plus_resnet50':  network.deeplabv3plus_resnet50,
-    'v3plus_resnet101': network.deeplabv3plus_resnet101,
-    'v3_resnet50':      network.deeplabv3_resnet50,
-    'v3_resnet101':     network.deeplabv3_resnet101,
+    'v3_resnet50':  network.deeplabv3_resnet50,
+    'v3_resnet101': network.deeplabv3_resnet101,
 }
 
 def get_argparser():
@@ -23,31 +21,32 @@ def get_argparser():
 
     parser.add_argument("--random_seed",      type=int,   default=0)
     parser.add_argument("--results_root",     type=str,   default='./results')
-    parser.add_argument("--dataset",          type=str,   default='dataset-sample',                                                     choices=['dataset-sample',  'dataset-medium'])
-    parser.add_argument('--model',            type=str,   default='v3plus_resnet50', help="model name",                                 choices=['v3plus_resnet50', 'v3plus_resnet101', 'v3_resnet50', 'v3_resnet101'])
-    parser.add_argument("--data_root",        type=str,   default='./datasets',      help="path to Dataset")
-    parser.add_argument("--gpu_id",           type=str,   default='0',               help="GPU ID")
-    parser.add_argument("--save_val_results",             default=False,             help="save segmentation results to \"./results\"", action='store_true')
-    parser.add_argument("--mode",                         default='train',                                                              choices=['train', 'validate'])
-    parser.add_argument("--depth_mode",       type=str,   default='none',  choices=['aspp', 'none', 'resnet', 'input', 'dconv'])
-    parser.add_argument("--pretrained",       type=str,   default='true',  choices=['false', 'true'])
-    parser.add_argument("--nesterov",         type=str,   default='false', choices=['false', 'true'])
-    parser.add_argument("--first_aware",      type=str,   default='false', choices=['false', 'true'])
-    parser.add_argument("--all_bottleneck",   type=str,   default='false', choices=['false', 'true'])
-    
-    parser.add_argument("--ckpt",             type=str,   default=None,              help="restore from checkpoint")
-    parser.add_argument("--batch_size",       type=int,   default=8,                 help='batch size (default: 16)')
-    parser.add_argument("--val_batch_size",   type=int,   default=8,                 help='batch size for validation (default: 4)')
-    parser.add_argument('--crop_size',        type=int,   default=300,               help="size of the crop size  during transform")
-    parser.add_argument('--num_classes',      type=int,   default=7,                 help="number of the classes")
-    parser.add_argument('--output_stride',    type=int,   default=16,                help="output stride of the image, default: 16")
-    parser.add_argument("--weight_decay",     type=float, default=1e-4,              help='weight decay (default: 1e-4)')
-    parser.add_argument("--total_epochs",     type=int,   default=30,                help="Number of epochs per training")
-    parser.add_argument("--lr",               type=float, default=0.01,              help="learning rate (default: 0.01)")
-    parser.add_argument("--min_scaling",      type=float, default=1.0)
-    parser.add_argument("--max_scaling",      type=float, default=1.0)
-    parser.add_argument("--vertical_flip",    type=str,   default='true', choices=['false', 'true']),
-    parser.add_argument("--horizontal_flip",  type=str,   default='true', choices=['false', 'true'])
+    parser.add_argument("--dataset",          type=str,   default='dataset-sample', choices=['dataset-sample',  'dataset-medium'])
+    parser.add_argument('--model',            type=str,   default='v3_resnet50',    choices=['v3_resnet50', 'v3_resnet101'])
+    parser.add_argument("--data_root",        type=str,   default='./datasets',     help="path to Dataset")
+    parser.add_argument("--gpu_id",           type=str,   default='0',              help="GPU ID")
+    parser.add_argument("--save_val_results",             default=False,            help="save segmentation results to \"./results\"", action='store_true')
+    parser.add_argument("--mode",                         default='train',          choices=['train', 'validate'])
+    parser.add_argument("--depth_mode",       type=str,   default='none',           choices=['none', 'input', 'dconv', 'esanet'])
+    parser.add_argument("--pretrained",       type=str,   default='true',           choices=['false', 'true'])
+    parser.add_argument("--first_aware",      type=str,   default='false',          choices=['false', 'true'])
+    parser.add_argument("--all_bottleneck",   type=str,   default='false',          choices=['false', 'true'])
+    parser.add_argument("--fusion_type",      type=str,   default='all',            choices=['early', 'all', 'late', 'aspp'])
+
+    parser.add_argument("--ckpt",             type=str,   default=None,             help="restore from checkpoint")
+    parser.add_argument("--batch_size",       type=int,   default=8,                help='batch size (default: 16)')
+    parser.add_argument("--val_batch_size",   type=int,   default=8,                help='batch size for validation (default: 4)')
+    parser.add_argument('--crop_size',        type=int,   default=300,              help="size of the crop size  during transform")
+    parser.add_argument('--num_classes',      type=int,   default=7,                help="number of the classes")
+    parser.add_argument('--output_stride',    type=int,   default=16,               help="output stride of the image, default: 16")
+    parser.add_argument("--weight_decay",     type=float, default=1e-4,             help='weight decay (default: 1e-4)')
+    parser.add_argument("--total_epochs",     type=int,   default=30,               help="Number of epochs per training")
+    parser.add_argument("--lr",               type=float, default=0.01,             help="learning rate (default: 0.01)")
+    parser.add_argument("--min_scaling",      type=float, default=0.5)
+    parser.add_argument("--max_scaling",      type=float, default=2.25)
+    parser.add_argument("--vertical_flip",    type=str,   default='true',           choices=['false', 'true']),
+    parser.add_argument("--horizontal_flip",  type=str,   default='true',           choices=['false', 'true'])
+
     
     args = parser.parse_args()
     return args
@@ -94,7 +93,8 @@ def main():
                                   depth_mode=args.depth_mode, 
                                   pretrained_backbone=args.pretrained=='true', 
                                   first_aware=args.first_aware=='true',
-                                  all_bottlenenck=args.all_bottleneck=='true')
+                                  all_bottlenenck=args.all_bottleneck=='true',
+                                  fusion_type=args.fusion_type)
     
     macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
                                            print_per_layer_stat=True, verbose=True)
@@ -102,7 +102,7 @@ def main():
     optimizer = torch.optim.SGD(params=[
         {'params': model.backbone.parameters(),   'lr': args.lr},
         {'params': model.classifier.parameters(), 'lr': args.lr},
-    ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay, nesterov=args.nesterov=='true')
+    ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
     scheduler = PolyLR(optimizer, args.total_epochs * len(val_loader), power=0.9)
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, reduction='mean')
     
@@ -141,7 +141,7 @@ def main():
             labels = labels.to(device, dtype=torch.long)
             
             outputs = model(images)
-            loss       = criterion(outputs, labels)
+            loss    = criterion(outputs, labels)
             
             preds   = outputs.detach().max(dim=1)[1].cpu().numpy()
             targets = labels.cpu().numpy()
@@ -168,8 +168,8 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader       = data.DataLoader(train_dst,   batch_size=args.batch_size,     shuffle=True, num_workers=0)
-    val_loader         = data.DataLoader(val_dst, batch_size=args.val_batch_size, shuffle=True, num_workers=0)
+    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=0)
+    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=0)
 
     '''
     Use to print normalisation values (mean, std) for the given dataset

@@ -58,10 +58,10 @@ class DeepLabHeadV3Plus(nn.Module):
                 nn.init.constant_(m.bias, 0)
 
 class DeepLabHead(nn.Module):
-    def __init__(self, in_channels, num_classes, aspp_dilate=[12, 24, 36], depth_mode='none'):
+    def __init__(self, in_channels, num_classes, aspp_dilate=[12, 24, 36], fusion_type='all'):
         super(DeepLabHead, self).__init__()
         
-        self.aspp       = ASPP(in_channels, aspp_dilate, depth_mode)
+        self.aspp       = ASPP(in_channels, aspp_dilate, fusion_type)
         self.classifier = nn.Sequential(
             nn.Conv2d(256, 256, 3, padding=1, bias=False),
             nn.BatchNorm2d(256),
@@ -133,12 +133,12 @@ class ASPPPooling(nn.Sequential):
         return F.interpolate(x, size=size, mode='bilinear', align_corners=False)
 
 class ASPP(nn.Module):
-    def __init__(self, in_channels, atrous_rates, depth_mode):
+    def __init__(self, in_channels, atrous_rates, fusion_type):
         super(ASPP, self).__init__()
 
-        self.depth_mode = depth_mode
-        out_channels    = 256
-        modules         = []
+        self.fusion_type = fusion_type
+        out_channels     = 256
+        modules          = []
 
         modules.append(nn.Sequential(
             nn.Conv2d(in_channels, out_channels, 1, bias=False),
@@ -151,7 +151,30 @@ class ASPP(nn.Module):
         modules.append(ASPPConv(in_channels, out_channels, rate2))
         modules.append(ASPPConv(in_channels, out_channels, rate3))
         modules.append(ASPPPooling(in_channels, out_channels))
+
+        self.convs  = nn.ModuleList(modules)
+        in_channels = 5 * out_channels
         
+        '''
+        Added to support depth
+        '''
+        if fusion_type == 'aspp':
+            depth_modules = []
+
+            depth_modules.append(nn.Sequential(
+                nn.Conv2d(in_channels, out_channels, 1, bias=False),
+                nn.BatchNorm2d(out_channels),
+                nn.ReLU(inplace=True)))
+
+            rate1, rate2, rate3 = tuple(atrous_rates)
+
+            depth_modules.append(ASPPConv(in_channels, out_channels, rate1))
+            depth_modules.append(ASPPConv(in_channels, out_channels, rate2))
+            depth_modules.append(ASPPConv(in_channels, out_channels, rate3))
+            depth_modules.append(ASPPPooling(in_channels, out_channels))
+
+            self.depth_convs  = nn.ModuleList(modules)
+            in_channels      += 5 * out_channels
         
         # #ASPP depth code
         # self.depth_conv = nn.Sequential(
@@ -166,19 +189,6 @@ class ASPP(nn.Module):
         #     nn.ReLU(inplace=True),
         # )
         # #END
-        
-        self.convs = nn.ModuleList(modules)
-        self.depth_pooling = ASPPPooling(in_channels, out_channels)
-        
-        '''
-        Added to support depth
-        '''
-        in_channels = 5 * out_channels
-
-        if self.depth_mode == 'aspp':
-            in_channels += out_channels
-        else:
-            self.depth_pooling = None
 
         self.project = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, 1, bias=False),
@@ -193,9 +203,9 @@ class ASPP(nn.Module):
             res.append(conv(x))
             
         #Add depth in ASPP
-        if self.depth_mode == 'aspp':
-            res.append(self.depth_pooling(depth))
-
+        if self.fusion_type == 'aspp':
+            for conv in self.depth_convs:
+                res.append(conv(depth))
 
         res = torch.cat(res, dim=1)
 

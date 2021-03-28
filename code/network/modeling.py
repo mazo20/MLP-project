@@ -5,7 +5,7 @@ from .              import resnet_depth_conv
 from .IATPTPSAATPS  import load_encoder
 
 def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_backbone, depth_mode,
-                 first_aware, all_bottlenenck):
+                 first_aware, all_bottlenenck, fusion_type):
     if output_stride == 8:
         replace_stride_with_dilation = [False, True, True]
         aspp_dilate                  = [12, 24, 36]
@@ -16,17 +16,17 @@ def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_bac
         replace_stride_with_dilation = [False, False, False]
         aspp_dilate                  = [3, 6, 9]
 
-    if depth_mode == 'dconv':
+    if depth_mode in ['none', 'input', 'dconv']:
         backbone = resnet_depth_conv.__dict__[backbone_name](
             pretrained                   = pretrained_backbone,
             replace_stride_with_dilation = replace_stride_with_dilation,
             depth_mode                   = depth_mode,
             first_aware                  = first_aware,
             all_bottlenenck              = all_bottlenenck)
-    else:
+    elif depth_mode == 'esanet':
         assert backbone_name in ['resnet50', 'resnet101'], 'backbone_name must be resnet50 or resnet101'
 
-        backbone = load_encoder(pretrained=pretrained_backbone, 
+        backbone = load_encoder(pretrained=pretrained_backbone, fusion_type=fusion_type, 
                                 replace_stride_with_dilation=replace_stride_with_dilation)
     
     inplanes         = 2048
@@ -36,7 +36,7 @@ def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_bac
 
     # classifier = DeepLabHeadV3Plus(inplanes, low_level_planes, num_classes, aspp_dilate, depth_mode)
 
-    classifier = DeepLabHead(inplanes , num_classes, aspp_dilate, depth_mode)
+    classifier = DeepLabHead(inplanes , num_classes, aspp_dilate, fusion_type=fusion_type)
     
     # backbone = IntermediateLayerGetter(backbone, return_layers=return_layers)
     
@@ -45,10 +45,11 @@ def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_bac
     return model
 
 def _load_model(arch_type, backbone, num_classes, output_stride, pretrained_backbone, depth_mode,
-                first_aware, all_bottlenenck):
+                first_aware, all_bottlenenck, fusion_type):
     model = _segm_resnet(arch_type, backbone, num_classes, output_stride=output_stride, 
                          pretrained_backbone=pretrained_backbone, depth_mode=depth_mode, 
-                         first_aware=first_aware, all_bottlenenck=all_bottlenenck)
+                         first_aware=first_aware, all_bottlenenck=all_bottlenenck, 
+                         fusion_type=fusion_type)
     return model
 
 # Deeplab v3+
@@ -81,7 +82,7 @@ def deeplabv3plus_resnet101(num_classes=7, output_stride=8, pretrained_backbone=
                        first_aware=first_aware, all_bottlenenck=all_bottlenenck)
 
 def deeplabv3_resnet50(num_classes=7, output_stride=8, pretrained_backbone=True, depth_mode='none',
-                       first_aware=False, all_bottlenenck=False):
+                       first_aware=False, all_bottlenenck=False, fusion_type='all'):
     """Constructs a DeepLabV3 model with a ResNet-50 backbone.
 
     Args:
@@ -91,10 +92,11 @@ def deeplabv3_resnet50(num_classes=7, output_stride=8, pretrained_backbone=True,
     """
     return _load_model('deeplabv3', 'resnet50', num_classes, output_stride=output_stride, 
                         pretrained_backbone=pretrained_backbone, depth_mode=depth_mode,
-                       first_aware=first_aware, all_bottlenenck=all_bottlenenck)
+                       first_aware=first_aware, all_bottlenenck=all_bottlenenck, 
+                       fusion_type=fusion_type)
 
 def deeplabv3_resnet101(num_classes=7, output_stride=8, pretrained_backbone=True, depth_mode='none', 
-                        first_aware=False, all_bottlenenck=False):
+                        first_aware=False, all_bottlenenck=False, fusion_type='all'):
     """Constructs a DeepLabV3 model with a ResNet-101 backbone.
 
     Args:
@@ -104,4 +106,5 @@ def deeplabv3_resnet101(num_classes=7, output_stride=8, pretrained_backbone=True
     """
     return _load_model('deeplabv3', 'resnet101', num_classes, output_stride=output_stride, 
                        pretrained_backbone=pretrained_backbone, depth_mode=depth_mode, 
-                       first_aware=first_aware, all_bottlenenck=all_bottlenenck)
+                       first_aware=first_aware, all_bottlenenck=all_bottlenenck, 
+                       fusion_type=fusion_type)

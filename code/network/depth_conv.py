@@ -24,7 +24,7 @@ class DepthConv2d(nn.Module):
     # - padding is applied equally on all 4 sides of image
     # - alpha is the main hyper-parameter of this layer, check source for its meaning.
     def __init__(self, in_channels, out_channels, kernel_size, alpha=8.3, stride=1, padding=0, dilation=1, bias=True):
-        super().__init__()
+        super(DepthConv2d, self).__init__()
         
         self.in_channels  = in_channels
         self.out_channels = out_channels

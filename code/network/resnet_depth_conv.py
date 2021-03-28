@@ -55,17 +55,18 @@ class Bottleneck(nn.Module):
         self.stride     = stride
 
     def forward(self, x, depth):
-        identity = x
+        identity  = x
+        depth_out = depth
 
         out = self.conv1(x)
         out = self.bn1(out)
         out = self.relu(out)
 
-        if depth.shape[-1] != out.shape[-1]:
-            depth = nn.functional.avg_pool2d(depth, kernel_size=3, stride=2, padding=1)
+        if self.depth_aware and depth.shape[-1] != out.shape[-1]:
+            depth_out = nn.functional.avg_pool2d(depth_out, kernel_size=3, stride=2, padding=1)
 
         if self.depth_aware:
-            out = self.conv2(out, depth)
+            out = self.conv2(out, depth_out)
         else:
             out = self.conv2(out)
 
@@ -81,7 +82,7 @@ class Bottleneck(nn.Module):
         out += identity
         out  = self.relu(out)
 
-        return out, depth
+        return out, depth_out
 
 class ResNet(nn.Module):
 
@@ -125,19 +126,22 @@ class ResNet(nn.Module):
         else:
             convolution = nn.Conv2d
 
-        self.conv1      = convolution(self.input_channels, self.inplanes, 
-                                      kernel_size=7, stride=2, padding=3, bias=False)
-        self.bn1        = norm_layer(self.inplanes)
-        self.relu       = nn.ReLU(inplace=True)
-        self.depthpool1 = nn.AvgPool2d(kernel_size=3, stride=2, padding=1)
-        self.maxpool    = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.depthpool2 = nn.AvgPool2d(kernel_size=3, stride=2, padding=1)
-        self.layer1     = self._make_layer(block,  64, layers[0])
-        self.layer2     = self._make_layer(block, 128, layers[1], stride=2, dilate=replace_stride_with_dilation[0])
-        self.layer3     = self._make_layer(block, 256, layers[2], stride=2, dilate=replace_stride_with_dilation[1])
-        self.layer4     = self._make_layer(block, 512, layers[3], stride=2, dilate=replace_stride_with_dilation[2])
-        self.avgpool    = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc         = nn.Linear(512 * block.expansion, num_classes)
+        self.conv1   = convolution(self.input_channels, self.inplanes, 
+                                   kernel_size=7, stride=2, padding=3, bias=False)
+        self.bn1     = norm_layer(self.inplanes)
+        self.relu    = nn.ReLU(inplace=True)
+        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+
+        if self.depth_mode == 'dconv':
+            self.depthpool1 = nn.AvgPool2d(kernel_size=3, stride=2, padding=1)
+            self.depthpool2 = nn.AvgPool2d(kernel_size=3, stride=2, padding=1)
+
+        self.layer1  = self._make_layer(block,  64, layers[0])
+        self.layer2  = self._make_layer(block, 128, layers[1], stride=2, dilate=replace_stride_with_dilation[0])
+        self.layer3  = self._make_layer(block, 256, layers[2], stride=2, dilate=replace_stride_with_dilation[1])
+        self.layer4  = self._make_layer(block, 512, layers[3], stride=2, dilate=replace_stride_with_dilation[2])
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.fc      = nn.Linear(512 * block.expansion, num_classes)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -186,6 +190,8 @@ class ResNet(nn.Module):
         return nn.ModuleList(layers)
 
     def forward(self, x, depth):
+        depth_out = depth
+
         if self.depth_mode == 'input':
             x = torch.cat([x, depth], dim=1)
 
@@ -194,23 +200,31 @@ class ResNet(nn.Module):
         else:
             x  = self.conv1(x)
 
-        x     = self.bn1(x)
-        x     = self.relu(x)
-        depth = self.depthpool1(depth)
-        x     = self.maxpool(x)
-        depth = self.depthpool2(depth)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+
+        if self.depth_mode == 'dconv':
+            depth_out = self.depthpool1(depth)
+            depth_out = self.depthpool2(depth_out)
 
         for layer_group in [self.layer1, self.layer2, self.layer3, self.layer4]:
             for layer in layer_group:
-                x, depth = layer(x, depth)
+                x, depth_out = layer(x, depth_out)
 
-        return x
+        return x, depth_out
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):
     model = ResNet(block, layers, **kwargs)
 
     if pretrained:
         state_dict = load_state_dict_from_url(model_urls[arch], progress=progress)
+
+        if kwargs['depth_mode'] == 'input':
+            pretrained_depth = torch.sum(state_dict['conv1.weight'], axis=1, keepdim=True)
+            pretrained_4chan = torch.cat([state_dict['conv1.weight'], pretrained_depth], dim=1)
+
+            state_dict['conv1.weight'] = pretrained_4chan
 
         model.load_state_dict(state_dict)
 
