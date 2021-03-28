@@ -184,7 +184,6 @@ if __name__ == '__main__':
     
     torch.manual_seed(args.random_seed)
     np.random.seed(args.random_seed)
-    random.seed(args.random_seed)
     
     print("Train set: %d, Val set: %d" % (len(train_dst), len(val_dst)))
     
