@@ -20,6 +20,7 @@ def get_argparser():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--random_seed",      type=int,   default=0)
+    parser.add_argument("--index",            type=int,   default=0)
     parser.add_argument("--results_root",     type=str,   default='./results')
     parser.add_argument("--dataset",          type=str,   default='dataset-sample', choices=['dataset-sample',  'dataset-medium'])
     parser.add_argument('--model',            type=str,   default='v3_resnet50',    choices=['v3_resnet50', 'v3_resnet101'])
@@ -180,6 +181,10 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_id
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print("Device: %s" % device)
+    
+    torch.manual_seed(opts.random_seed)
+    np.random.seed(opts.random_seed)
+    random.seed(opts.random_seed)
     
     print("Train set: %d, Val set: %d" % (len(train_dst), len(val_dst)))
     

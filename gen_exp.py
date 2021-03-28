@@ -17,6 +17,8 @@ config = {
     '--pretrained':   ['true', 'false'],
     '--depth_mode':   ['none', 'input'],
     '--model':        ['v3_resnet50'],
+    '--lr':           ['0.002'],
+    '--random_seed':  ['0', '1'],
     '--results_root': ['results/' + sys.argv[1]],
 
 }
@@ -36,7 +38,7 @@ for i, dictionary in enumerate(permutations_dicts):
     call = base_call
     for key, value in dictionary.items():
         call += " " + key + " " + value
-    call += " " + "--random_seed" + " " + str(i)
+    call += " " + "--index" + " " + str(i)
     print(call, file=output_file)
     
 output_file.close()

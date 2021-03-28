@@ -80,7 +80,7 @@ def get_custom_cmap():
     return custom_cmap
     
 def create_result(opts):
-    path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.random_seed}.csv'
+    path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.index}.csv'
     
     if not os.path.exists(path):
         with open(path, 'w', newline='') as csvfile:
@@ -90,7 +90,7 @@ def create_result(opts):
             spamwriter.writerow(['Overall_Acc', 'Mean_Acc', 'FreqW_Acc', 'Mean_IoU'])
     
 def save_result(score, opts):
-    path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.random_seed}.csv'
+    path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.index}.csv'
     with open(path, 'a', newline='') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter=' ',)
         spamwriter.writerow([score['Overall Acc'], score['Mean Acc'], score['FreqW Acc'], score['Mean IoU']])
@@ -125,7 +125,7 @@ def save_ckpt(path, opts, model, optimizer, scheduler, best_score, epoch):
         if not os.path.exists(root):
             os.mkdir(root)
         
-        path = root + '/%s_%s_os%d_%d.pth' % (opts.model, opts.dataset, opts.output_stride, opts.random_seed)
+        path = root + '/%s_%s_os%d_%d.pth' % (opts.model, opts.dataset, opts.output_stride, opts.index)
         
         torch.save({
             "epoch":           epoch,
