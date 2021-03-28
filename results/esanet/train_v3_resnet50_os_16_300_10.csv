@@ -1,0 +1,2 @@
+model=v3_resnet50 os=16 crop=300
+Overall_Acc Mean_Acc FreqW_Acc Mean_IoU
