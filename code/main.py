@@ -35,6 +35,7 @@ def get_argparser():
     parser.add_argument("--fusion_type",      type=str,   default='all',            choices=['early', 'all', 'late', 'aspp'])
 
     parser.add_argument("--ckpt",             type=str,   default=None,             help="restore from checkpoint")
+    parser.add_argument("--num_workers",      type=int,   default=8)
     parser.add_argument("--batch_size",       type=int,   default=8,                help='batch size (default: 16)')
     parser.add_argument("--val_batch_size",   type=int,   default=8,                help='batch size for validation (default: 4)')
     parser.add_argument('--crop_size',        type=int,   default=300,              help="size of the crop size  during transform")
@@ -52,9 +53,10 @@ def get_argparser():
     args = parser.parse_args()
     return args
 
-def validate(model):
+def validate(model, criterion):
     model.eval()
     metrics.reset()
+    
     
     if args.save_val_results:
         denorm = utils.Denormalize(mean=[0.5121, 0.5149, 0.4525],
@@ -62,6 +64,7 @@ def validate(model):
         img_id = 0  
 
     with torch.no_grad():
+        val_loss = 0
         for images, labels, eleva in tqdm(val_loader):
             images = torch.cat([images, eleva.unsqueeze(1)], dim=1)
             images = images.to(device, dtype=torch.float32)
@@ -71,6 +74,9 @@ def validate(model):
             preds   = outputs.detach().max(dim=1)[1].cpu().numpy()
             targets = labels.cpu().numpy()
             
+            loss    = criterion(outputs, labels)
+            val_loss += loss.item()
+            
             metrics.update(targets, preds)
             
             if args.save_val_results:
@@ -79,9 +85,10 @@ def validate(model):
                     img_id += 1 
                         
         score = metrics.get_results()
+        val_loss /= len(val_loader)
         
     model.train()
-    return score
+    return score, val_loss
 
 def main():
     best_score = 0.0
@@ -101,10 +108,10 @@ def main():
                                            print_per_layer_stat=True, verbose=True)
     
     optimizer = torch.optim.SGD(params=[
-        {'params': model.backbone.parameters(),   'lr': args.lr},
+        {'params': model.backbone.parameters(),   'lr': args.lr*0.1},
         {'params': model.classifier.parameters(), 'lr': args.lr},
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
-    scheduler = PolyLR(optimizer, args.total_epochs, power=0.9)
+    scheduler = PolyLR(optimizer, args.total_epochs * len(train_loader), power=0.9)
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, reduction='mean')
     
     if args.ckpt is not None and os.path.isfile(args.ckpt):
@@ -127,7 +134,7 @@ def main():
     
     if args.mode == 'validate':
         
-        score = validate(model)
+        score, val_loss = validate(model, criterion)
         print(metrics.to_str(score))
         return
     
@@ -136,6 +143,9 @@ def main():
         model.train()
         metrics.reset()
         pbar = tqdm(train_loader)
+        
+        train_loss = 0
+        
         for images, labels, eleva in pbar:
             images = torch.cat([images, eleva.unsqueeze(1)], dim=1)
             images = images.to(device, dtype=torch.float32)
@@ -143,6 +153,7 @@ def main():
             
             outputs = model(images)
             loss    = criterion(outputs, labels)
+            train_loss += loss.item()
             
             preds   = outputs.detach().max(dim=1)[1].cpu().numpy()
             targets = labels.cpu().numpy()
@@ -153,13 +164,15 @@ def main():
             
             optimizer.zero_grad()
             loss.backward()
+            
             optimizer.step()
+            scheduler.step()
+            
+        train_loss /= len(train_loader)
         
-        scheduler.step()
-        
-        score = validate(model)
+        score, val_loss = validate(model, criterion)
         print(metrics.to_str(score))
-        utils.save_result(score, args)
+        utils.save_result(score, args, train_loss, val_loss)
         
         if score['Mean IoU'] > best_score and device == 'cuda':  # save best model
             best_score = score['Mean IoU']
@@ -169,8 +182,8 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=8)
-    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=8)
+    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=args.num_workers)
+    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=args.num_workers)
 
     '''
     Use to print normalisation values (mean, std) for the given dataset
