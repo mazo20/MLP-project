@@ -87,13 +87,13 @@ def create_result(opts):
             spamwriter = csv.writer(csvfile, delimiter=' ',)
             spamwriter.writerow(['model='+opts.model, 'os='+str(opts.output_stride), 
                                 'crop='+str(opts.crop_size)])
-            spamwriter.writerow(['Overall_Acc', 'Mean_Acc', 'FreqW_Acc', 'Mean_IoU'])
+            spamwriter.writerow(['Train_loss', 'Val_loss', 'Overall_Acc', 'Mean_Acc', 'FreqW_Acc', 'Mean_IoU'])
     
-def save_result(score, opts):
+def save_result(score, opts, train_loss, val_loss):
     path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.index}.csv'
     with open(path, 'a', newline='') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter=' ',)
-        spamwriter.writerow([score['Overall Acc'], score['Mean Acc'], score['FreqW Acc'], score['Mean IoU']])
+        spamwriter.writerow([train_loss, val_loss, score['Overall Acc'], score['Mean Acc'], score['FreqW Acc'], score['Mean IoU']])
 
 def normalisatonValues(dataset):
     loader = data.DataLoader(dataset, batch_size=len(dataset), shuffle=True, num_workers=8)
