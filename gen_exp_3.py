@@ -18,8 +18,8 @@ config = {
     '--depth_mode':   ['esanet'],
     '--fusion_type':  ['early', 'all', 'late', 'aspp'],
     '--model':        ['v3_resnet50'],
-    '--lr':           ['0.002'],
-    '--random_seed':  ['0', '1'],
+    '--lr':           ['0.01'],
+    '--random_seed':  ['69'],
     '--results_root': ['results/' + sys.argv[1]],
 
 }

@@ -17,8 +17,8 @@ config = {
     '--pretrained':   ['true', 'false'],
     '--depth_mode':   ['none', 'input'],
     '--model':        ['v3_resnet50'],
-    '--lr':           ['0.002'],
-    '--random_seed':  ['0', '1'],
+    '--lr':           ['0.01'],
+    '--random_seed':  ['69'],
     '--results_root': ['results/' + sys.argv[1]],
 
 }
