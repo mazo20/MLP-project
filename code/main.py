@@ -104,7 +104,7 @@ def main():
         {'params': model.backbone.parameters(),   'lr': args.lr},
         {'params': model.classifier.parameters(), 'lr': args.lr},
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
-    scheduler = PolyLR(optimizer, args.total_epochs * len(val_loader), power=0.9)
+    scheduler = PolyLR(optimizer, args.total_epochs, power=0.9)
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, reduction='mean')
     
     if args.ckpt is not None and os.path.isfile(args.ckpt):
@@ -169,8 +169,8 @@ if __name__ == '__main__':
     args = get_argparser()
     
     train_dst, val_dst = get_dataset(args)
-    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=0)
-    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=0)
+    train_loader       = data.DataLoader(train_dst, batch_size=args.batch_size,     shuffle=True, num_workers=8)
+    val_loader         = data.DataLoader(val_dst,   batch_size=args.val_batch_size, shuffle=True, num_workers=8)
 
     '''
     Use to print normalisation values (mean, std) for the given dataset
