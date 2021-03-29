@@ -17,6 +17,7 @@ config = {
     '--pretrained':     ['true', 'false'],
     '--depth_mode':     ['dconv'],
     '--first_aware':    ['true', 'false'],
+    '--all_bottleneck': ['true', 'false'],
     '--model':          ['v3_resnet50'],
     '--lr':             ['0.01'],
     '--random_seed':    ['69'],
