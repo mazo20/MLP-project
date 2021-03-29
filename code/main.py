@@ -104,7 +104,7 @@ def main():
         {'params': model.backbone.parameters(),   'lr': args.lr},
         {'params': model.classifier.parameters(), 'lr': args.lr},
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
-    scheduler = PolyLR(optimizer, args.total_epochs, power=0.9)
+    scheduler = PolyLR(optimizer, np.ceil(args.total_epochs * len(train_loader) / 10), power=0.9)
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, reduction='mean')
     
     if args.ckpt is not None and os.path.isfile(args.ckpt):
@@ -131,6 +131,8 @@ def main():
         print(metrics.to_str(score))
         return
     
+    iter_counter = 0
+
     for epoch in tqdm(range(epoch, args.total_epochs)):
         
         model.train()
@@ -154,8 +156,11 @@ def main():
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-        
-        scheduler.step()
+
+            iter_counter += 1
+
+            if iter_counter % 10 == 0:
+                scheduler.step()
         
         score = validate(model)
         print(metrics.to_str(score))
