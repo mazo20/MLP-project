@@ -106,9 +106,14 @@ def main():
     
     macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
                                            print_per_layer_stat=True, verbose=True)
+
+    if args.pretrained:
+        backbone_multiplayer = 0.1
+    else:
+        backbone_multiplayer = 1
     
     optimizer = torch.optim.SGD(params=[
-        {'params': model.backbone.parameters(),   'lr': args.lr * 0.1},
+        {'params': model.backbone.parameters(),   'lr': args.lr * backbone_multiplayer},
         {'params': model.classifier.parameters(), 'lr': args.lr},
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
     scheduler = PolyLR(optimizer, np.ceil(args.total_epochs * len(train_loader) / 10), power=0.9)
