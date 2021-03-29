@@ -180,7 +180,9 @@ def main():
         
         train_loss /= len(train_loader)
         
-        score, val_loss = validate(model, criterion)
+        score, val_loss          = validate(model, criterion)
+        score['Validation Loss'] = val_loss
+        
         print(metrics.to_str(score))
         utils.save_result(score, args, train_loss, val_loss)
         
