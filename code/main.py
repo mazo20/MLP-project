@@ -108,7 +108,7 @@ def main():
                                            print_per_layer_stat=True, verbose=True)
     
     optimizer = torch.optim.SGD(params=[
-        {'params': model.backbone.parameters(),   'lr': args.lr*0.1},
+        {'params': model.backbone.parameters(),   'lr': args.lr * 0.1},
         {'params': model.classifier.parameters(), 'lr': args.lr},
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
     scheduler = PolyLR(optimizer, np.ceil(args.total_epochs * len(train_loader) / 10), power=0.9)
@@ -173,8 +173,6 @@ def main():
             if iter_counter % 10 == 0:
                 scheduler.step()
         
-        score = validate(model)
-            
         train_loss /= len(train_loader)
         
         score, val_loss = validate(model, criterion)
