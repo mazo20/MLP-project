@@ -18,11 +18,11 @@ class DepthConv2d(nn.Module):
     
     # Current limitations:
     # - Everything is square (input, kernels, padding, etc...)
-    # - kernels must be square shaped, so kernel_size must be int
+    # - kernels must be square-shaped, so kernel_size must be int
     # - please use odd kernel_size (makes more sense as even kernel_size does not have well 
     #   defined center pixel)
-    # - padding is applied equally on all 4 sides of image
-    # - alpha is the main hyper-parameter of this layer, check source for its meaning.
+    # - padding is applied equally on all 4 sides of the image
+    # - alpha is the main hyper-parameter of this layer, check the source for its meaning.
     def __init__(self, in_channels, out_channels, kernel_size, alpha=8.3, stride=1, padding=0, dilation=1, bias=True):
         super(DepthConv2d, self).__init__()
         
@@ -70,12 +70,12 @@ class DepthConv2d(nn.Module):
         im2col_input = unfold(image,        self.weight.shape[2:], self.dilation, self.padding, self.stride).transpose(1, 2)
         im2col_depth = unfold(im2col_depth, self.weight.shape[2:], self.dilation, self.padding, self.stride).transpose(1, 2)
         
-        # Compute pixel-wise similarity to central pixel
+        # Compute pixel-wise similarity to the central pixel
         centres    = im2col_depth[:, :, int(im2col_depth.shape[2] / 2)]
         centres    = centres.unsqueeze(-1).repeat(1, 1, im2col_depth.shape[2])
         similarity = torch.exp(torch.abs(im2col_depth - centres) * -self.alpha)
         
-        # Apply the convolution adjusted by depth simlarity
+        # Apply the convolution adjusted by depth similarity
         im2col_input = torch.multiply(im2col_input, similarity)
         im2col_out   = im2col_input.matmul(self.weight.view(self.weight.size(0), -1).t())
         
