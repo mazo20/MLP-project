@@ -2,5 +2,5 @@ __pycache__
 dataset-sample/
 dataset-medium/
 datasets/
-# results/
+results/
 *.pth
