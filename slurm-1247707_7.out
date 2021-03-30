@@ -1,912 +1,0 @@
-Job running on damnii12
-Job started: 28/03/2021 10:42:28
-Setting up bash enviroment
-Activating conda environment: mlp
-Moving input data to the compute node's scratch space: /disk/scratch
-sending incremental file list
-dataset-medium/elevation-chips/
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000001.tif
-         32,768   9%    0.00kB/s    0:00:00          360,546 100%    9.47MB/s    0:00:00 (xfr#1, ir-chk=8785/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000002.tif
-         32,768   9%  842.11kB/s    0:00:00          360,546 100%    5.55MB/s    0:00:00 (xfr#2, ir-chk=8784/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000003.tif
-         32,768   9%  470.59kB/s    0:00:00          360,546 100%    3.82MB/s    0:00:00 (xfr#3, ir-chk=8783/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000004.tif
-         32,768   9%  336.84kB/s    0:00:00          360,546 100%    2.84MB/s    0:00:00 (xfr#4, ir-chk=8782/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000005.tif
-         32,768   9%  251.97kB/s    0:00:01          360,546 100%    2.26MB/s    0:00:00 (xfr#5, ir-chk=8781/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000006.tif
-         32,768   9%  203.82kB/s    0:00:01          360,546 100%    1.90MB/s    0:00:00 (xfr#6, ir-chk=8780/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000007.tif
-         32,768   9%  171.12kB/s    0:00:01          360,546 100%    1.63MB/s    0:00:00 (xfr#7, ir-chk=8779/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000008.tif
-         32,768   9%  148.15kB/s    0:00:02          360,546 100%    1.42MB/s    0:00:00 (xfr#8, ir-chk=8778/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000009.tif
-         32,768   9%  129.03kB/s    0:00:02          360,546 100%    1.26MB/s    0:00:00 (xfr#9, ir-chk=8777/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000010.tif
-         32,768   9%  114.29kB/s    0:00:02          360,546 100%    1.13MB/s    0:00:00 (xfr#10, ir-chk=8776/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000011.tif
-         32,768   9%  102.89kB/s    0:00:03          360,546 100%    1.02MB/s    0:00:00 (xfr#11, ir-chk=8775/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000012.tif
-         32,768   9%   93.84kB/s    0:00:03          360,546 100%  956.78kB/s    0:00:00 (xfr#12, ir-chk=8774/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000013.tif
-         32,768   9%   85.79kB/s    0:00:03          360,546 100%  886.89kB/s    0:00:00 (xfr#13, ir-chk=8773/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000014.tif
-         32,768   9%   80.00kB/s    0:00:04          360,546 100%  828.46kB/s    0:00:00 (xfr#14, ir-chk=8772/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000015.tif
-         32,768   9%   74.42kB/s    0:00:04          360,546 100%  775.54kB/s    0:00:00 (xfr#15, ir-chk=8771/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000016.tif
-         32,768   9%   69.72kB/s    0:00:04          360,546 100%  724.48kB/s    0:00:00 (xfr#16, ir-chk=8770/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000017.tif
-         32,768   9%   65.31kB/s    0:00:05          360,546 100%  685.01kB/s    0:00:00 (xfr#17, ir-chk=8769/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000018.tif
-         32,768   9%   61.78kB/s    0:00:05          360,546 100%  647.23kB/s    0:00:00 (xfr#18, ir-chk=8768/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000019.tif
-         32,768   9%   58.29kB/s    0:00:05          360,546 100%  615.55kB/s    0:00:00 (xfr#19, ir-chk=8767/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000020.tif
-         32,768   9%   55.36kB/s    0:00:05          360,546 100%  581.98kB/s    0:00:00 (xfr#20, ir-chk=8766/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000021.tif
-         32,768   9%   52.46kB/s    0:00:06          360,546 100%  554.48kB/s    0:00:00 (xfr#21, ir-chk=8765/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000022.tif
-         32,768   9%   49.92kB/s    0:00:06          360,546 100%  530.26kB/s    0:00:00 (xfr#22, ir-chk=8764/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000023.tif
-         32,768   9%   47.76kB/s    0:00:06          360,546 100%  506.61kB/s    0:00:00 (xfr#23, ir-chk=8763/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000024.tif
-         32,768   9%   45.78kB/s    0:00:07          360,546 100%  485.65kB/s    0:00:00 (xfr#24, ir-chk=8762/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000025.tif
-         32,768   9%   43.84kB/s    0:00:07          360,546 100%  466.35kB/s    0:00:00 (xfr#25, ir-chk=8761/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000026.tif
-         32,768   9%   41.03kB/s    0:00:07          360,546 100%  434.69kB/s    0:00:00 (xfr#26, ir-chk=8760/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000027.tif
-         32,768   9%   38.05kB/s    0:00:08          360,546 100%  402.40kB/s    0:00:00 (xfr#27, ir-chk=8759/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000028.tif
-         32,768   9%   36.12kB/s    0:00:09          360,546 100%  384.80kB/s    0:00:00 (xfr#28, ir-chk=8758/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000029.tif
-         32,768   9%   34.41kB/s    0:00:09          360,546 100%  367.15kB/s    0:00:00 (xfr#29, ir-chk=8757/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000030.tif
-         32,768   9%   32.96kB/s    0:00:09          360,546 100%  352.45kB/s    0:00:00 (xfr#30, ir-chk=8756/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000031.tif
-         32,768   9%   30.89kB/s    0:00:10           65,536  18%   61.36kB/s    0:00:04          360,546 100%  327.84kB/s    0:00:01 (xfr#31, ir-chk=8755/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000032.tif
-         32,768   9%  888.89kB/s    0:00:00          360,546 100%    5.93MB/s    0:00:00 (xfr#32, ir-chk=8754/13844)
-dataset-medium/elevation-chips/b705d0cc9c_E5F5E0E316OPENPIPELINE-000033.tif
-         32,768   9%  333.33kB/s    0:00:00          360,546 100%    2.53MB/s    0:00:00 (xfr#33, ir-chk=8753/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000000.tif
-         32,768   9%  196.32kB/s    0:00:01          360,546 100%    1.70MB/s    0:00:00 (xfr#34, ir-chk=8752/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000001.tif
-         32,768   9%  139.74kB/s    0:00:02          360,546 100%    1.31MB/s    0:00:00 (xfr#35, ir-chk=8751/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000002.tif
-         32,768   9%  115.11kB/s    0:00:02          360,546 100%    1.13MB/s    0:00:00 (xfr#36, ir-chk=8750/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000003.tif
-         32,768   9%   95.81kB/s    0:00:03          360,546 100%  951.61kB/s    0:00:00 (xfr#37, ir-chk=8749/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000004.tif
-         32,768   9%   84.43kB/s    0:00:03          360,546 100%  867.23kB/s    0:00:00 (xfr#38, ir-chk=8748/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000005.tif
-         32,768   9%   76.92kB/s    0:00:04          360,546 100%  794.80kB/s    0:00:00 (xfr#39, ir-chk=8747/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000006.tif
-         32,768   9%   70.18kB/s    0:00:04          360,546 100%  730.49kB/s    0:00:00 (xfr#40, ir-chk=8746/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000007.tif
-         32,768   9%   62.26kB/s    0:00:05          360,546 100%  642.51kB/s    0:00:00 (xfr#41, ir-chk=8745/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000008.tif
-         32,768   9%   55.85kB/s    0:00:05          360,546 100%  585.85kB/s    0:00:00 (xfr#42, ir-chk=8744/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000009.tif
-         32,768   9%   52.46kB/s    0:00:06          360,546 100%  553.61kB/s    0:00:00 (xfr#43, ir-chk=8743/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000010.tif
-         32,768   9%   47.83kB/s    0:00:06          360,546 100%  498.72kB/s    0:00:00 (xfr#44, ir-chk=8742/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000011.tif
-         32,768   9%   44.76kB/s    0:00:07          360,546 100%  475.81kB/s    0:00:00 (xfr#45, ir-chk=8741/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000012.tif
-         32,768   9%   41.03kB/s    0:00:07          360,546 100%  429.39kB/s    0:00:00 (xfr#46, ir-chk=8740/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000013.tif
-         32,768   9%   38.37kB/s    0:00:08          360,546 100%  408.94kB/s    0:00:00 (xfr#47, ir-chk=8739/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000014.tif
-         32,768   9%   36.57kB/s    0:00:08          360,546 100%  389.92kB/s    0:00:00 (xfr#48, ir-chk=8738/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000015.tif
-         32,768   9%   34.56kB/s    0:00:09          360,546 100%  368.30kB/s    0:00:00 (xfr#49, ir-chk=8737/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000016.tif
-         32,768   9%   32.45kB/s    0:00:10          131,072  36%  127.87kB/s    0:00:01          360,546 100%  344.85kB/s    0:00:01 (xfr#50, ir-chk=8736/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000017.tif
-         32,768   9%  542.37kB/s    0:00:00          360,546 100%    3.44MB/s    0:00:00 (xfr#51, ir-chk=8735/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000018.tif
-         32,768   9%  237.04kB/s    0:00:01          360,546 100%    2.03MB/s    0:00:00 (xfr#52, ir-chk=8734/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000019.tif
-         32,768   9%  152.38kB/s    0:00:02          360,546 100%    1.41MB/s    0:00:00 (xfr#53, ir-chk=8733/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000020.tif
-         32,768   9%  124.51kB/s    0:00:02          360,546 100%    1.21MB/s    0:00:00 (xfr#54, ir-chk=8732/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000021.tif
-         32,768   9%  105.96kB/s    0:00:03          360,546 100%    1.04MB/s    0:00:00 (xfr#55, ir-chk=8731/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000022.tif
-         32,768   9%   88.40kB/s    0:00:03          360,546 100%  886.89kB/s    0:00:00 (xfr#56, ir-chk=8730/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000023.tif
-         32,768   9%   78.24kB/s    0:00:04          360,546 100%  809.42kB/s    0:00:00 (xfr#57, ir-chk=8729/13844)
-dataset-medium/elevation-chips/b771104de5_7E02A41EBEOPENPIPELINE-000024.tif
-         32,768   9%   71.59kB/s    0:00:04          360,546 100%  741.25kB/s    0:00:00 (xfr#58, ir-chk=8728/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000000.tif
-         32,768   9%   63.49kB/s    0:00:05          360,546 100%  658.12kB/s    0:00:00 (xfr#59, ir-chk=8727/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000001.tif
-         32,768   9%   56.14kB/s    0:00:05          360,546 100%  581.98kB/s    0:00:00 (xfr#60, ir-chk=8726/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000002.tif
-         32,768   9%   50.00kB/s    0:00:06          360,546 100%  523.17kB/s    0:00:00 (xfr#61, ir-chk=8725/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000003.tif
-         32,768   9%   45.78kB/s    0:00:07          360,546 100%  484.31kB/s    0:00:00 (xfr#62, ir-chk=8724/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000004.tif
-         32,768   9%   43.30kB/s    0:00:07          360,546 100%  459.06kB/s    0:00:00 (xfr#63, ir-chk=8723/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000005.tif
-         32,768   9%   40.92kB/s    0:00:08          360,546 100%  433.62kB/s    0:00:00 (xfr#64, ir-chk=8722/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000006.tif
-         32,768   9%   38.88kB/s    0:00:08          360,546 100%  411.81kB/s    0:00:00 (xfr#65, ir-chk=8721/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000007.tif
-         32,768   9%   36.87kB/s    0:00:08          360,546 100%  392.96kB/s    0:00:00 (xfr#66, ir-chk=8720/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000008.tif
-         32,768   9%   34.63kB/s    0:00:09          360,546 100%  368.30kB/s    0:00:00 (xfr#67, ir-chk=8719/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000009.tif
-         32,768   9%   32.45kB/s    0:00:10          131,072  36%  127.87kB/s    0:00:01          360,546 100%  345.19kB/s    0:00:01 (xfr#68, ir-chk=8718/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000010.tif
-         32,768   9%    1.01MB/s    0:00:00          360,546 100%    6.03MB/s    0:00:00 (xfr#69, ir-chk=8717/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000011.tif
-         32,768   9%  463.77kB/s    0:00:00          360,546 100%    3.62MB/s    0:00:00 (xfr#70, ir-chk=8716/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000012.tif
-         32,768   9%  293.58kB/s    0:00:01          360,546 100%    2.53MB/s    0:00:00 (xfr#71, ir-chk=8715/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000013.tif
-         32,768   9%  216.22kB/s    0:00:01          360,546 100%    1.95MB/s    0:00:00 (xfr#72, ir-chk=8714/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000014.tif
-         32,768   9%  165.80kB/s    0:00:01          360,546 100%    1.56MB/s    0:00:00 (xfr#73, ir-chk=8713/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000015.tif
-         32,768   9%  136.75kB/s    0:00:02          360,546 100%    1.32MB/s    0:00:00 (xfr#74, ir-chk=8712/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000016.tif
-         32,768   9%  105.96kB/s    0:00:03          360,546 100%    1.02MB/s    0:00:00 (xfr#75, ir-chk=8711/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000017.tif
-         32,768   9%   83.33kB/s    0:00:03          360,546 100%  830.41kB/s    0:00:00 (xfr#76, ir-chk=8710/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000018.tif
-         32,768   9%   74.77kB/s    0:00:04          360,546 100%  784.18kB/s    0:00:00 (xfr#77, ir-chk=8709/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000019.tif
-         32,768   9%   67.23kB/s    0:00:04          360,546 100%  691.74kB/s    0:00:00 (xfr#78, ir-chk=8708/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000020.tif
-         32,768   9%   59.26kB/s    0:00:05          360,546 100%  614.48kB/s    0:00:00 (xfr#79, ir-chk=8707/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000021.tif
-         32,768   9%   54.61kB/s    0:00:06          360,546 100%  576.26kB/s    0:00:00 (xfr#80, ir-chk=8706/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000022.tif
-         32,768   9%   51.36kB/s    0:00:06          360,546 100%  540.85kB/s    0:00:00 (xfr#81, ir-chk=8705/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000023.tif
-         32,768   9%   48.34kB/s    0:00:06          360,546 100%  511.77kB/s    0:00:00 (xfr#82, ir-chk=8704/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000024.tif
-         32,768   9%   45.58kB/s    0:00:07          360,546 100%  482.98kB/s    0:00:00 (xfr#83, ir-chk=8703/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000025.tif
-         32,768   9%   41.61kB/s    0:00:07          360,546 100%  435.76kB/s    0:00:00 (xfr#84, ir-chk=8702/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000026.tif
-         32,768   9%   39.22kB/s    0:00:08          360,546 100%  417.67kB/s    0:00:00 (xfr#85, ir-chk=8701/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000027.tif
-         32,768   9%   37.30kB/s    0:00:08          360,546 100%  396.95kB/s    0:00:00 (xfr#86, ir-chk=8700/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000028.tif
-         32,768   9%   35.63kB/s    0:00:09          360,546 100%  380.64kB/s    0:00:00 (xfr#87, ir-chk=8699/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000029.tif
-         32,768   9%   33.33kB/s    0:00:09          360,448  99%  352.00kB/s    0:00:00          360,546 100%  352.10kB/s    0:00:01 (xfr#88, ir-chk=8698/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000030.tif
-         32,768   9%    6.25MB/s    0:00:00          360,546 100%   11.86MB/s    0:00:00 (xfr#89, ir-chk=8697/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000031.tif
-         32,768   9%  571.43kB/s    0:00:00          360,546 100%    3.95MB/s    0:00:00 (xfr#90, ir-chk=8696/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000032.tif
-         32,768   9%  262.30kB/s    0:00:01          360,546 100%    2.19MB/s    0:00:00 (xfr#91, ir-chk=8695/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000033.tif
-         32,768   9%  187.13kB/s    0:00:01          360,546 100%    1.75MB/s    0:00:00 (xfr#92, ir-chk=8694/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000034.tif
-         32,768   9%  153.11kB/s    0:00:02          360,546 100%    1.44MB/s    0:00:00 (xfr#93, ir-chk=8693/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000035.tif
-         32,768   9%  128.00kB/s    0:00:02          360,546 100%    1.24MB/s    0:00:00 (xfr#94, ir-chk=8692/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000036.tif
-         32,768   9%  107.74kB/s    0:00:03          360,546 100%    1.05MB/s    0:00:00 (xfr#95, ir-chk=8691/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000037.tif
-         32,768   9%   95.24kB/s    0:00:03          360,546 100%  975.33kB/s    0:00:00 (xfr#96, ir-chk=8690/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000038.tif
-         32,768   9%   85.56kB/s    0:00:03          360,546 100%  880.24kB/s    0:00:00 (xfr#97, ir-chk=8689/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000039.tif
-         32,768   9%   77.86kB/s    0:00:04          360,546 100%  800.22kB/s    0:00:00 (xfr#98, ir-chk=8688/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000040.tif
-         32,768   9%   70.48kB/s    0:00:04          360,546 100%  732.01kB/s    0:00:00 (xfr#99, ir-chk=8687/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000041.tif
-         32,768   9%   63.24kB/s    0:00:05          360,546 100%  653.24kB/s    0:00:00 (xfr#100, ir-chk=8686/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000042.tif
-         32,768   9%   55.08kB/s    0:00:05          360,546 100%  569.73kB/s    0:00:00 (xfr#101, ir-chk=8685/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000043.tif
-         32,768   9%   46.78kB/s    0:00:07          360,546 100%  486.32kB/s    0:00:00 (xfr#102, ir-chk=8684/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000044.tif
-         32,768   9%   43.66kB/s    0:00:07          360,546 100%  465.74kB/s    0:00:00 (xfr#103, ir-chk=8683/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000045.tif
-         32,768   9%   40.46kB/s    0:00:08          360,546 100%  428.34kB/s    0:00:00 (xfr#104, ir-chk=8682/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000046.tif
-         32,768   9%   38.37kB/s    0:00:08          360,546 100%  409.41kB/s    0:00:00 (xfr#105, ir-chk=8681/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000047.tif
-         32,768   9%   36.66kB/s    0:00:08          360,546 100%  391.22kB/s    0:00:00 (xfr#106, ir-chk=8680/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000048.tif
-         32,768   9%   34.22kB/s    0:00:09          360,546 100%  363.36kB/s    0:00:00 (xfr#107, ir-chk=8679/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000049.tif
-         32,768   9%   32.16kB/s    0:00:10           65,536  18%   64.00kB/s    0:00:04          360,546 100%  343.17kB/s    0:00:01 (xfr#108, ir-chk=8678/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000050.tif
-         32,768   9%  820.51kB/s    0:00:00          360,546 100%    5.06MB/s    0:00:00 (xfr#109, ir-chk=8677/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000051.tif
-         32,768   9%  400.00kB/s    0:00:00          360,546 100%    3.24MB/s    0:00:00 (xfr#110, ir-chk=8676/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000052.tif
-         32,768   9%  233.58kB/s    0:00:01          360,546 100%    2.01MB/s    0:00:00 (xfr#111, ir-chk=8675/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000053.tif
-         32,768   9%  173.91kB/s    0:00:01          360,546 100%    1.62MB/s    0:00:00 (xfr#112, ir-chk=8674/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000054.tif
-         32,768   9%  124.51kB/s    0:00:02          360,546 100%    1.17MB/s    0:00:00 (xfr#113, ir-chk=8673/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000055.tif
-         32,768   9%  106.67kB/s    0:00:03          360,546 100%    1.04MB/s    0:00:00 (xfr#114, ir-chk=8672/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000056.tif
-         32,768   9%   93.84kB/s    0:00:03          360,546 100%  956.78kB/s    0:00:00 (xfr#115, ir-chk=8671/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000057.tif
-         32,768   9%   83.55kB/s    0:00:03          360,546 100%  856.68kB/s    0:00:00 (xfr#116, ir-chk=8670/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000058.tif
-         32,768   9%   75.29kB/s    0:00:04          360,546 100%  780.70kB/s    0:00:00 (xfr#117, ir-chk=8669/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000059.tif
-         32,768   9%   68.52kB/s    0:00:04          360,546 100%  707.02kB/s    0:00:00 (xfr#118, ir-chk=8668/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000060.tif
-         32,768   9%   62.87kB/s    0:00:05          360,546 100%  654.45kB/s    0:00:00 (xfr#119, ir-chk=8667/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000061.tif
-         32,768   9%   57.55kB/s    0:00:05          360,546 100%  601.87kB/s    0:00:00 (xfr#120, ir-chk=8666/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000062.tif
-         32,768   9%   53.51kB/s    0:00:06          360,546 100%  559.77kB/s    0:00:00 (xfr#121, ir-chk=8665/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000063.tif
-         32,768   9%   47.69kB/s    0:00:06          360,546 100%  495.21kB/s    0:00:00 (xfr#122, ir-chk=8664/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000064.tif
-         32,768   9%   43.36kB/s    0:00:07          360,546 100%  457.27kB/s    0:00:00 (xfr#123, ir-chk=8663/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000065.tif
-         32,768   9%   40.87kB/s    0:00:08          360,546 100%  433.62kB/s    0:00:00 (xfr#124, ir-chk=8662/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000066.tif
-         32,768   9%   38.93kB/s    0:00:08          360,546 100%  414.72kB/s    0:00:00 (xfr#125, ir-chk=8661/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000067.tif
-         32,768   9%   36.00kB/s    0:00:09          360,546 100%  380.23kB/s    0:00:00 (xfr#126, ir-chk=8660/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000068.tif
-         32,768   9%   34.33kB/s    0:00:09          360,546 100%  367.92kB/s    0:00:00 (xfr#127, ir-chk=8659/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000069.tif
-         32,768   9%   32.96kB/s    0:00:09          360,448  99%  352.00kB/s    0:00:00          360,546 100%  351.74kB/s    0:00:01 (xfr#128, ir-chk=8658/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000070.tif
-         32,768   9%    1.36MB/s    0:00:00          360,546 100%    6.37MB/s    0:00:00 (xfr#129, ir-chk=8657/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000071.tif
-         32,768   9%  492.31kB/s    0:00:00          360,546 100%    3.78MB/s    0:00:00 (xfr#130, ir-chk=8656/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000072.tif
-         32,768   9%  307.69kB/s    0:00:01          360,546 100%    2.59MB/s    0:00:00 (xfr#131, ir-chk=8655/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000073.tif
-         32,768   9%  197.53kB/s    0:00:01          360,546 100%    1.69MB/s    0:00:00 (xfr#132, ir-chk=8654/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000074.tif
-         32,768   9%  148.15kB/s    0:00:02          360,546 100%    1.41MB/s    0:00:00 (xfr#133, ir-chk=8653/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000075.tif
-         32,768   9%  125.00kB/s    0:00:02          360,546 100%    1.20MB/s    0:00:00 (xfr#134, ir-chk=8652/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000076.tif
-         32,768   9%  105.26kB/s    0:00:03          360,546 100%    1.03MB/s    0:00:00 (xfr#135, ir-chk=8651/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000077.tif
-         32,768   9%   92.75kB/s    0:00:03          360,546 100%  949.05kB/s    0:00:00 (xfr#136, ir-chk=8650/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000078.tif
-         32,768   9%   83.33kB/s    0:00:03          360,546 100%  850.47kB/s    0:00:00 (xfr#137, ir-chk=8649/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000079.tif
-         32,768   9%   75.29kB/s    0:00:04          360,546 100%  773.84kB/s    0:00:00 (xfr#138, ir-chk=8648/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000080.tif
-         32,768   9%   68.52kB/s    0:00:04          360,546 100%  714.19kB/s    0:00:00 (xfr#139, ir-chk=8647/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000081.tif
-         32,768   9%   63.24kB/s    0:00:05          360,546 100%  660.59kB/s    0:00:00 (xfr#140, ir-chk=8646/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000082.tif
-         32,768   9%   58.72kB/s    0:00:05          360,546 100%  616.63kB/s    0:00:00 (xfr#141, ir-chk=8645/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000083.tif
-         32,768   9%   54.89kB/s    0:00:05          360,546 100%  577.21kB/s    0:00:00 (xfr#142, ir-chk=8644/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000084.tif
-         32,768   9%   50.47kB/s    0:00:06          360,546 100%  530.26kB/s    0:00:00 (xfr#143, ir-chk=8643/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000085.tif
-         32,768   9%   45.26kB/s    0:00:07          360,546 100%  470.72kB/s    0:00:00 (xfr#144, ir-chk=8642/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000086.tif
-         32,768   9%   42.44kB/s    0:00:07          360,546 100%  450.25kB/s    0:00:00 (xfr#145, ir-chk=8641/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000087.tif
-         32,768   9%   40.10kB/s    0:00:08          360,546 100%  425.24kB/s    0:00:00 (xfr#146, ir-chk=8640/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000088.tif
-         32,768   9%   38.19kB/s    0:00:08          360,546 100%  406.58kB/s    0:00:00 (xfr#147, ir-chk=8639/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000089.tif
-         32,768   9%   35.48kB/s    0:00:09          360,546 100%  373.77kB/s    0:00:00 (xfr#148, ir-chk=8638/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000090.tif
-         32,768   9%   33.76kB/s    0:00:09          360,546 100%  362.61kB/s    0:00:00 (xfr#149, ir-chk=8637/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000091.tif
-         32,768   9%   32.29kB/s    0:00:10           98,304  27%   96.00kB/s    0:00:02          360,546 100%  343.84kB/s    0:00:01 (xfr#150, ir-chk=8636/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000092.tif
-         32,768   9%  969.70kB/s    0:00:00          360,546 100%    5.46MB/s    0:00:00 (xfr#151, ir-chk=8635/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000093.tif
-         32,768   9%  432.43kB/s    0:00:00          360,546 100%    3.51MB/s    0:00:00 (xfr#152, ir-chk=8634/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000094.tif
-         32,768   9%  242.42kB/s    0:00:01          360,546 100%    2.01MB/s    0:00:00 (xfr#153, ir-chk=8633/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000095.tif
-         32,768   9%  178.77kB/s    0:00:01          360,546 100%    1.63MB/s    0:00:00 (xfr#154, ir-chk=8632/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000096.tif
-         32,768   9%  126.98kB/s    0:00:02          360,546 100%    1.17MB/s    0:00:00 (xfr#155, ir-chk=8631/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000097.tif
-         32,768   9%  104.23kB/s    0:00:03          360,546 100%    1.03MB/s    0:00:00 (xfr#156, ir-chk=8630/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000098.tif
-         32,768   9%   91.95kB/s    0:00:03          360,546 100%  938.92kB/s    0:00:00 (xfr#157, ir-chk=8629/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000099.tif
-         32,768   9%   82.47kB/s    0:00:03          360,546 100%  844.35kB/s    0:00:00 (xfr#158, ir-chk=8628/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000100.tif
-         32,768   9%   74.25kB/s    0:00:04          360,546 100%  772.14kB/s    0:00:00 (xfr#159, ir-chk=8627/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000101.tif
-         32,768   9%   67.37kB/s    0:00:04          360,546 100%  701.39kB/s    0:00:00 (xfr#160, ir-chk=8626/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000102.tif
-         32,768   9%   62.14kB/s    0:00:05          360,546 100%  648.43kB/s    0:00:00 (xfr#161, ir-chk=8625/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000103.tif
-         32,768   9%   57.45kB/s    0:00:05          360,546 100%  603.94kB/s    0:00:00 (xfr#162, ir-chk=8624/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000104.tif
-         32,768   9%   51.78kB/s    0:00:06          360,546 100%  540.85kB/s    0:00:00 (xfr#163, ir-chk=8623/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000105.tif
-         32,768   9%   48.34kB/s    0:00:06          360,546 100%  512.51kB/s    0:00:00 (xfr#164, ir-chk=8622/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000106.tif
-         32,768   9%   43.90kB/s    0:00:07          360,546 100%  459.06kB/s    0:00:00 (xfr#165, ir-chk=8621/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000107.tif
-         32,768   9%   41.18kB/s    0:00:07          360,546 100%  439.02kB/s    0:00:00 (xfr#166, ir-chk=8620/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000108.tif
-         32,768   9%   37.87kB/s    0:00:08          360,546 100%  397.85kB/s    0:00:00 (xfr#167, ir-chk=8619/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000109.tif
-         32,768   9%   35.44kB/s    0:00:09          360,546 100%  378.19kB/s    0:00:00 (xfr#168, ir-chk=8618/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000110.tif
-         32,768   9%   33.83kB/s    0:00:09          360,546 100%  361.87kB/s    0:00:00 (xfr#169, ir-chk=8617/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000111.tif
-         32,768   9%   31.56kB/s    0:00:10           65,536  18%   62.62kB/s    0:00:04          360,546 100%  335.65kB/s    0:00:01 (xfr#170, ir-chk=8616/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000112.tif
-         32,768   9%  969.70kB/s    0:00:00          360,546 100%    5.93MB/s    0:00:00 (xfr#171, ir-chk=8615/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000113.tif
-         32,768   9%  470.59kB/s    0:00:00          360,546 100%    3.70MB/s    0:00:00 (xfr#172, ir-chk=8614/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000114.tif
-         32,768   9%  293.58kB/s    0:00:01          360,546 100%    2.55MB/s    0:00:00 (xfr#173, ir-chk=8613/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000115.tif
-         32,768   9%  201.26kB/s    0:00:01          360,546 100%    1.84MB/s    0:00:00 (xfr#174, ir-chk=8612/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000116.tif
-         32,768   9%  160.80kB/s    0:00:02          360,546 100%    1.55MB/s    0:00:00 (xfr#175, ir-chk=8611/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000117.tif
-         32,768   9%  135.59kB/s    0:00:02          360,546 100%    1.30MB/s    0:00:00 (xfr#176, ir-chk=8610/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000118.tif
-         32,768   9%  116.79kB/s    0:00:02          360,546 100%    1.15MB/s    0:00:00 (xfr#177, ir-chk=8609/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000119.tif
-         32,768   9%  101.59kB/s    0:00:03          360,546 100% 1023.53kB/s    0:00:00 (xfr#178, ir-chk=8608/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000120.tif
-         32,768   9%   90.14kB/s    0:00:03          360,546 100%  921.72kB/s    0:00:00 (xfr#179, ir-chk=8607/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000121.tif
-         32,768   9%   76.37kB/s    0:00:04          360,546 100%  765.43kB/s    0:00:00 (xfr#180, ir-chk=8606/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000122.tif
-         32,768   9%   67.65kB/s    0:00:04          360,546 100%  707.02kB/s    0:00:00 (xfr#181, ir-chk=8605/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000123.tif
-         32,768   9%   62.02kB/s    0:00:05          360,546 100%  648.43kB/s    0:00:00 (xfr#182, ir-chk=8604/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000124.tif
-         32,768   9%   56.14kB/s    0:00:05          360,546 100%  581.98kB/s    0:00:00 (xfr#183, ir-chk=8603/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000125.tif
-         32,768   9%   51.78kB/s    0:00:06          360,546 100%  545.04kB/s    0:00:00 (xfr#184, ir-chk=8602/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000126.tif
-         32,768   9%   48.41kB/s    0:00:06          360,546 100%  511.77kB/s    0:00:00 (xfr#185, ir-chk=8601/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000127.tif
-         32,768   9%   45.71kB/s    0:00:07          360,546 100%  483.65kB/s    0:00:00 (xfr#186, ir-chk=8600/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000128.tif
-         32,768   9%   43.24kB/s    0:00:07          360,546 100%  458.46kB/s    0:00:00 (xfr#187, ir-chk=8599/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000129.tif
-         32,768   9%   40.97kB/s    0:00:07          360,546 100%  438.48kB/s    0:00:00 (xfr#188, ir-chk=8598/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000130.tif
-         32,768   9%   39.17kB/s    0:00:08          360,546 100%  417.18kB/s    0:00:00 (xfr#189, ir-chk=8597/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000131.tif
-         32,768   9%   37.34kB/s    0:00:08          360,546 100%  398.30kB/s    0:00:00 (xfr#190, ir-chk=8596/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000132.tif
-         32,768   9%   35.75kB/s    0:00:09          360,546 100%  381.88kB/s    0:00:00 (xfr#191, ir-chk=8595/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000133.tif
-         32,768   9%   34.15kB/s    0:00:09          360,546 100%  364.49kB/s    0:00:00 (xfr#192, ir-chk=8594/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000134.tif
-         32,768   9%   32.79kB/s    0:00:09          327,680  90%  320.00kB/s    0:00:00          360,546 100%  351.39kB/s    0:00:01 (xfr#193, ir-chk=8593/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000135.tif
-         32,768   9%    1.08MB/s    0:00:00          360,546 100%    5.93MB/s    0:00:00 (xfr#194, ir-chk=8592/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000136.tif
-         32,768   9%  457.14kB/s    0:00:00          360,546 100%    3.58MB/s    0:00:00 (xfr#195, ir-chk=8591/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000137.tif
-         32,768   9%  285.71kB/s    0:00:01          360,546 100%    2.42MB/s    0:00:00 (xfr#196, ir-chk=8590/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000138.tif
-         32,768   9%  203.82kB/s    0:00:01          360,546 100%    1.89MB/s    0:00:00 (xfr#197, ir-chk=8589/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000139.tif
-         32,768   9%  153.11kB/s    0:00:02          360,546 100%    1.44MB/s    0:00:00 (xfr#198, ir-chk=8588/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000140.tif
-         32,768   9%  113.07kB/s    0:00:02          360,546 100%    1.06MB/s    0:00:00 (xfr#199, ir-chk=8587/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000141.tif
-         32,768   9%   96.68kB/s    0:00:03          360,546 100%  986.26kB/s    0:00:00 (xfr#200, ir-chk=8586/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000142.tif
-         32,768   9%   86.25kB/s    0:00:03          360,546 100%  882.45kB/s    0:00:00 (xfr#201, ir-chk=8585/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000143.tif
-         32,768   9%   77.67kB/s    0:00:04          360,546 100%  803.87kB/s    0:00:00 (xfr#202, ir-chk=8584/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000144.tif
-         32,768   9%   70.18kB/s    0:00:04          360,546 100%  721.51kB/s    0:00:00 (xfr#203, ir-chk=8583/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000145.tif
-         32,768   9%   64.00kB/s    0:00:05          360,546 100%  671.94kB/s    0:00:00 (xfr#204, ir-chk=8582/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000146.tif
-         32,768   9%   56.94kB/s    0:00:05          360,546 100%  589.78kB/s    0:00:00 (xfr#205, ir-chk=8581/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000147.tif
-         32,768   9%   52.89kB/s    0:00:06          360,546 100%  561.56kB/s    0:00:00 (xfr#206, ir-chk=8580/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000148.tif
-         32,768   9%   48.63kB/s    0:00:06          360,546 100%  510.28kB/s    0:00:00 (xfr#207, ir-chk=8579/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000149.tif
-         32,768   9%   45.58kB/s    0:00:07          360,546 100%  482.32kB/s    0:00:00 (xfr#208, ir-chk=8578/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000150.tif
-         32,768   9%   43.24kB/s    0:00:07          360,546 100%  459.65kB/s    0:00:00 (xfr#209, ir-chk=8577/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000151.tif
-         32,768   9%   41.03kB/s    0:00:07          360,546 100%  437.93kB/s    0:00:00 (xfr#210, ir-chk=8576/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000152.tif
-         32,768   9%   39.26kB/s    0:00:08          360,546 100%  417.18kB/s    0:00:00 (xfr#211, ir-chk=8575/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000153.tif
-         32,768   9%   37.56kB/s    0:00:08          360,546 100%  401.02kB/s    0:00:00 (xfr#212, ir-chk=8574/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000154.tif
-         32,768   9%   34.86kB/s    0:00:09          360,546 100%  367.92kB/s    0:00:00 (xfr#213, ir-chk=8573/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000155.tif
-         32,768   9%   33.06kB/s    0:00:09          360,546 100%  355.29kB/s    0:00:00 (xfr#214, ir-chk=8572/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000156.tif
-         32,768   9%   30.80kB/s    0:00:10           65,536  18%   61.19kB/s    0:00:04          360,546 100%  326.01kB/s    0:00:01 (xfr#215, ir-chk=8571/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000157.tif
-         32,768   9%  592.59kB/s    0:00:00          360,546 100%    4.00MB/s    0:00:00 (xfr#216, ir-chk=8570/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000158.tif
-         32,768   9%  326.53kB/s    0:00:01          360,546 100%    2.75MB/s    0:00:00 (xfr#217, ir-chk=8569/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000159.tif
-         32,768   9%  228.57kB/s    0:00:01          360,546 100%    2.05MB/s    0:00:00 (xfr#218, ir-chk=8568/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000160.tif
-         32,768   9%  154.59kB/s    0:00:02          360,546 100%    1.41MB/s    0:00:00 (xfr#219, ir-chk=8567/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000161.tif
-         32,768   9%  125.00kB/s    0:00:02          360,546 100%    1.21MB/s    0:00:00 (xfr#220, ir-chk=8566/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000162.tif
-         32,768   9%  107.74kB/s    0:00:03          360,546 100%    1.06MB/s    0:00:00 (xfr#221, ir-chk=8565/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000163.tif
-         32,768   9%   95.24kB/s    0:00:03          360,546 100%  975.33kB/s    0:00:00 (xfr#222, ir-chk=8564/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000164.tif
-         32,768   9%   85.56kB/s    0:00:03          360,546 100%  875.86kB/s    0:00:00 (xfr#223, ir-chk=8563/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000165.tif
-         32,768   9%   76.01kB/s    0:00:04          360,546 100%  778.97kB/s    0:00:00 (xfr#224, ir-chk=8562/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000166.tif
-         32,768   9%   66.12kB/s    0:00:04          360,546 100%  678.41kB/s    0:00:00 (xfr#225, ir-chk=8561/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000167.tif
-         32,768   9%   60.26kB/s    0:00:05          360,546 100%  632.13kB/s    0:00:00 (xfr#226, ir-chk=8560/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000168.tif
-         32,768   9%   56.24kB/s    0:00:05          360,546 100%  591.76kB/s    0:00:00 (xfr#227, ir-chk=8559/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000169.tif
-         32,768   9%   52.29kB/s    0:00:06          360,546 100%  551.87kB/s    0:00:00 (xfr#228, ir-chk=8558/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000170.tif
-         32,768   9%   49.08kB/s    0:00:06          360,546 100%  515.51kB/s    0:00:00 (xfr#229, ir-chk=8557/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000171.tif
-         32,768   9%   45.98kB/s    0:00:07          360,546 100%  486.32kB/s    0:00:00 (xfr#230, ir-chk=8556/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000172.tif
-         32,768   9%   43.13kB/s    0:00:07          360,546 100%  457.27kB/s    0:00:00 (xfr#231, ir-chk=8555/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000173.tif
-         32,768   9%   40.71kB/s    0:00:08          360,546 100%  429.91kB/s    0:00:00 (xfr#232, ir-chk=8554/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000174.tif
-         32,768   9%   38.55kB/s    0:00:08          360,546 100%  409.89kB/s    0:00:00 (xfr#233, ir-chk=8553/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000175.tif
-         32,768   9%   36.78kB/s    0:00:08          360,546 100%  391.22kB/s    0:00:00 (xfr#234, ir-chk=8552/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000176.tif
-         32,768   9%   33.65kB/s    0:00:09          360,546 100%  354.22kB/s    0:00:00 (xfr#235, ir-chk=8551/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000177.tif
-         32,768   9%   32.00kB/s    0:00:10           65,536  18%   63.81kB/s    0:00:04          360,546 100%  343.17kB/s    0:00:01 (xfr#236, ir-chk=8550/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000178.tif
-         32,768   9%  914.29kB/s    0:00:00          360,546 100%    5.55MB/s    0:00:00 (xfr#237, ir-chk=8549/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000179.tif
-         32,768   9%  432.43kB/s    0:00:00          360,546 100%    3.27MB/s    0:00:00 (xfr#238, ir-chk=8548/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000180.tif
-         32,768   9%  273.50kB/s    0:00:01          360,546 100%    2.34MB/s    0:00:00 (xfr#239, ir-chk=8547/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000181.tif
-         32,768   9%  195.12kB/s    0:00:01          360,546 100%    1.73MB/s    0:00:00 (xfr#240, ir-chk=8546/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000182.tif
-         32,768   9%  153.85kB/s    0:00:02          360,546 100%    1.44MB/s    0:00:00 (xfr#241, ir-chk=8545/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000183.tif
-         32,768   9%  126.98kB/s    0:00:02          360,546 100%    1.21MB/s    0:00:00 (xfr#242, ir-chk=8544/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000184.tif
-         32,768   9%  107.74kB/s    0:00:03          360,546 100%    1.05MB/s    0:00:00 (xfr#243, ir-chk=8543/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000185.tif
-         32,768   9%   89.64kB/s    0:00:03          360,546 100%  891.38kB/s    0:00:00 (xfr#244, ir-chk=8542/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000186.tif
-         32,768   9%   77.48kB/s    0:00:04          360,546 100%  794.80kB/s    0:00:00 (xfr#245, ir-chk=8541/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000187.tif
-         32,768   9%   65.17kB/s    0:00:05          360,546 100%  663.08kB/s    0:00:00 (xfr#246, ir-chk=8540/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000188.tif
-         32,768   9%   59.15kB/s    0:00:05          360,546 100%  614.48kB/s    0:00:00 (xfr#247, ir-chk=8539/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000189.tif
-         32,768   9%   54.51kB/s    0:00:06          360,546 100%  570.66kB/s    0:00:00 (xfr#248, ir-chk=8538/13844)
-dataset-medium/elevation-chips/c37dbfae2f_84B52814D2OPENPIPELINE-000190.tif
-         32,768   9%   50.24kB/s    0:00:06          360,546 100%  527.88kB/s    0:00:00 (xfr#249, ir-chk=8537/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000000.tif
-         32,768   9%   47.13kB/s    0:00:06          360,546 100%  497.31kB/s    0:00:00 (xfr#250, ir-chk=8536/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000001.tif
-         32,768   9%   44.51kB/s    0:00:07          360,546 100%  470.72kB/s    0:00:00 (xfr#251, ir-chk=8535/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000002.tif
-         32,768   9%   40.10kB/s    0:00:08          360,546 100%  420.66kB/s    0:00:00 (xfr#252, ir-chk=8534/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000003.tif
-         32,768   9%   36.99kB/s    0:00:08          360,546 100%  392.09kB/s    0:00:00 (xfr#253, ir-chk=8533/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000004.tif
-         32,768   9%   35.09kB/s    0:00:09          360,546 100%  374.57kB/s    0:00:00 (xfr#254, ir-chk=8532/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000005.tif
-         32,768   9%   33.09kB/s    0:00:09          360,546 100%  352.80kB/s    0:00:00 (xfr#255, ir-chk=8531/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000006.tif
-         32,768   9%   31.78kB/s    0:00:10           65,536  18%   63.30kB/s    0:00:04          360,546 100%  340.52kB/s    0:00:01 (xfr#256, ir-chk=8530/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000007.tif
-         32,768   9%  450.70kB/s    0:00:00          360,546 100%    3.07MB/s    0:00:00 (xfr#257, ir-chk=8529/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000008.tif
-         32,768   9%  258.06kB/s    0:00:01          360,546 100%    2.29MB/s    0:00:00 (xfr#258, ir-chk=8528/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000009.tif
-         32,768   9%  200.00kB/s    0:00:01          360,546 100%    1.83MB/s    0:00:00 (xfr#259, ir-chk=8527/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000010.tif
-         32,768   9%  160.00kB/s    0:00:02          360,546 100%    1.51MB/s    0:00:00 (xfr#260, ir-chk=8526/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000011.tif
-         32,768   9%  133.89kB/s    0:00:02          360,546 100%    1.30MB/s    0:00:00 (xfr#261, ir-chk=8525/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000012.tif
-         32,768   9%  115.94kB/s    0:00:02          360,546 100%    1.15MB/s    0:00:00 (xfr#262, ir-chk=8524/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000013.tif
-         32,768   9%  101.27kB/s    0:00:03          360,546 100%    1.01MB/s    0:00:00 (xfr#263, ir-chk=8523/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000014.tif
-         32,768   9%   90.14kB/s    0:00:03          360,546 100%  924.14kB/s    0:00:00 (xfr#264, ir-chk=8522/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000015.tif
-         32,768   9%   78.05kB/s    0:00:04          360,546 100%  793.01kB/s    0:00:00 (xfr#265, ir-chk=8521/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000016.tif
-         32,768   9%   69.72kB/s    0:00:04          360,546 100%  722.99kB/s    0:00:00 (xfr#266, ir-chk=8520/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000017.tif
-         32,768   9%   61.30kB/s    0:00:05          360,546 100%  631.00kB/s    0:00:00 (xfr#267, ir-chk=8519/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000018.tif
-         32,768   9%   56.14kB/s    0:00:05          360,546 100%  590.76kB/s    0:00:00 (xfr#268, ir-chk=8518/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000019.tif
-         32,768   9%   52.46kB/s    0:00:06          360,546 100%  552.74kB/s    0:00:00 (xfr#269, ir-chk=8517/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000020.tif
-         32,768   9%   48.05kB/s    0:00:06          360,546 100%  503.71kB/s    0:00:00 (xfr#270, ir-chk=8516/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000021.tif
-         32,768   9%   45.01kB/s    0:00:07          360,546 100%  479.04kB/s    0:00:00 (xfr#271, ir-chk=8515/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000022.tif
-         32,768   9%   40.82kB/s    0:00:08          360,546 100%  427.82kB/s    0:00:00 (xfr#272, ir-chk=8514/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000023.tif
-         32,768   9%   38.32kB/s    0:00:08          360,546 100%  407.99kB/s    0:00:00 (xfr#273, ir-chk=8513/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000024.tif
-         32,768   9%   36.70kB/s    0:00:08          360,546 100%  391.65kB/s    0:00:00 (xfr#274, ir-chk=8512/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000025.tif
-         32,768   9%   35.16kB/s    0:00:09          360,546 100%  375.77kB/s    0:00:00 (xfr#275, ir-chk=8511/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000026.tif
-         32,768   9%   33.02kB/s    0:00:09          327,680  90%  320.00kB/s    0:00:00          360,546 100%  351.04kB/s    0:00:01 (xfr#276, ir-chk=8510/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000027.tif
-         32,768   9%    1.49MB/s    0:00:00          360,546 100%    6.49MB/s    0:00:00 (xfr#277, ir-chk=8509/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000028.tif
-         32,768   9%  507.94kB/s    0:00:00          360,546 100%    3.86MB/s    0:00:00 (xfr#278, ir-chk=8508/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000029.tif
-         32,768   9%  296.30kB/s    0:00:01          360,546 100%    2.44MB/s    0:00:00 (xfr#279, ir-chk=8507/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000030.tif
-         32,768   9%  206.45kB/s    0:00:01          360,546 100%    1.84MB/s    0:00:00 (xfr#280, ir-chk=8506/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000031.tif
-         32,768   9%  150.94kB/s    0:00:02          360,546 100%    1.41MB/s    0:00:00 (xfr#281, ir-chk=8505/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000032.tif
-         32,768   9%  125.00kB/s    0:00:02          360,546 100%    1.19MB/s    0:00:00 (xfr#282, ir-chk=8504/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000033.tif
-         32,768   9%  105.96kB/s    0:00:03          360,546 100%    1.05MB/s    0:00:00 (xfr#283, ir-chk=8503/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000034.tif
-         32,768   9%   93.29kB/s    0:00:03          360,546 100%  946.49kB/s    0:00:00 (xfr#284, ir-chk=8502/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000035.tif
-         32,768   9%   77.29kB/s    0:00:04          360,546 100%  780.70kB/s    0:00:00 (xfr#285, ir-chk=8501/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000036.tif
-         32,768   9%   69.72kB/s    0:00:04          360,546 100%  724.48kB/s    0:00:00 (xfr#286, ir-chk=8500/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000037.tif
-         32,768   9%   61.07kB/s    0:00:05          360,546 100%  627.62kB/s    0:00:00 (xfr#287, ir-chk=8499/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000038.tif
-         32,768   9%   56.34kB/s    0:00:05          360,546 100%  594.76kB/s    0:00:00 (xfr#288, ir-chk=8498/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000039.tif
-         32,768   9%   52.89kB/s    0:00:06          360,546 100%  557.11kB/s    0:00:00 (xfr#289, ir-chk=8497/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000040.tif
-         32,768   9%   49.46kB/s    0:00:06          360,546 100%  521.62kB/s    0:00:00 (xfr#290, ir-chk=8496/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000041.tif
-         32,768   9%   44.51kB/s    0:00:07          360,546 100%  465.74kB/s    0:00:00 (xfr#291, ir-chk=8495/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000042.tif
-         32,768   9%   41.88kB/s    0:00:07          360,546 100%  445.13kB/s    0:00:00 (xfr#292, ir-chk=8494/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000043.tif
-         32,768   9%   38.98kB/s    0:00:08          360,546 100%  410.85kB/s    0:00:00 (xfr#293, ir-chk=8493/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000044.tif
-         32,768   9%   36.99kB/s    0:00:08          360,546 100%  394.73kB/s    0:00:00 (xfr#294, ir-chk=8492/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000045.tif
-         32,768   9%   34.41kB/s    0:00:09          360,546 100%  364.11kB/s    0:00:00 (xfr#295, ir-chk=8491/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000046.tif
-         32,768   9%   32.00kB/s    0:00:10           65,536  18%   63.81kB/s    0:00:04          360,546 100%  343.17kB/s    0:00:01 (xfr#296, ir-chk=8490/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000047.tif
-         32,768   9%  888.89kB/s    0:00:00          360,546 100%    5.37MB/s    0:00:00 (xfr#297, ir-chk=8489/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000048.tif
-         32,768   9%  275.86kB/s    0:00:01          360,546 100%    2.23MB/s    0:00:00 (xfr#298, ir-chk=8488/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000049.tif
-         32,768   9%  182.86kB/s    0:00:01          360,546 100%    1.67MB/s    0:00:00 (xfr#299, ir-chk=8487/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000050.tif
-         32,768   9%  145.45kB/s    0:00:02          360,546 100%    1.37MB/s    0:00:00 (xfr#300, ir-chk=8486/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000051.tif
-         32,768   9%  123.08kB/s    0:00:02          360,546 100%    1.19MB/s    0:00:00 (xfr#301, ir-chk=8485/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000052.tif
-         32,768   9%  102.89kB/s    0:00:03          360,546 100% 1023.53kB/s    0:00:00 (xfr#302, ir-chk=8484/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000053.tif
-         32,768   9%   81.42kB/s    0:00:04          360,546 100%  816.93kB/s    0:00:00 (xfr#303, ir-chk=8483/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000054.tif
-         32,768   9%   68.23kB/s    0:00:04          360,546 100%  705.60kB/s    0:00:00 (xfr#304, ir-chk=8482/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000055.tif
-         32,768   9%   62.26kB/s    0:00:05          360,546 100%  649.62kB/s    0:00:00 (xfr#305, ir-chk=8481/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000056.tif
-         32,768   9%   55.17kB/s    0:00:05          360,546 100%  574.38kB/s    0:00:00 (xfr#306, ir-chk=8480/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000057.tif
-         32,768   9%   51.61kB/s    0:00:06          360,546 100%  546.73kB/s    0:00:00 (xfr#307, ir-chk=8479/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000058.tif
-         32,768   9%   48.63kB/s    0:00:06          360,546 100%  514.01kB/s    0:00:00 (xfr#308, ir-chk=8478/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000059.tif
-         32,768   9%   45.91kB/s    0:00:07          360,546 100%  485.65kB/s    0:00:00 (xfr#309, ir-chk=8477/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000060.tif
-         32,768   9%   43.54kB/s    0:00:07          360,546 100%  462.07kB/s    0:00:00 (xfr#310, ir-chk=8476/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000061.tif
-         32,768   9%   41.34kB/s    0:00:07          360,546 100%  439.57kB/s    0:00:00 (xfr#311, ir-chk=8475/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000062.tif
-         32,768   9%   37.78kB/s    0:00:08          360,546 100%  396.50kB/s    0:00:00 (xfr#312, ir-chk=8474/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000063.tif
-         32,768   9%   34.90kB/s    0:00:09          360,546 100%  369.85kB/s    0:00:00 (xfr#313, ir-chk=8473/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000064.tif
-         32,768   9%   33.16kB/s    0:00:09          360,546 100%  354.22kB/s    0:00:00 (xfr#314, ir-chk=8472/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000065.tif
-         32,768   9%   31.94kB/s    0:00:10           65,536  18%   63.68kB/s    0:00:04          360,546 100%  342.51kB/s    0:00:01 (xfr#315, ir-chk=8471/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000066.tif
-         32,768   9%  888.89kB/s    0:00:00          360,546 100%    5.29MB/s    0:00:00 (xfr#316, ir-chk=8470/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000067.tif
-         32,768   9%  400.00kB/s    0:00:00          360,546 100%    3.02MB/s    0:00:00 (xfr#317, ir-chk=8469/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000068.tif
-         32,768   9%  250.00kB/s    0:00:01          360,546 100%    2.20MB/s    0:00:00 (xfr#318, ir-chk=8468/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000069.tif
-         32,768   9%  188.24kB/s    0:00:01          360,546 100%    1.71MB/s    0:00:00 (xfr#319, ir-chk=8467/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000070.tif
-         32,768   9%  145.45kB/s    0:00:02          360,546 100%    1.38MB/s    0:00:00 (xfr#320, ir-chk=8466/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000071.tif
-         32,768   9%  121.67kB/s    0:00:02          360,546 100%    1.19MB/s    0:00:00 (xfr#321, ir-chk=8465/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000072.tif
-         32,768   9%   95.81kB/s    0:00:03          360,546 100%  946.49kB/s    0:00:00 (xfr#322, ir-chk=8464/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000073.tif
-         32,768   9%   82.90kB/s    0:00:03          360,546 100%  852.53kB/s    0:00:00 (xfr#323, ir-chk=8463/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000074.tif
-         32,768   9%   74.77kB/s    0:00:04          360,546 100%  775.54kB/s    0:00:00 (xfr#324, ir-chk=8462/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000075.tif
-         32,768   9%   68.23kB/s    0:00:04          360,546 100%  711.30kB/s    0:00:00 (xfr#325, ir-chk=8461/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000076.tif
-         32,768   9%   59.37kB/s    0:00:05          360,546 100%  606.02kB/s    0:00:00 (xfr#326, ir-chk=8460/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000077.tif
-         32,768   9%   54.61kB/s    0:00:06          360,546 100%  577.21kB/s    0:00:00 (xfr#327, ir-chk=8459/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000078.tif
-         32,768   9%   51.36kB/s    0:00:06          360,546 100%  540.85kB/s    0:00:00 (xfr#328, ir-chk=8458/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000079.tif
-         32,768   9%   46.65kB/s    0:00:07          360,546 100%  490.38kB/s    0:00:00 (xfr#329, ir-chk=8457/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000080.tif
-         32,768   9%   43.54kB/s    0:00:07          360,546 100%  460.26kB/s    0:00:00 (xfr#330, ir-chk=8456/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000081.tif
-         32,768   9%   41.18kB/s    0:00:07          360,546 100%  438.48kB/s    0:00:00 (xfr#331, ir-chk=8455/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000082.tif
-         32,768   9%   38.00kB/s    0:00:08          360,546 100%  401.94kB/s    0:00:00 (xfr#332, ir-chk=8454/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000083.tif
-         32,768   9%   36.16kB/s    0:00:09          360,546 100%  386.49kB/s    0:00:00 (xfr#333, ir-chk=8453/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000084.tif
-         32,768   9%   34.71kB/s    0:00:09          360,546 100%  371.41kB/s    0:00:00 (xfr#334, ir-chk=8452/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000085.tif
-         32,768   9%   33.33kB/s    0:00:09          360,546 100%  356.73kB/s    0:00:00 (xfr#335, ir-chk=8451/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000086.tif
-         32,768   9%   32.00kB/s    0:00:10           65,536  18%   63.75kB/s    0:00:04          360,546 100%  343.17kB/s    0:00:01 (xfr#336, ir-chk=8450/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000087.tif
-         32,768   9%  914.29kB/s    0:00:00          360,546 100%    5.06MB/s    0:00:00 (xfr#337, ir-chk=8449/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000088.tif
-         32,768   9%  372.09kB/s    0:00:00          360,546 100%    2.91MB/s    0:00:00 (xfr#338, ir-chk=8448/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000089.tif
-         32,768   9%  244.27kB/s    0:00:01          360,546 100%    2.14MB/s    0:00:00 (xfr#339, ir-chk=8447/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000090.tif
-         32,768   9%  187.13kB/s    0:00:01          360,546 100%    1.75MB/s    0:00:00 (xfr#340, ir-chk=8446/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000091.tif
-         32,768   9%  140.97kB/s    0:00:02          360,546 100%    1.31MB/s    0:00:00 (xfr#341, ir-chk=8445/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000092.tif
-         32,768   9%  118.52kB/s    0:00:02          360,546 100%    1.17MB/s    0:00:00 (xfr#342, ir-chk=8444/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000093.tif
-         32,768   9%   95.24kB/s    0:00:03          360,546 100%  933.94kB/s    0:00:00 (xfr#343, ir-chk=8443/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000094.tif
-         32,768   9%   82.05kB/s    0:00:03          360,546 100%  846.38kB/s    0:00:00 (xfr#344, ir-chk=8442/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000095.tif
-         32,768   9%   74.94kB/s    0:00:04          360,546 100%  778.97kB/s    0:00:00 (xfr#345, ir-chk=8441/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000096.tif
-         32,768   9%   68.97kB/s    0:00:04          360,546 100%  717.10kB/s    0:00:00 (xfr#346, ir-chk=8440/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000097.tif
-         32,768   9%   63.75kB/s    0:00:05          360,546 100%  665.59kB/s    0:00:00 (xfr#347, ir-chk=8439/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000098.tif
-         32,768   9%   59.15kB/s    0:00:05          360,546 100%  616.63kB/s    0:00:00 (xfr#348, ir-chk=8438/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000099.tif
-         32,768   9%   52.98kB/s    0:00:06          360,546 100%  551.87kB/s    0:00:00 (xfr#349, ir-chk=8437/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000100.tif
-         32,768   9%   49.31kB/s    0:00:06          360,546 100%  522.40kB/s    0:00:00 (xfr#350, ir-chk=8436/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000101.tif
-         32,768   9%   45.45kB/s    0:00:07          360,546 100%  477.09kB/s    0:00:00 (xfr#351, ir-chk=8435/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000102.tif
-         32,768   9%   42.72kB/s    0:00:07          360,546 100%  453.73kB/s    0:00:00 (xfr#352, ir-chk=8434/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000103.tif
-         32,768   9%   40.35kB/s    0:00:08          360,546 100%  429.39kB/s    0:00:00 (xfr#353, ir-chk=8433/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000104.tif
-         32,768   9%   38.32kB/s    0:00:08          360,546 100%  408.46kB/s    0:00:00 (xfr#354, ir-chk=8432/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000105.tif
-         32,768   9%   35.52kB/s    0:00:09          360,546 100%  374.97kB/s    0:00:00 (xfr#355, ir-chk=8431/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000106.tif
-         32,768   9%   33.06kB/s    0:00:09          327,680  90%  320.00kB/s    0:00:00          360,546 100%  351.39kB/s    0:00:01 (xfr#356, ir-chk=8430/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000107.tif
-         32,768   9%    2.08MB/s    0:00:00          360,546 100%    8.60MB/s    0:00:00 (xfr#357, ir-chk=8429/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000108.tif
-         32,768   9%  524.59kB/s    0:00:00          360,546 100%    3.86MB/s    0:00:00 (xfr#358, ir-chk=8428/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000109.tif
-         32,768   9%  301.89kB/s    0:00:01          360,546 100%    2.55MB/s    0:00:00 (xfr#359, ir-chk=8427/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000110.tif
-         32,768   9%  209.15kB/s    0:00:01          360,546 100%    1.87MB/s    0:00:00 (xfr#360, ir-chk=8426/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000111.tif
-         32,768   9%  160.80kB/s    0:00:02          360,546 100%    1.51MB/s    0:00:00 (xfr#361, ir-chk=8425/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000112.tif
-         32,768   9%  121.21kB/s    0:00:02          360,546 100%    1.16MB/s    0:00:00 (xfr#362, ir-chk=8424/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000113.tif
-         32,768   9%  102.56kB/s    0:00:03          360,546 100%    1.01MB/s    0:00:00 (xfr#363, ir-chk=8423/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000114.tif
-         32,768   9%   91.43kB/s    0:00:03          360,546 100%  933.94kB/s    0:00:00 (xfr#364, ir-chk=8422/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000115.tif
-         32,768   9%   77.67kB/s    0:00:04          360,546 100%  784.18kB/s    0:00:00 (xfr#365, ir-chk=8421/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000116.tif
-         32,768   9%   70.18kB/s    0:00:04          360,546 100%  730.49kB/s    0:00:00 (xfr#366, ir-chk=8420/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000117.tif
-         32,768   9%   64.78kB/s    0:00:05          360,546 100%  674.51kB/s    0:00:00 (xfr#367, ir-chk=8419/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000118.tif
-         32,768   9%   57.66kB/s    0:00:05          360,546 100%  603.94kB/s    0:00:00 (xfr#368, ir-chk=8418/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000119.tif
-         32,768   9%   53.69kB/s    0:00:06          360,546 100%  565.16kB/s    0:00:00 (xfr#369, ir-chk=8417/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000120.tif
-         32,768   9%   50.08kB/s    0:00:06          360,546 100%  527.88kB/s    0:00:00 (xfr#370, ir-chk=8416/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000121.tif
-         32,768   9%   46.99kB/s    0:00:06          360,546 100%  495.91kB/s    0:00:00 (xfr#371, ir-chk=8415/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000122.tif
-         32,768   9%   44.32kB/s    0:00:07          360,546 100%  469.46kB/s    0:00:00 (xfr#372, ir-chk=8414/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000123.tif
-         32,768   9%   40.51kB/s    0:00:08          360,546 100%  426.27kB/s    0:00:00 (xfr#373, ir-chk=8413/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000124.tif
-         32,768   9%   38.32kB/s    0:00:08          360,546 100%  408.94kB/s    0:00:00 (xfr#374, ir-chk=8412/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000125.tif
-         32,768   9%   36.66kB/s    0:00:08          360,546 100%  390.78kB/s    0:00:00 (xfr#375, ir-chk=8411/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000126.tif
-         32,768   9%   34.26kB/s    0:00:09          360,546 100%  364.11kB/s    0:00:00 (xfr#376, ir-chk=8410/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000127.tif
-         32,768   9%   31.59kB/s    0:00:10           65,536  18%   62.68kB/s    0:00:04          360,546 100%  335.01kB/s    0:00:01 (xfr#377, ir-chk=8409/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000128.tif
-         32,768   9%  780.49kB/s    0:00:00          360,546 100%    5.06MB/s    0:00:00 (xfr#378, ir-chk=8408/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000129.tif
-         32,768   9%  293.58kB/s    0:00:01          360,546 100%    2.37MB/s    0:00:00 (xfr#379, ir-chk=8407/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000130.tif
-         32,768   9%  206.45kB/s    0:00:01          360,546 100%    1.89MB/s    0:00:00 (xfr#380, ir-chk=8406/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000131.tif
-         32,768   9%  162.44kB/s    0:00:02          360,546 100%    1.54MB/s    0:00:00 (xfr#381, ir-chk=8405/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000132.tif
-         32,768   9%  129.03kB/s    0:00:02          360,546 100%    1.22MB/s    0:00:00 (xfr#382, ir-chk=8404/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000133.tif
-         32,768   9%  107.02kB/s    0:00:03          360,546 100%    1.05MB/s    0:00:00 (xfr#383, ir-chk=8403/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000134.tif
-         32,768   9%   93.29kB/s    0:00:03          360,546 100%  951.61kB/s    0:00:00 (xfr#384, ir-chk=8402/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000135.tif
-         32,768   9%   81.42kB/s    0:00:04          360,546 100%  834.35kB/s    0:00:00 (xfr#385, ir-chk=8401/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000136.tif
-         32,768   9%   72.89kB/s    0:00:04          360,546 100%  750.74kB/s    0:00:00 (xfr#386, ir-chk=8400/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000137.tif
-         32,768   9%   58.18kB/s    0:00:05          360,546 100%  597.79kB/s    0:00:00 (xfr#387, ir-chk=8399/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000138.tif
-         32,768   9%   52.37kB/s    0:00:06          360,546 100%  549.29kB/s    0:00:00 (xfr#388, ir-chk=8398/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000139.tif
-         32,768   9%   47.62kB/s    0:00:06          360,546 100%  498.72kB/s    0:00:00 (xfr#389, ir-chk=8397/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000140.tif
-         32,768   9%   43.84kB/s    0:00:07          360,546 100%  460.86kB/s    0:00:00 (xfr#390, ir-chk=8396/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000141.tif
-         32,768   9%   41.08kB/s    0:00:07          360,546 100%  434.15kB/s    0:00:00 (xfr#391, ir-chk=8395/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000142.tif
-         32,768   9%   38.69kB/s    0:00:08          360,546 100%  412.29kB/s    0:00:00 (xfr#392, ir-chk=8394/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000143.tif
-         32,768   9%   36.87kB/s    0:00:08          360,546 100%  393.40kB/s    0:00:00 (xfr#393, ir-chk=8393/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000144.tif
-         32,768   9%   35.20kB/s    0:00:09          360,546 100%  376.17kB/s    0:00:00 (xfr#394, ir-chk=8392/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000145.tif
-         32,768   9%   33.76kB/s    0:00:09          360,546 100%  361.12kB/s    0:00:00 (xfr#395, ir-chk=8391/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000146.tif
-         32,768   9%   32.49kB/s    0:00:10          229,376  63%  224.00kB/s    0:00:00          360,546 100%  348.96kB/s    0:00:01 (xfr#396, ir-chk=8390/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000147.tif
-         32,768   9%  470.59kB/s    0:00:00          360,546 100%    3.27MB/s    0:00:00 (xfr#397, ir-chk=8389/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000148.tif
-         32,768   9%  290.91kB/s    0:00:01          360,546 100%    2.59MB/s    0:00:00 (xfr#398, ir-chk=8388/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000149.tif
-         32,768   9%  196.32kB/s    0:00:01          360,546 100%    1.75MB/s    0:00:00 (xfr#399, ir-chk=8387/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000150.tif
-         32,768   9%  149.53kB/s    0:00:02          360,546 100%    1.43MB/s    0:00:00 (xfr#400, ir-chk=8386/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000151.tif
-         32,768   9%  115.11kB/s    0:00:02          360,546 100%    1.10MB/s    0:00:00 (xfr#401, ir-chk=8385/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000152.tif
-         32,768   9%   99.38kB/s    0:00:03          360,546 100% 1008.87kB/s    0:00:00 (xfr#402, ir-chk=8384/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000153.tif
-         32,768   9%   82.69kB/s    0:00:03          360,546 100%  832.38kB/s    0:00:00 (xfr#403, ir-chk=8383/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000154.tif
-         32,768   9%   73.23kB/s    0:00:04          360,546 100%  762.11kB/s    0:00:00 (xfr#404, ir-chk=8382/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000155.tif
-         32,768   9%   64.52kB/s    0:00:05          360,546 100%  669.38kB/s    0:00:00 (xfr#405, ir-chk=8381/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000156.tif
-         32,768   9%   57.66kB/s    0:00:05          360,546 100%  595.76kB/s    0:00:00 (xfr#406, ir-chk=8380/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000157.tif
-         32,768   9%   51.36kB/s    0:00:06          360,546 100%  533.48kB/s    0:00:00 (xfr#407, ir-chk=8379/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000158.tif
-         32,768   9%   46.31kB/s    0:00:07          360,546 100%  484.98kB/s    0:00:00 (xfr#408, ir-chk=8378/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000159.tif
-         32,768   9%   41.24kB/s    0:00:07          360,546 100%  431.49kB/s    0:00:00 (xfr#409, ir-chk=8377/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000160.tif
-         32,768   9%   38.46kB/s    0:00:08          360,546 100%  408.94kB/s    0:00:00 (xfr#410, ir-chk=8376/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000161.tif
-         32,768   9%   35.40kB/s    0:00:09          360,546 100%  372.98kB/s    0:00:00 (xfr#411, ir-chk=8375/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000162.tif
-         32,768   9%   33.68kB/s    0:00:09          360,546 100%  361.49kB/s    0:00:00 (xfr#412, ir-chk=8374/13844)
-dataset-medium/elevation-chips/c644f91210_27E21B7F30OPENPIPELINE-000163.tif
-         32,768   9%   32.45kB/s    0:00:10          196,608  54%  192.00kB/s    0:00:00          360,546 100%  347.92kB/s    0:00:01 (xfr#413, ir-chk=8373/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000000.tif
-         32,768   9%  640.00kB/s    0:00:00          360,546 100%    3.82MB/s    0:00:00 (xfr#414, ir-chk=8372/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000001.tif
-         32,768   9%  283.19kB/s    0:00:01          360,546 100%    2.34MB/s    0:00:00 (xfr#415, ir-chk=8371/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000002.tif
-         32,768   9%  179.78kB/s    0:00:01          360,546 100%    1.60MB/s    0:00:00 (xfr#416, ir-chk=8370/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000003.tif
-         32,768   9%  140.97kB/s    0:00:02          360,546 100%    1.35MB/s    0:00:00 (xfr#417, ir-chk=8369/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000004.tif
-         32,768   9%  119.40kB/s    0:00:02          360,546 100%    1.17MB/s    0:00:00 (xfr#418, ir-chk=8368/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000005.tif
-         32,768   9%   96.97kB/s    0:00:03          360,546 100%  959.39kB/s    0:00:00 (xfr#419, ir-chk=8367/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000006.tif
-         32,768   9%   82.05kB/s    0:00:03          360,546 100%  838.32kB/s    0:00:00 (xfr#420, ir-chk=8366/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000007.tif
-         32,768   9%   74.07kB/s    0:00:04          360,546 100%  765.43kB/s    0:00:00 (xfr#421, ir-chk=8365/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000008.tif
-         32,768   9%   64.00kB/s    0:00:05          360,546 100%  644.86kB/s    0:00:00 (xfr#422, ir-chk=8364/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000009.tif
-         32,768   9%   57.35kB/s    0:00:05          360,546 100%  597.79kB/s    0:00:00 (xfr#423, ir-chk=8363/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000010.tif
-         32,768   9%   53.33kB/s    0:00:06          360,546 100%  558.88kB/s    0:00:00 (xfr#424, ir-chk=8362/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000011.tif
-         32,768   9%   47.62kB/s    0:00:06          360,546 100%  491.75kB/s    0:00:00 (xfr#425, ir-chk=8361/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000012.tif
-         32,768   9%   44.08kB/s    0:00:07          360,546 100%  466.97kB/s    0:00:00 (xfr#426, ir-chk=8360/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000013.tif
-         32,768   9%   40.97kB/s    0:00:07          360,546 100%  430.43kB/s    0:00:00 (xfr#427, ir-chk=8359/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000014.tif
-         32,768   9%   37.69kB/s    0:00:08          360,546 100%  398.30kB/s    0:00:00 (xfr#428, ir-chk=8358/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000015.tif
-         32,768   9%   35.63kB/s    0:00:09          360,546 100%  380.64kB/s    0:00:00 (xfr#429, ir-chk=8357/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000016.tif
-         32,768   9%   33.93kB/s    0:00:09          360,546 100%  361.12kB/s    0:00:00 (xfr#430, ir-chk=8356/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000017.tif
-         32,768   9%   32.26kB/s    0:00:10           98,304  27%   95.90kB/s    0:00:02          360,546 100%  344.18kB/s    0:00:01 (xfr#431, ir-chk=8355/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000018.tif
-         32,768   9%    1.08MB/s    0:00:00          360,546 100%    6.03MB/s    0:00:00 (xfr#432, ir-chk=8354/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000019.tif
-         32,768   9%  463.77kB/s    0:00:00          360,546 100%    3.58MB/s    0:00:00 (xfr#433, ir-chk=8353/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000020.tif
-         32,768   9%  273.50kB/s    0:00:01          360,546 100%    2.31MB/s    0:00:00 (xfr#434, ir-chk=8352/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000021.tif
-         32,768   9%  201.26kB/s    0:00:01          360,546 100%    1.86MB/s    0:00:00 (xfr#435, ir-chk=8351/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000022.tif
-         32,768   9%  148.84kB/s    0:00:02          360,546 100%    1.37MB/s    0:00:00 (xfr#436, ir-chk=8350/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000023.tif
-         32,768   9%  111.89kB/s    0:00:02          360,546 100%    1.08MB/s    0:00:00 (xfr#437, ir-chk=8349/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000024.tif
-         32,768   9%   96.68kB/s    0:00:03          360,546 100%  978.04kB/s    0:00:00 (xfr#438, ir-chk=8348/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000025.tif
-         32,768   9%   85.56kB/s    0:00:03          360,546 100%  878.04kB/s    0:00:00 (xfr#439, ir-chk=8347/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000026.tif
-         32,768   9%   74.25kB/s    0:00:04          360,546 100%  757.20kB/s    0:00:00 (xfr#440, ir-chk=8346/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000027.tif
-         32,768   9%   63.37kB/s    0:00:05          360,546 100%  654.45kB/s    0:00:00 (xfr#441, ir-chk=8345/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000028.tif
-         32,768   9%   57.76kB/s    0:00:05          360,546 100%  602.90kB/s    0:00:00 (xfr#442, ir-chk=8344/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000029.tif
-         32,768   9%   53.51kB/s    0:00:06          360,546 100%  563.35kB/s    0:00:00 (xfr#443, ir-chk=8343/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000030.tif
-         32,768   9%   48.27kB/s    0:00:06          360,546 100%  505.88kB/s    0:00:00 (xfr#444, ir-chk=8342/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000031.tif
-         32,768   9%   45.52kB/s    0:00:07          360,546 100%  484.31kB/s    0:00:00 (xfr#445, ir-chk=8341/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000032.tif
-         32,768   9%   42.05kB/s    0:00:07          360,546 100%  442.89kB/s    0:00:00 (xfr#446, ir-chk=8340/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000033.tif
-         32,768   9%   39.56kB/s    0:00:08          360,546 100%  421.17kB/s    0:00:00 (xfr#447, ir-chk=8339/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000034.tif
-         32,768   9%   37.43kB/s    0:00:08          360,546 100%  397.85kB/s    0:00:00 (xfr#448, ir-chk=8338/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000035.tif
-         32,768   9%   35.67kB/s    0:00:09          360,546 100%  380.64kB/s    0:00:00 (xfr#449, ir-chk=8337/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000036.tif
-         32,768   9%   34.15kB/s    0:00:09          360,546 100%  365.24kB/s    0:00:00 (xfr#450, ir-chk=8336/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000037.tif
-         32,768   9%   32.52kB/s    0:00:10          196,608  54%  191.81kB/s    0:00:00          360,546 100%  347.58kB/s    0:00:01 (xfr#451, ir-chk=8335/13844)
-dataset-medium/elevation-chips/c6d131e346_536DE05ED2OPENPIPELINE-000038.tif
-slurmstepd: error: *** JOB 1247719 ON damnii12 CANCELLED AT 2021-03-28T10:42:55 ***
-         32,768   9%  581.82kB/s    0:00:00  
