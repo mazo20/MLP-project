@@ -186,7 +186,7 @@ def main():
         print(metrics.to_str(score))
         utils.save_result(score, args, train_loss, val_loss)
         
-        if score['Mean IoU'] > best_score  # save best model
+        if score['Mean IoU'] > best_score:
             best_score = score['Mean IoU']
             utils.save_ckpt(args.data_root, args, model, optimizer, scheduler, best_score, epoch+1)
 
