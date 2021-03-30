@@ -1,0 +1,2 @@
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --dataset dataset-medium --output_stride 8 --model v3_resnet101 --lr 0.01 --random_seed 69 --results_root results/best --index 0
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --dataset dataset-medium --output_stride 16 --model v3_resnet101 --lr 0.01 --random_seed 69 --results_root results/best --index 1
