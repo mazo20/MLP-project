@@ -104,8 +104,8 @@ def main():
                                   all_bottlenenck=args.all_bottleneck=='true',
                                   fusion_type=args.fusion_type)
     
-    macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
-                                           print_per_layer_stat=True, verbose=True)
+    # macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
+    #                                        print_per_layer_stat=True, verbose=True)
 
     if args.pretrained:
         backbone_multiplayer = 0.1
@@ -186,7 +186,7 @@ def main():
         print(metrics.to_str(score))
         utils.save_result(score, args, train_loss, val_loss)
         
-        if score['Mean IoU'] > best_score and device == 'cuda':  # save best model
+        if score['Mean IoU'] > best_score  # save best model
             best_score = score['Mean IoU']
             utils.save_ckpt(args.data_root, args, model, optimizer, scheduler, best_score, epoch+1)
 
