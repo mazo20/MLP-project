@@ -117,7 +117,9 @@ def main():
         {'params': model.classifier.parameters(), 'lr': args.lr},
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
     scheduler = PolyLR(optimizer, np.ceil(args.total_epochs * len(train_loader) / 10), power=0.9)
-    criterion = torch.nn.CrossEntropyLoss(ignore_index=255, reduction='mean')
+    weights   = [40413894, 24336344, 276289676, 31073942, 676183288, 3442856]
+    weights   = torch.Tensor(1 / (weights / np.sum(weights))).to(device)
+    criterion = torch.nn.CrossEntropyLoss(weight=weights, ignore_index=255, reduction='mean')
     
     if args.ckpt is not None and os.path.isfile(args.ckpt):
         checkpoint = torch.load(args.ckpt, map_location=torch.device('cpu'))
