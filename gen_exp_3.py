@@ -14,11 +14,12 @@ base_call = (f"python code/main.py  --data_root {DATA_HOME}")
 
 config = {
     '--dataset':      ['dataset-medium'],
-    '--pretrained':   ['true', 'false'],
+    '--pretrained':   ['false'],
     '--depth_mode':   ['esanet'],
-    '--fusion_type':  ['early', 'all', 'late', 'aspp'],
+    '--fusion_type':  ['aspp'],
     '--model':        ['v3_resnet50'],
-    '--lr':           ['0.01'],
+    '--weight_decay': ['5e-3'],
+    '--max_epochs':   ['60'],
     '--random_seed':  ['69'],
     '--results_root': ['results/' + sys.argv[1]],
 
