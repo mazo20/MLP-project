@@ -121,6 +121,7 @@ def save_ckpt(path, opts, model, optimizer, scheduler, best_score, epoch):
         """ save current model
         """
         
+        # root = os.path.join(path, 'output')
         root = os.path.join(path, 'output', opts.results_root)
         if not os.path.exists(root):
             os.mkdir(root)
