@@ -16,8 +16,8 @@ config = {
     '--dataset':      ['dataset-medium'],
     '--pretrained':   ['true'],
     '--depth_mode':   ['none'],
-    '--model':        ['v3_resnet50'],
-    '--weight_decay': ['5e-4'],
+    '--model':        ['v3_resnet101'],
+    '--weight_decay': ['1e-4'],
     '--random_seed':  ['69'],
     '--results_root': ['results/' + sys.argv[1]],
 

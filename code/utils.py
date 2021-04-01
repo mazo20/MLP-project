@@ -136,3 +136,11 @@ def save_ckpt(path, opts, model, optimizer, scheduler, best_score, epoch):
             "scheduler_state": scheduler.state_dict(),
         }, path)
         print("Model saved as %s" % path)
+
+def get_parameter_count(model):
+    counter = 0
+
+    for params in model.parameters():
+        counter += torch.prod(torch.Tensor(list(params.shape)))
+
+    return int(counter.item())

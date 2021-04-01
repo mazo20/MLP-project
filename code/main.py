@@ -104,6 +104,9 @@ def main():
                                   first_aware=args.first_aware=='true',
                                   all_bottlenenck=args.all_bottleneck=='true',
                                   fusion_type=args.fusion_type)
+
+    # print('Model:                ' + args.depth_mode + ' ' + args.fusion_type)
+    # print('Number of parameters: ' + str(utils.get_parameter_count(model)))
     
     # macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
     #                                        print_per_layer_stat=True, verbose=True)

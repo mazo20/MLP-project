@@ -168,7 +168,7 @@ class Encoder(Module):
         self.depthnorm = BatchNorm2d(num_features=64)
         self.depthrelu = ReLU(inplace=True)
         
-        if fusion_type != 'late':
+        if fusion_type not in ['late', 'aspp']:
             self.fusion1 = RGBDFusion(in_channels=64)
         
         # STAGE 1
@@ -222,7 +222,9 @@ class Encoder(Module):
             self.depthresnet4 = ResNetLayer(in_channels=1024, out_channels=512, blocks=blocks[3], 
                                             dilation=depthdilation, stride=2, dilate=dilation[3], 
                                             replace_stride_with_dilation=replace_stride_with_dilation[2])
-            self.fusion5      = RGBDFusion(in_channels=2048)
+
+            if fusion_type != 'aspp':
+                self.fusion5 = RGBDFusion(in_channels=2048)
         
         # WEIGHT INIT
         for module in self.modules():
