@@ -1,24 +1,29 @@
 import torch
-import torch.nn as nn
-import numpy as np
+import numpy               as np
+import torch.nn            as nn
 import torch.nn.functional as F
+
 from collections import OrderedDict
 
 class _SimpleSegmentationModel(nn.Module):
     def __init__(self, backbone, classifier):
         super(_SimpleSegmentationModel, self).__init__()
-        self.backbone = backbone
+
+        self.backbone   = backbone
         self.classifier = classifier
         
     def forward(self, x):
-        input_shape = x.shape[-2:]
-        elev = x[:,-1].unsqueeze(1)
-        rgb = x[:, :3]
-        features, activations = self.backbone(rgb)
-        features['depth'] = elev
-        x = self.classifier(features)
+        input_shape           = x.shape[-2:]
+        elev                  = x[:,-1].unsqueeze(1)
+        rgb                   = x[:, :3]
+        features, depth       = self.backbone(rgb, elev)
+
+        # features['depth'] = elev
+
+        x = self.classifier(features, depth)
         x = F.interpolate(x, size=input_shape, mode='bilinear', align_corners=False)
-        return x, activations
+
+        return x
 
 
 class IntermediateLayerGetter(nn.ModuleDict):
@@ -57,25 +62,30 @@ class IntermediateLayerGetter(nn.ModuleDict):
             raise ValueError("return_layers are not present in model")
 
         orig_return_layers = return_layers
-        return_layers = {k: v for k, v in return_layers.items()}
-        layers = OrderedDict()
+        return_layers      = {k: v for k, v in return_layers.items()}
+        layers             = OrderedDict()
+
         for name, module in model.named_children():
             layers[name] = module
+
             if name in return_layers:
                 del return_layers[name]
+
             if not return_layers:
                 break
 
         super(IntermediateLayerGetter, self).__init__(layers)
+
         self.return_layers = orig_return_layers
 
     def forward(self, x):
         out = OrderedDict()
-        activations = []
+
         for name, module in self.named_children():
             x = module(x)
-            activations.append(x)
+
             if name in self.return_layers:
-                out_name = self.return_layers[name]
+                out_name      = self.return_layers[name]
                 out[out_name] = x
-        return out, activations
+
+        return out

@@ -1,0 +1,4 @@
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --dataset dataset-medium --pretrained true --depth_mode none --model v3_resnet50 --lr 0.01 --random_seed 69 --results_root results/baseline --index 0
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --dataset dataset-medium --pretrained true --depth_mode input --model v3_resnet50 --lr 0.01 --random_seed 69 --results_root results/baseline --index 1
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --dataset dataset-medium --pretrained false --depth_mode none --model v3_resnet50 --lr 0.01 --random_seed 69 --results_root results/baseline --index 2
+python code/main.py  --data_root /disk/scratch/s1762992/dronedeploy/datasets/ --dataset dataset-medium --pretrained false --depth_mode input --model v3_resnet50 --lr 0.01 --random_seed 69 --results_root results/baseline --index 3

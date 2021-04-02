@@ -13,15 +13,14 @@ DATA_HOME = f'{SCRATCH_HOME}/dronedeploy/datasets/'
 base_call = (f"python code/main.py  --data_root {DATA_HOME}")
 
 config = {
-    '--output_stride': ['16'],
-    '--dataset': ['dataset-medium'],
-    '--batch_size': ['8', '16'],
-    '--crop_size': ['300', '250'],
-    '--vertical_flip': ['true', 'false'],
-    '--horizontal_flip': ['true', 'false'],
-    '--min_scaling': ['0.5', '0.8', '1'],
-    '--max_scaling': ['1', '1.25', '2']
+    '--dataset':      ['dataset-medium'],
+    '--pretrained':   ['true'],
+    '--depth_mode':   ['none'],
+    '--model':        ['v3_resnet101'],
+    '--weight_decay': ['1e-4'],
+    '--random_seed':  ['69'],
     '--results_root': ['results/' + sys.argv[1]],
+
 }
 
 keys, values = zip(*config.items())
@@ -39,7 +38,7 @@ for i, dictionary in enumerate(permutations_dicts):
     call = base_call
     for key, value in dictionary.items():
         call += " " + key + " " + value
-    call += " " + "--random_seed" + " " + str(i)
+    call += " " + "--index" + " " + str(i)
     print(call, file=output_file)
     
 output_file.close()

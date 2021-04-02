@@ -39,7 +39,7 @@ class StreamSegMetrics(_StreamMetrics):
         string = "\n"
         for k, v in results.items():
             if k!="Class IoU":
-                string += "%s: "%(k) + " " * (11 - len(k)) + "%f\n"%(v)
+                string += "%s: "%(k) + " " * (15 - len(k)) + "%f\n"%(v)
         
         #string+='Class IoU:\n'
         #for k, v in results['Class IoU'].items():
@@ -61,22 +61,26 @@ class StreamSegMetrics(_StreamMetrics):
             - mean IU
             - fwavacc
         """
-        hist = self.confusion_matrix
-        acc = np.diag(hist).sum() / hist.sum()
-        acc_cls = np.diag(hist) / hist.sum(axis=1)
-        acc_cls = np.nanmean(acc_cls)
-        iu = np.diag(hist) / (hist.sum(axis=1) + hist.sum(axis=0) - np.diag(hist))
-        mean_iu = np.nanmean(iu)
-        freq = hist.sum(axis=1) / hist.sum()
-        fwavacc = (freq[freq > 0] * iu[freq > 0]).sum()
-        cls_iu = dict(zip(range(self.n_classes), iu))
+        hist      = self.confusion_matrix
+        acc       = np.diag(hist).sum() / hist.sum()
+        divisor   = hist.sum(axis=1)
+        not_zeros = divisor != 0
+        acc_cls   = np.diag(hist)[not_zeros] / divisor[not_zeros]
+        acc_cls   = np.nanmean(acc_cls)
+        divisor   = hist.sum(axis=1) + hist.sum(axis=0) - np.diag(hist)
+        not_zeros = divisor != 0
+        iu        = np.diag(hist)[not_zeros] / divisor[not_zeros]
+        mean_iu   = np.nanmean(iu)
+        freq      = (hist.sum(axis=1) / hist.sum())[not_zeros]
+        fwavacc   = (freq[freq > 0] * iu[freq > 0]).sum()
+        cls_iu    = dict(zip(range(self.n_classes), iu))
 
         return {
                 "Overall Acc": acc,
-                "Mean Acc": acc_cls,
-                "FreqW Acc": fwavacc,
-                "Mean IoU": mean_iu,
-                "Class IoU": cls_iu,
+                "Mean Acc":    acc_cls,
+                "FreqW Acc":   fwavacc,
+                "Mean IoU":    mean_iu,
+                "Class IoU":   cls_iu,
             }
         
     def reset(self):

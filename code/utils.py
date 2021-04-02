@@ -1,5 +1,6 @@
 import os
 import csv
+import cv2
 import torch
 import matplotlib
 import numpy               as np
@@ -12,12 +13,14 @@ from datasets          import *
 from matplotlib        import cm
 from matplotlib.colors import ListedColormap
 
-def save_images(loader, image, target, pred, denorm, img_id, root):
+def save_images(loader, image, elev, target, pred, denorm, img_id, root):
     root = root + '/images'
     if not os.path.exists(root):
         os.mkdir(root)
         
     image  = image.detach().cpu().numpy()
+    elev   = elev.detach().cpu().numpy()
+    elev   = (elev * 255).astype(np.uint8)
     image  = (denorm(image) * 255).transpose(1, 2, 0).astype(np.uint8)
     target = label_to_cmap(target)
     pred   = label_to_cmap(pred)
@@ -25,6 +28,7 @@ def save_images(loader, image, target, pred, denorm, img_id, root):
     Image.fromarray(image).save( '%s/%d_image.png'  % (root, img_id))
     Image.fromarray(target).save('%s/%d_target.png' % (root, img_id))
     Image.fromarray(pred).save(  '%s/%d_pred.png'   % (root, img_id))
+    elevation_to_cmap(elev, '%s/%d_elev.png'  % (root, img_id))
 
     fig = plt.figure()
     plt.imshow(image)
@@ -35,12 +39,22 @@ def save_images(loader, image, target, pred, denorm, img_id, root):
     ax.yaxis.set_major_locator(matplotlib.ticker.NullLocator())
     plt.savefig('%s/%d_overlay.png' % (root, img_id), bbox_inches='tight', pad_inches=0)
     plt.close()
+    
+    fig = plt.figure()
+    plt.imshow(image)
+    plt.axis('off')
+    plt.imshow(target, alpha=0.5)
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(matplotlib.ticker.NullLocator())
+    ax.yaxis.set_major_locator(matplotlib.ticker.NullLocator())
+    plt.savefig('%s/%d_target_overlay.png' % (root, img_id), bbox_inches='tight', pad_inches=0)
+    plt.close()
 
 # cmap_name is a String name of color map from https://matplotlib.org/stable/tutorials/colors/colormaps.html
 # Converts raw elevation encoding into pretty color map. Saves it in out_file.
-def elevation_to_cmap(in_file, out_file, cmap_name='magma'):
+def elevation_to_cmap(elev, out_file, cmap_name='magma'):
     color_map = cm.get_cmap(cmap_name)
-    image     = cv2.imdecode(np.fromfile(in_file, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
+    image = elev
     real_min  = np.min(image[image != ELEVATION_IGNORE])
     real_max  = np.max(image)
     
@@ -72,6 +86,8 @@ def get_custom_cmap():
     custom_cmap = cmap(np.linspace(0, 1, 7))
 
     for i in range(6):
+        if i == 5: continue
+        
         custom_cmap[i] = np.array(LABELMAP[i+1] + (255,)) / 255
 
     custom_cmap[6] = np.array(LABELMAP[0] + (255,)) / 255
@@ -80,20 +96,20 @@ def get_custom_cmap():
     return custom_cmap
     
 def create_result(opts):
-    path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.random_seed}.csv'
+    path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.index}.csv'
     
     if not os.path.exists(path):
         with open(path, 'w', newline='') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=' ',)
             spamwriter.writerow(['model='+opts.model, 'os='+str(opts.output_stride), 
                                 'crop='+str(opts.crop_size)])
-            spamwriter.writerow(['Overall_Acc', 'Mean_Acc', 'FreqW_Acc', 'Mean_IoU'])
+            spamwriter.writerow(['Train_loss', 'Val_loss', 'Overall_Acc', 'Mean_Acc', 'FreqW_Acc', 'Mean_IoU'])
     
-def save_result(score, opts):
-    path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.random_seed}.csv'
+def save_result(score, opts, train_loss, val_loss):
+    path = f'{opts.results_root}/{opts.mode}_{opts.model}_os_{opts.output_stride}_{opts.crop_size}_{opts.index}.csv'
     with open(path, 'a', newline='') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter=' ',)
-        spamwriter.writerow([score['Overall Acc'], score['Mean Acc'], score['FreqW Acc'], score['Mean IoU']])
+        spamwriter.writerow([train_loss, val_loss, score['Overall Acc'], score['Mean Acc'], score['FreqW Acc'], score['Mean IoU']])
 
 def normalisatonValues(dataset):
     loader = data.DataLoader(dataset, batch_size=len(dataset), shuffle=True, num_workers=8)
@@ -121,11 +137,12 @@ def save_ckpt(path, opts, model, optimizer, scheduler, best_score, epoch):
         """ save current model
         """
         
+        # root = os.path.join(path, 'output')
         root = os.path.join(path, 'output', opts.results_root)
         if not os.path.exists(root):
             os.mkdir(root)
         
-        path = root + '/%s_%s_os%d_%d.pth' % (opts.model, opts.dataset, opts.output_stride, opts.random_seed)
+        path = root + '/%s_%s_os%d_%d.pth' % (opts.model, opts.dataset, opts.output_stride, opts.index)
         
         torch.save({
             "epoch":           epoch,
@@ -135,3 +152,11 @@ def save_ckpt(path, opts, model, optimizer, scheduler, best_score, epoch):
             "scheduler_state": scheduler.state_dict(),
         }, path)
         print("Model saved as %s" % path)
+
+def get_parameter_count(model):
+    counter = 0
+
+    for params in model.parameters():
+        counter += torch.prod(torch.Tensor(list(params.shape)))
+
+    return int(counter.item())
