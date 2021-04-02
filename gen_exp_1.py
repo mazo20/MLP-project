@@ -15,11 +15,9 @@ base_call = (f"python code/main.py  --data_root {DATA_HOME}")
 config = {
     '--dataset':      ['dataset-medium'],
     '--pretrained':   ['true'],
-    '--depth_mode':   ['esanet'],
-    '--fusion_type':  ['aspp'],
-    '--model':        ['v3_resnet50'],
-    '--lr':           ['0.01'],
-    '--weight_decay': ['2e-3', '5e-3'],
+    '--depth_mode':   ['none'],
+    '--model':        ['v3_resnet101'],
+    '--weight_decay': ['1e-4'],
     '--random_seed':  ['69'],
     '--results_root': ['results/' + sys.argv[1]],
 

@@ -43,6 +43,7 @@ def get_argparser():
     parser.add_argument('--output_stride',    type=int,   default=16,               help="output stride of the image, default: 16")
     parser.add_argument("--weight_decay",     type=float, default=1e-4,             help='weight decay (default: 1e-4)')
     parser.add_argument("--total_epochs",     type=int,   default=30,               help="Number of epochs per training")
+    parser.add_argument("--max_epochs",       type=int,   default=30)
     parser.add_argument("--lr",               type=float, default=0.01,             help="learning rate (default: 0.01)")
     parser.add_argument("--min_scaling",      type=float, default=0.5)
     parser.add_argument("--max_scaling",      type=float, default=2.25)
@@ -103,6 +104,9 @@ def main():
                                   first_aware=args.first_aware=='true',
                                   all_bottlenenck=args.all_bottleneck=='true',
                                   fusion_type=args.fusion_type)
+
+    # print('Model:                ' + args.depth_mode + ' ' + args.fusion_type)
+    # print('Number of parameters: ' + str(utils.get_parameter_count(model)))
     
     # macs, params = get_model_complexity_info(model, (3, args.crop_size, args.crop_size), as_strings=True,
     #                                        print_per_layer_stat=True, verbose=True)
@@ -116,7 +120,7 @@ def main():
         {'params': model.backbone.parameters(),   'lr': args.lr * backbone_multiplayer},
         {'params': model.classifier.parameters(), 'lr': args.lr},
     ], lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
-    scheduler = PolyLR(optimizer, np.ceil(args.total_epochs * len(train_loader) / 10), power=0.9)
+    scheduler = PolyLR(optimizer, np.ceil(args.max_epochs * len(train_loader) / 10), power=0.9)
 
     # weights   = [40413894, 24336344, 276289676, 31073942, 676183288, 3442856]
     # weights   = torch.Tensor(1 / (weights / np.sum(weights))).to(device)
@@ -190,7 +194,7 @@ def main():
         print(metrics.to_str(score))
         utils.save_result(score, args, train_loss, val_loss)
         
-        if score['Mean IoU'] > best_score:
+        if score['Mean IoU'] > best_score or (args.max_epochs != args.total_epochs and epoch+1 == args.total_epochs):
             best_score = score['Mean IoU']
             utils.save_ckpt(args.data_root, args, model, optimizer, scheduler, best_score, epoch+1)
 
