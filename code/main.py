@@ -81,7 +81,7 @@ def validate(model, criterion):
             
             if args.save_val_results:
                 for i in range(len(images)):
-                    utils.save_images(val_loader, images[i][:3], targets[i], preds[i], denorm, img_id, args.results_root)
+                    utils.save_images(val_loader, images[i][:3], images[i][3], targets[i], preds[i], denorm, img_id, args.results_root)
                     img_id += 1 
                         
         score = metrics.get_results()
