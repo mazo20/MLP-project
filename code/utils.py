@@ -43,7 +43,7 @@ def save_images(loader, image, elev, target, pred, denorm, img_id, root):
     fig = plt.figure()
     plt.imshow(image)
     plt.axis('off')
-    plt.imshow(target, alpha=0.3)
+    plt.imshow(target, alpha=0.5)
     ax = plt.gca()
     ax.xaxis.set_major_locator(matplotlib.ticker.NullLocator())
     ax.yaxis.set_major_locator(matplotlib.ticker.NullLocator())
